@@ -28,7 +28,7 @@ function getLunBoTu(){
 
              product_picture=document.getElementsByClassName("product-picture")[0];
             parentLink=product_picture.parentNode;
-            parentLink.href='/store/product/getProductsByPage?cid='+src[0].cid+'&currentPage=1&pageCount=10';
+            parentLink.href='/store/product/getProductsByPage?cid='+src[0].cid+'&currentPage=1&pageCount=8';
              arrow_l=document.getElementsByClassName("arrow-l")[0];
              arrow_r=document.getElementsByClassName("arrow-r")[0];
              value=0;
@@ -42,7 +42,7 @@ function getLunBoTu(){
                     value=value-1;
                 }
                 product_picture.src=src[value].picture;
-                parentLink.href='/store/product/getProductsByPage?cid='+src[value].cid+'&currentPage=1&pageCount=10';
+                parentLink.href='/store/product/getProductsByPage?cid='+src[value].cid+'&currentPage=1&pageCount=8';
                 for (var i = 0; i < lis.length; i++) {
                     lis[i].removeAttribute("class");
                 }
@@ -55,7 +55,7 @@ function getLunBoTu(){
                     value=value+1;
                 }
                 product_picture.src=src[value].picture;
-                parentLink.href='/store/product/getProductsByPage?cid='+src[value].cid+'&currentPage=1&pageCount=10';
+                parentLink.href='/store/product/getProductsByPage?cid='+src[value].cid+'&currentPage=1&pageCount=8';
                 for (var i = 0; i < lis.length; i++) {
                     lis[i].removeAttribute("class");
                 }
@@ -86,5 +86,5 @@ function qieHuanLunBoTu(){
     }
     product_picture.src=src[this.getAttribute("index")].picture;
     this.setAttribute("class","current-lunbo-picture");
-    parentLink.href='/store/product/getProductsByPage?cid='+src[this.getAttribute("index")].cid+'&currentPage=1&pageCount=10';
+    parentLink.href='/store/product/getProductsByPage?cid='+src[this.getAttribute("index")].cid+'&currentPage=1&pageCount=8';
 }

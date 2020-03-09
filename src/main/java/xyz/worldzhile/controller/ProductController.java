@@ -51,11 +51,11 @@ public class ProductController {
     @ApiOperation(value = "商品按分类就行分页查询")
     @ApiImplicitParams(
             value = { @ApiImplicitParam(paramType = "query",name="cid",value = "分类的cid",required = true),
-            @ApiImplicitParam(paramType = "query",name="currentPage",value = "查询的页码",dataType = "int",required = true),
-            @ApiImplicitParam(paramType = "query",name="pageCount",value = "每页的商品数据量",dataType = "int",required = true)
+            @ApiImplicitParam(paramType = "query",name="currentPage",value = "查询的页码",dataType = "int",defaultValue = "1",required = true),
+            @ApiImplicitParam(paramType = "query",name="pageCount",value = "每页的商品数据量",dataType = "int", defaultValue = "8",required = true)
     })
     @GetMapping("getProductsByPage")
-    public ModelAndView getProductsByPage(@RequestParam("cid") String cid,@RequestParam("currentPage") Integer currentPage,@RequestParam("pageCount") Integer pageCount,ModelAndView model){
+    public ModelAndView getProductsByPage(@RequestParam("cid") String cid,@RequestParam(value = "currentPage",defaultValue = "1") Integer currentPage,@RequestParam(value = "pageCount",defaultValue = "8") Integer pageCount,ModelAndView model){
 
         if (cid==null||cid.length()!=32){
             model.addObject(Constant.USER_MESSAGEG_ERROR,"商品的cid格式不正确");

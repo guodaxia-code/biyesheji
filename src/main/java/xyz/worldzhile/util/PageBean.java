@@ -61,7 +61,20 @@ public class PageBean<T> {
         return (this.currentPage - 1) * this.pageCount;
     }
 
+    /*
+        获取起始叶  分页用的 只显示五页 防百度
+     */
+    public int getStartPage(){
+        if (currentPage<=3)
+            return 1;
+        else  return currentPage-2;
+    }
+    /*
 
+     */
+    public int getEndPage(){
+        return Math.min(getStartPage()+4,totalPage);
+    }
 
 
     public Integer getCurrentPage() {

@@ -3,26 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>商品分页展示</title>
+    <link rel="stylesheet" href="/store/static/mystore/css/base.css"></link>
+    <link rel="stylesheet" href="/store/static/mystore/css/product_list.css"></link>
 </head>
 <body>
 
-    <h>商品展示</h>
-
-
-    <div th:each="product:${pageBean.list}">
-        商品的名字：<span th:text="${product.pname}"></span><br/>
-                   <img th:src="${product.ppicture}" alt=""><br/>
-        商品的描述：<span th:text="${product.pdesc}"></span><br/>
-        <del th:text="${product.store_price}"></del> 元 <br>
-        <span th:text="${product.rel_price}"></span> 元
-
+<div class="middle products-show" >
+    <!-- 产品 -->
+    <div class="product" th:each="product:${pageBean.list}">
+        <img th:src="${product.ppicture}" alt="">
+        <a th:href="'/store/product/getProductByPid?pid='+${product.pid}" class="product-name" th:text="${product.pname}">小米cc9 Pro</a>
+        <p class="product-desc" th:text="${product.pdesc}">商品描述</p>
+        <p class="product-price"><text th:text="${product.rel_price}+'元'">2552元 </text> <del th:text="${product.store_price}+'元'">3000元 </del></p>
+    </div>
+</div>
+<div class="page middle">
+    <div th:if="${pageBean.currentPage}==1">
+<!--        <a th:href="@{/product/getProductsByPage(cid=${pageBean.list[0].category.cid},currentPage=1,pageCount=8)}" class="shangxiapage no-use">&lt;上一页</a>-->
+    </div>
+    <div th:if="${pageBean.currentPage}!=1">
+        <a th:href="@{/product/getProductsByPage(cid=${pageBean.list[0].category.cid},currentPage=${pageBean.currentPage-1},pageCount=8)}" th:class="shangxiapage">&lt;上一页</a>
     </div>
 
+    <div>
+        <div th:each="i:${#numbers.sequence(pageBean.StartPage,pageBean.EndPage)}">
+            <div th:if="${pageBean.currentPage}==${i}">
+                <a th:href="@{/product/getProductsByPage(cid=${pageBean.list[0].category.cid},currentPage=${i},pageCount=8)}" class="currentPage yepage" th:text="${i}"></a>
+            </div>
+            <div th:if="${pageBean.currentPage}!=${i}">
+                <a th:href="@{/product/getProductsByPage(cid=${pageBean.list[0].category.cid},currentPage=${i},pageCount=8)}" th:class="yepage" th:text="${i}"></a>
+            </div>
+        </div>
+    </div>
 
-    <button><a th:href="@{/product/getProductsByPage(cid=${pageBean.list[0].category.cid},currentPage=${pageBean.currentPage-1},pageCount=5)}">上一页</a></button>
-    <button><a th:href="@{/product/getProductsByPage(cid=${pageBean.list[0].category.cid},currentPage=${pageBean.currentPage+1},pageCount=5)}">下一页</a></button>
+    <div th:if="${pageBean.currentPage}==${pageBean.totalPage}">
+<!--        <a th:href="@{/product/getProductsByPage(cid=${pageBean.list[0].category.cid},currentPage=${pageBean.currentPage+1},pageCount=8)}" class="shangxiapage no-use">下一页&gt;</a>-->
+    </div>
+    <div th:if="${pageBean.currentPage}!=${pageBean.totalPage}">
+        <a th:href="@{/product/getProductsByPage(cid=${pageBean.list[0].category.cid},currentPage=${pageBean.currentPage+1},pageCount=8)}" class="shangxiapage">下一页&gt;</a>
+    </div>
 
-     总共 <span th:text="${pageBean.totalPage}"></span>页
+<!--    总共 <span th:text="${pageBean.totalPage}"></span>页-->
+
+</div>
+
+
+
+
 
 </body>
 </html>

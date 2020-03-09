@@ -30,7 +30,7 @@
                     maxnumber=10;
                 else maxnumber=data.length;
                 for (var i = 0; i <maxnumber ; i++) {
-                    var $li=$('<li><a href="/store/product/getProductsByPage?cid='+data[i].cid+'&currentPage=1&pageCount=10">'+data[i].cname+'</a></li>');
+                    var $li=$('<li><a href="/store/product/getProductsByPage?cid='+data[i].cid+'&currentPage=1&pageCount=8">'+data[i].cname+'</a></li>');
                     nav_ul.append($li);
                 }
 
