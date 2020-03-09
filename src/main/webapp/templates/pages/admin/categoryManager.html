@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>分类管理</title>
+
+    <style>
+        table,th ,td ,tr{
+            /*text-align: center;*/
+            border: 1px solid #ccc;
+        }
+        table {
+            margin: 20px auto;
+        }
+    </style>
+
+</head>
+<body>
+
+
+    <table>
+        <thead>
+            <tr>
+                <th>分类名称</th>
+                <th>是否热门</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            <tr th:each="category:${categorys}">
+                <td><span th:text="${category.cname}"></span></td>
+                <td><span th:text="${category.hot}"></span></td>
+                <td><button  th:cid="${category.cid}">删除</button></td>
+             </tr>
+
+
+        </tbody>
+    </table>
+
+    <script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
+    <script>
+        function delCategory(){
+
+            var flag=confirm("你确定要删除吗？");
+            if (flag){
+                $.get("/store/admin/update/"+this.getAttribute("cid"),
+                    function (data) {
+                        console.log("sucessaaaaaaaaaaaaaa")
+                        location.reload();
+                    }
+                );
+            }
+
+        }
+        window.onload=function (ev) {
+            var tbody = document.getElementById("tbody");
+            var buttons = tbody.getElementsByTagName("button");
+            for (var i=0;i<buttons.length;i++){
+                buttons[i].onclick=delCategory;
+            }
+        }
+    </script>
+
+</body>
+</html>

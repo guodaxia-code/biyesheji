@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品分页展示</title>
+</head>
+<body>
+
+    <h>商品展示</h>
+
+
+    <div th:each="product:${pageBean.list}">
+        商品的名字：<span th:text="${product.pname}"></span><br/>
+                   <img th:src="${product.ppicture}" alt=""><br/>
+        商品的描述：<span th:text="${product.pdesc}"></span><br/>
+        <del th:text="${product.store_price}"></del> 元 <br>
+        <span th:text="${product.rel_price}"></span> 元
+
+    </div>
+
+
+    <button><a th:href="@{/product/getProductsByPage(cid=${pageBean.list[0].category.cid},currentPage=${pageBean.currentPage-1},pageCount=5)}">上一页</a></button>
+    <button><a th:href="@{/product/getProductsByPage(cid=${pageBean.list[0].category.cid},currentPage=${pageBean.currentPage+1},pageCount=5)}">下一页</a></button>
+
+     总共 <span th:text="${pageBean.totalPage}"></span>页
+
+</body>
+</html>
