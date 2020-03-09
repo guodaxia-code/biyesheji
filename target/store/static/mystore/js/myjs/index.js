@@ -36,7 +36,7 @@ function getLunBoTu(){
              lis= document.getElementsByClassName("lunbocircle")[0].children;
             lis[value].className="current-lunbo-picture";
             arrow_l.onclick=function(){
-                if (value==0) {
+     /*           if (value==0) {
                     value=src.length-1;
                 }else{
                     value=value-1;
@@ -46,10 +46,11 @@ function getLunBoTu(){
                 for (var i = 0; i < lis.length; i++) {
                     lis[i].removeAttribute("class");
                 }
-                lis[value].className="current-lunbo-picture";
+                lis[value].className="current-lunbo-picture";*/
+                console.log("left");
             }
             arrow_r.onclick=function(){
-                if (value==4) {
+/*                if (value==4) {
                     value=0;
                 }else{
                     value=value+1;
@@ -59,7 +60,7 @@ function getLunBoTu(){
                 for (var i = 0; i < lis.length; i++) {
                     lis[i].removeAttribute("class");
                 }
-                lis[value].className="current-lunbo-picture";
+                lis[value].className="current-lunbo-picture";*/
             }
 
             for (var i=0;i<lis.length;i++){

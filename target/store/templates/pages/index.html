@@ -41,10 +41,10 @@
               <li><a href="#">运动户外</a></li>
            </ul>
        </div>
-       <a href="#" class="grid-clo2">
+       <a href="javascript:void(0)" class="grid-clo2">
           <img src="/store/static/mystore/images/1947569266905afe6abfff3456751bc4.jpg" alt="Redmi Note8" class="product-picture" >
        </a>
-       <a href="#" class="arrow-l"><</a>
+       <a href="javascript:void(0)" class="arrow-l"><</a>
        <a href="#" class="arrow-r">></a>
        <ul class="lunbocircle">
          <li index="0" class="current-lunbo-picture"></li>
@@ -113,40 +113,24 @@
             load_headpage_and_footerpage();
             getCategoryTenNumber();
         })
-
-
-
     </script>
-    <!-- 顶部导航栏 -->
-    <script>
-      window.onload=function(){
-        window.onscroll=function(){
-           var top=document.documentElement.scrollTop;
-           var top_nav=document.getElementsByClassName("top-nav")[0];
-           if(top>100){
-              top_nav.style.display="block";
-           }else{
-            top_nav.style.display="none";
-           }
-        }
-      }
-    
-    </script>
-
     <script src="/store/static/mystore/js/myjs/index.js"></script>
-
     <script>
-
         window.onload=function(){
-
+            <!-- 顶部导航栏 -->
+            window.onscroll=function(){
+                console.log("aaatop");
+                var top=document.documentElement.scrollTop;
+                var top_nav=document.getElementsByClassName("top-nav")[0];
+                if(top>100){
+                    top_nav.style.display="block";
+                }else{
+                    top_nav.style.display="none";
+                }
+            }
             //轮播图+点击切换
             getLunBoTu();
-
         }
-       
-
-
-
     </script>
 
 
