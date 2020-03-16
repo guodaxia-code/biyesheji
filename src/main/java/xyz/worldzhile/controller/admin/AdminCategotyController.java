@@ -33,4 +33,5 @@ public class AdminCategotyController {
         categoryService.update(cid);
         System.out.println("删除分类成功");
     }
+
 }

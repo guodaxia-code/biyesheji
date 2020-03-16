@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+    <!--  网站图标  -->
+    <link rel="shortcut icon" href="/store/static/mystore/favicon.ico">
+    <!--    初始化css    -->
+    <link rel="stylesheet" href="/store/static/mystore/css/normalize.css">
+    <!--    引入公共的base.css-->
+    <link rel="stylesheet" href="/store/static/mystore/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="/store/static/mystore/csspublic.css"/>
+    <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/proList.css" />
+</head>
+<body>
+
+    <div class="shortcut">
+        <div class="middle">
+            <ul class="fl city">
+                <li><i class="e3"></i><a href="#">安徽</a></li>
+            </ul>
+            <ul class="fr first-nav">
+                <!--	有无登录				-->
+                <li th:if="${session.user_login_session}"><a href="#"   th:text="'你好,'+${session.user_login_session.username}"></a></li>
+                <li th:unless="${session.user_login_session}"><a href="/store/user/login"  >你好,请登录</a></li>
+                <li class="span"></li>
+
+                <li><a href="/store/user/register" class="e3">免费注册</a></li>
+                <li class="span"></li>
+                <li><a href="#">我的订单</a></li>
+                <li class="span"></li>
+                <li><a href="/store/user/exit">退出登录</a></li>
+                <li class="span"></li>
+                <li><a href="#">我的商城</a><i></i></li>
+                <li class="span"></li>
+                <li><a href="#">客户服务</a><i></i></li>
+                <li class="span"></li>
+                <li><a href="#">网址导航</a><i></i></li>
+                <li class="span"></li>
+                <li class="mobile-store">
+                    <a href="#" >手机商城</a>
+                    <img class="mobile" src="/store/static/mystore/images/weixin.jpg"  alt="">
+                </li>
+            </ul>
+        </div>
+    </div>
+
+
+
+
+
+    <th:block th:if="${#lists.isEmpty(session.user_cart_list.cartItems)||#lists.size(session.user_cart_list.cartItems)==0}">
+        <div class="goOn">空空如也~<a href="/store/index">去逛逛</a></div>
+    </th:block>
+    <th:block th:if="${not #lists.isEmpty(session.user_cart_list.cartItems)&&#lists.size(session.user_cart_list.cartItems)!=0}">
+        <div class="cart mt">
+            <!-- 		<div class="logo">
+                        <h1 class="wrapper clearfix">
+                            <a href="index.html"><img class="fl" src="img/temp/logo.png"></a>
+                            <img class="top" src="img/temp/cartTop01.png">
+                        </h1>
+                    </div> -->
+            <div class="site">
+                <p class=" wrapper clearfix">
+                    <span class="fl">购物车</span>
+                    <img class="top" src="/store/static/mystore/images/cartTop01.png">
+                    <a href="index.html" class="fr">继续购物&gt;</a>
+                </p>
+            </div>
+            <div class="table wrapper">
+                <div class="tr">
+                    <div>商品</div>
+                    <div>单价</div>
+                    <div>数量</div>
+                    <div>小计</div>
+                    <div>操作</div>
+                </div>
+                <div class="th" th:each="cartItem:${session.user_cart_list.cartItems}">
+                    <div class="pro clearfix">
+                        <label class="fl">
+                            <input type="checkbox">
+                            <span></span>
+                        </label>
+                        <a class="fl" href="#">
+                            <dl class="clearfix">
+                                <dt class="fl"><img th:src="${cartItem.product.ppicture}" width="120px" height="120px"></dt>
+                                <dd class="fl">
+                                    <p th:text="${cartItem.product.pname}">创意现代简约干花花瓶摆件</p>
+                                    <p>颜色分类:</p>
+                                    <p>白色瓷瓶+白色串枚</p>
+                                </dd>
+                            </dl>
+                        </a>
+                    </div>
+                    <div class="price" th:text="'￥'+${cartItem.product.rel_price}" >￥20.00</div>
+                    <div class="number">
+                        <p class="num clearfix">
+                            <img class="fl sub" src="/store/static/mystore/images/sub.jpg">
+                            <span class="fl" th:text="${cartItem.count}">1</span>
+                            <img class="fl add" src="/store/static/mystore/images/add.jpg">
+                        </p>
+                    </div>
+                    <div class="price sAll" th:text="${cartItem.subtotal}">￥20.00</div>
+                    <div class="price"><a class="del" onclick="return removeProductFromCart('你忍心将商品移除购物车吗？');" th:href="@{/cart/removeProductFromCart(pid=${cartItem.product.pid})}">删除</a></div>
+                </div>
+
+                <div class="tr clearfix">
+                    <label class="fl">
+                        <input class="checkAll" type="checkbox">
+                        <span></span>
+                    </label>
+                    <p class="fl">
+                        <a href="#">全选</a>
+                        <a href="#" class="del">删除</a>
+                        <a href="/store/cart/cleanCart" class="del" onclick="return removeProductFromCart('你忍心清空购物车吗？')">清空购物车</a>
+                    </p>
+                    <p class="fr">
+                        <span>共<small id="sl">0</small>件商品</span>
+                        <span>合计:&nbsp;<small id="all">￥0.00</small></span>
+                        <a href="#" class="count">结算</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </th:block>
+
+
+
+
+
+
+
+
+
+
+
+
+    <button id="aa" value="dianji">anniu</button>
+    <div id="footerpage">footerpage</div>
+
+
+    <script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
+    <script src="/store/static/mystore/js/myjs/head.js"></script>
+    <script>
+        $(function () {
+            load_headpage_and_footerpage();
+            getCategoryTenNumber();
+
+            // var yuanNumber;
+            // $("input[type='number']").input(function () {
+            //
+            //     // console.log("fdg")
+            //     yuanNumber = this.value;
+            //    // console.log("yuanzhi:"+yuanNumber)
+            //    $(this).blur(function () {
+            //        var newNumber=this.value;
+            //             if (newNumber===yuanNumber)
+            //                 this.onblur=null;
+            //                 return;
+            //             if (newNumber<=0){
+            //                 confirm("商品数量不能小于等于0");
+            //                 this.value=yuanNumber;
+            //                 this.onblur=null;
+            //                 return;
+            //             }
+            //             if (newNumber%1!==0){
+            //                 confirm("商品数量修改失败");
+            //                 this.value=yuanNumber;
+            //                 this.onblur=null;
+            //                 this.value=newNumber;
+            //                 return;
+            //             }
+            //             if (newNumber%1===0){
+            //                 console.log(newNumber)
+            //                 console.log("AJAX"+newNumber);
+            //                 this.onblur=null;
+            //                 this.value=newNumber;
+            //                 return;
+            //             }
+            //             location
+            //
+            //
+            //    })
+            //
+            // })
+
+            // $("input[type='number']").index(function (e) {
+            //     var newNumber=this.value;
+            //     if (newNumber%1===0){
+            //         console.log("AJAX"+newNumber);
+            //         this.value=newNumber;
+            //     }else{
+            //         confirm("商品数量不能小于等于0");
+            //         this.value=yuanNumber;
+            //     }
+            // })
+
+        })
+    </script>
+
+    <script>
+        /*
+          确定要移除购物车的商品吗
+         */
+       function removeProductFromCart(msg){
+           var flag = confirm(msg);
+           if (flag){
+              return true;
+           }
+           return false;
+
+       }
+
+        /**
+         * 修改购物车里的商品数量
+         */
+        function updateProductNumber(){
+            console.log(this.value);
+        }
+
+    </script>
+
+</body>
+</html>

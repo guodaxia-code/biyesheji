@@ -13,6 +13,7 @@
     <!--     引入base公共css   -->
     <link rel="stylesheet" href="/store/static/mystore/css/base.css">
 
+
 </head>
 <body>
     <!-- 头部 -->
@@ -71,8 +72,12 @@
                 <!-- 购物车 -->
                 <div class="shop-car">
                     <i></i>
-                    <a href="#">我的购物车</a>
-                    <span>0</span>
+                    <a href="/store/cart/seeCart">我的购物车</a>
+<!--                <td th:text="${emp.gender}==0?'女':'男'"></td>-->
+                    <th:block>
+                        <span th:if="${session.user_login_session}" th:text="${session.user_cart_list.cartSubCount}">5</span>
+                        <span th:unless="${session.user_login_session}">0</span>
+                    </th:block>
                 </div>
                 <!-- 热搜索词汇start-->
                 <!-- 热搜索词汇end-->

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import xyz.worldzhile.constant.Constant;
+import xyz.worldzhile.domain.Cart;
 import xyz.worldzhile.domain.User;
 import xyz.worldzhile.service.UserSerice;
 import xyz.worldzhile.util.UuidUtil;
@@ -176,6 +177,9 @@ public class UserController {
         }
         //跳转登录页面 地址要变的
         request.getSession().setAttribute(Constant.USER_LOGIN_SESSION,userInMysql);
+        //为登录用户添加购物车
+        Cart cart = new Cart();
+        request.getSession().setAttribute(Constant.USER_CART_SESSION,cart);
         model.setViewName("redirect:/index");
         return model;
     }

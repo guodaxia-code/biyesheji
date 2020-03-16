@@ -74,4 +74,9 @@ public class CategoryServiceImpl implements CategoryService {
         categoryDao.update(cid);
     }
 
+    @Override
+    public String findNameByCid(String cid) {
+        return categoryDao.findOneByCid(cid).getCname();
+    }
+
 }

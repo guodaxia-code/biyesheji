@@ -51,4 +51,12 @@ public interface Constant {
      * 首页上的最新商品9个
      */
     Integer INDEX_New_PRODUCT_NUMBER=9;
+
+
+
+   String USER_CART_SESSION="user_cart_list";
+
+
+
+
 }

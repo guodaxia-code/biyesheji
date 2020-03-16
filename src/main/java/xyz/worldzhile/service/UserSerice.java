@@ -32,6 +32,7 @@ public interface UserSerice {
      */
     boolean passwordLogin(User user);
 
+
     User findByUsername(String username);
 }
 

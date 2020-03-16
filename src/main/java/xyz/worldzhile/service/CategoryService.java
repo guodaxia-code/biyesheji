@@ -26,4 +26,9 @@ public interface CategoryService {
         删除分类
      */
     void update(String cid);
+
+    /**
+     * 查询分类名
+     */
+    String   findNameByCid(String cid);
 }

@@ -41,6 +41,9 @@ public class PageBean<T> {
         }
         // 获取总页数
         this.totalPage = (int) Math.ceil(1.0 * this.totalCount / this.pageCount);
+        if (totalPage==0){
+            totalPage=1;
+        }
         // 当前页不能小于1
         if(this.currentPage < 1){
             this.currentPage = 1;

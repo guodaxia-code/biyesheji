@@ -7,7 +7,7 @@
 <body>
     <div id="headpage">head</div>
     <p>你的操作有误：</p>
-    <h th:text="${user_messageg_error}"></h>
+    <h th:text="${user_login_error}"></h>
     <div id="footerpage">footerpage</div>
 
 
@@ -18,11 +18,15 @@
             /**
              * url路径user之上
              */
-            $("#headpage").load("../head.html");
-            $("#footerpage").load("../footer.html");
+            // $("#headpage").load("../head.html");
+            // $("#footerpage").load("../footer.html");
+            load_headpage_and_footerpage();
+            getCategoryTenNumber();
+
         })
 
     </script>
+
 
 
 </body>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import xyz.worldzhile.constant.Constant;
 import xyz.worldzhile.domain.Product;
+import xyz.worldzhile.service.CategoryService;
 import xyz.worldzhile.service.ProductService;
 import xyz.worldzhile.util.PageBean;
 
@@ -23,6 +24,9 @@ public class ProductController {
 
     @Autowired
     ProductService productService;
+
+    @Autowired
+    CategoryService categoryService;
 
     @ApiOperation(value = "根据商品pid获取商品详细")
     @ApiImplicitParam(paramType = "query",name="pid",value = "商品的pid",required = true)//paramType query--》@RequestParam path --》@Pathvariable   dataType：参数类型，默认String，其它值dataType="Integer" defaultValue：参数的默认值
@@ -65,6 +69,9 @@ public class ProductController {
         PageBean<Product> pageBean = productService.findPageBean(cid, currentPage, pageCount);
         model.addObject("pageBean",pageBean);
         model.setViewName("product_list");
+
+
+        model.addObject("cname",categoryService.findNameByCid(cid));
         return model;
 
     }

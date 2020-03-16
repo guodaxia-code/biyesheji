@@ -25,15 +25,14 @@ function getLunBoTu(){
             src=data;
             console.log(src);
             console.log("----------------------")
-
-             product_picture=document.getElementsByClassName("product-picture")[0];
+            product_picture=document.getElementsByClassName("product-picture")[0];
             parentLink=product_picture.parentNode;
             parentLink.href='/store/product/getProductsByPage?cid='+src[0].cid+'&currentPage=1&pageCount=8';
-             arrow_l=document.getElementsByClassName("arrow-l")[0];
-             arrow_r=document.getElementsByClassName("arrow-r")[0];
-             value=0;
+            arrow_l=document.getElementsByClassName("arrow-l")[0];
+            arrow_r=document.getElementsByClassName("arrow-r")[0];
+            value=0;
             product_picture.src=src[value].picture;
-             lis= document.getElementsByClassName("lunbocircle")[0].children;
+            lis= document.getElementsByClassName("lunbocircle")[0].children;
             lis[value].className="current-lunbo-picture";
             arrow_l.onclick=function(){
                 if (value==0) {
@@ -61,12 +60,9 @@ function getLunBoTu(){
                 }
                 lis[value].className="current-lunbo-picture";
             }
-
             for (var i=0;i<lis.length;i++){
                 lis[i].onclick=qieHuanLunBoTu;
             }
-
-
         },//请求成功的处理
         complete:function (data) {
 
