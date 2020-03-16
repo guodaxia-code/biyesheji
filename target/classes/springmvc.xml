@@ -47,7 +47,7 @@
     <!--    静态资源不拦截-->
         <mvc:default-servlet-handler></mvc:default-servlet-handler>
         <mvc:resources location="/upload/" mapping="/upload/**"/>
-        <mvc:resources location="/static/" mapping="/**"/>
+        <mvc:resources location="/static/" mapping="/static/**"/>
 
     <!--    处理器 映射器-->
     <mvc:annotation-driven></mvc:annotation-driven>

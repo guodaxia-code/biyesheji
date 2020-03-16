@@ -48,81 +48,84 @@
 
 
 
-
-    <th:block th:if="${#lists.isEmpty(session.user_cart_list.cartItems)||#lists.size(session.user_cart_list.cartItems)==0}">
-        <div class="goOn">空空如也~<a href="/store/index">去逛逛</a></div>
-    </th:block>
-    <th:block th:if="${not #lists.isEmpty(session.user_cart_list.cartItems)&&#lists.size(session.user_cart_list.cartItems)!=0}">
-        <div class="cart mt">
-            <!-- 		<div class="logo">
-                        <h1 class="wrapper clearfix">
-                            <a href="index.html"><img class="fl" src="img/temp/logo.png"></a>
-                            <img class="top" src="img/temp/cartTop01.png">
-                        </h1>
-                    </div> -->
-            <div class="site">
-                <p class=" wrapper clearfix">
-                    <span class="fl">购物车</span>
-                    <img class="top" src="/store/static/mystore/images/cartTop01.png">
-                    <a href="index.html" class="fr">继续购物&gt;</a>
-                </p>
-            </div>
-            <div class="table wrapper">
-                <div class="tr">
-                    <div>商品</div>
-                    <div>单价</div>
-                    <div>数量</div>
-                    <div>小计</div>
-                    <div>操作</div>
+    <div class="middle">
+        <th:block th:if="${#lists.isEmpty(session.user_cart_list.cartItems)||#lists.size(session.user_cart_list.cartItems)==0}">
+            <div class="goOn">空空如也~<a href="/store/index">去逛逛</a></div>
+        </th:block>
+        <th:block th:if="${not #lists.isEmpty(session.user_cart_list.cartItems)&&#lists.size(session.user_cart_list.cartItems)!=0}">
+            <div class="cart mt">
+                <!-- 		<div class="logo">
+                            <h1 class="wrapper clearfix">
+                                <a href="index.html"><img class="fl" src="img/temp/logo.png"></a>
+                                <img class="top" src="img/temp/cartTop01.png">
+                            </h1>
+                        </div> -->
+                <div class="site">
+                    <p class=" wrapper clearfix">
+                        <span class="fl">购物车</span>
+                        <img class="top" src="/store/static/mystore/images/cartTop01.png">
+                        <a href="index.html" class="fr">继续购物&gt;</a>
+                    </p>
                 </div>
-                <div class="th" th:each="cartItem:${session.user_cart_list.cartItems}">
-                    <div class="pro clearfix">
+                <div class="table wrapper">
+                    <div class="tr">
+                        <div>商品</div>
+                        <div>单价</div>
+                        <div>数量</div>
+                        <div>小计</div>
+                        <div>操作</div>
+                    </div>
+                    <div class="th" th:each="cartItem:${session.user_cart_list.cartItems}">
+                        <div class="pro clearfix">
+                            <label class="fl">
+                                <input type="checkbox">
+                                <span></span>
+                            </label>
+                            <a class="fl" href="#">
+                                <dl class="clearfix">
+                                    <dt class="fl"><img th:src="${cartItem.product.ppicture}" width="120px" height="120px"></dt>
+                                    <dd class="fl">
+                                        <p th:text="${cartItem.product.pname}">创意现代简约干花花瓶摆件</p>
+                                        <p>颜色分类:</p>
+                                        <p>白色瓷瓶+白色串枚</p>
+                                    </dd>
+                                </dl>
+                            </a>
+                        </div>
+                        <div class="price" th:text="'￥'+${cartItem.product.rel_price}" >￥20.00</div>
+                        <div class="number">
+                            <p class="num clearfix">
+                                <img class="fl sub" src="/store/static/mystore/images/sub.jpg">
+                                <span class="fl" th:text="${cartItem.count}">1</span>
+                                <img class="fl add" src="/store/static/mystore/images/add.jpg">
+                            </p>
+                        </div>
+                        <div class="price sAll" th:text="${cartItem.subtotal}">￥20.00</div>
+                        <div class="price"><a class="del" onclick="return removeProductFromCart('你忍心将商品移除购物车吗？');" th:href="@{/cart/removeProductFromCart(pid=${cartItem.product.pid})}">删除</a></div>
+                    </div>
+
+                    <div class="tr clearfix">
                         <label class="fl">
-                            <input type="checkbox">
+                            <input class="checkAll" type="checkbox">
                             <span></span>
                         </label>
-                        <a class="fl" href="#">
-                            <dl class="clearfix">
-                                <dt class="fl"><img th:src="${cartItem.product.ppicture}" width="120px" height="120px"></dt>
-                                <dd class="fl">
-                                    <p th:text="${cartItem.product.pname}">创意现代简约干花花瓶摆件</p>
-                                    <p>颜色分类:</p>
-                                    <p>白色瓷瓶+白色串枚</p>
-                                </dd>
-                            </dl>
-                        </a>
-                    </div>
-                    <div class="price" th:text="'￥'+${cartItem.product.rel_price}" >￥20.00</div>
-                    <div class="number">
-                        <p class="num clearfix">
-                            <img class="fl sub" src="/store/static/mystore/images/sub.jpg">
-                            <span class="fl" th:text="${cartItem.count}">1</span>
-                            <img class="fl add" src="/store/static/mystore/images/add.jpg">
+                        <p class="fl">
+                            <a href="#">全选</a>
+                            <a href="#" class="del">删除</a>
+                            <a href="/store/cart/cleanCart" class="del" onclick="return removeProductFromCart('你忍心清空购物车吗？')">清空购物车</a>
+                        </p>
+                        <p class="fr">
+                            <span>共<small id="sl">0</small>件商品</span>
+                            <span>合计:&nbsp;<small id="all">￥0.00</small></span>
+                            <a href="#" class="count">结算</a>
                         </p>
                     </div>
-                    <div class="price sAll" th:text="${cartItem.subtotal}">￥20.00</div>
-                    <div class="price"><a class="del" onclick="return removeProductFromCart('你忍心将商品移除购物车吗？');" th:href="@{/cart/removeProductFromCart(pid=${cartItem.product.pid})}">删除</a></div>
-                </div>
-
-                <div class="tr clearfix">
-                    <label class="fl">
-                        <input class="checkAll" type="checkbox">
-                        <span></span>
-                    </label>
-                    <p class="fl">
-                        <a href="#">全选</a>
-                        <a href="#" class="del">删除</a>
-                        <a href="/store/cart/cleanCart" class="del" onclick="return removeProductFromCart('你忍心清空购物车吗？')">清空购物车</a>
-                    </p>
-                    <p class="fr">
-                        <span>共<small id="sl">0</small>件商品</span>
-                        <span>合计:&nbsp;<small id="all">￥0.00</small></span>
-                        <a href="#" class="count">结算</a>
-                    </p>
                 </div>
             </div>
-        </div>
-    </th:block>
+        </th:block>
+
+    </div>
+
 
 
 
@@ -141,6 +144,7 @@
 
     <script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
     <script src="/store/static/mystore/js/myjs/head.js"></script>
+    <script src="/store/static/mystore/js/myjs/cart.js"></script>
     <script>
         $(function () {
             load_headpage_and_footerpage();
