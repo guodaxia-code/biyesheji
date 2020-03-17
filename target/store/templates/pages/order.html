@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>确定收货地址和付款</title>
+</head>
+<body>
+
+       //常看订单 和修改 地址 和收货人 <br>
+
+       订单号：<span th:text="${nowOrder.oid}"></span> <br>
+       订单状态：<span th:text="${nowOrder.states}"></span> <br>
+       订单时间：<span th:text="${nowOrder.time}"></span> <br>
+
+
+       <th:block th:each="orderItem:${nowOrder.orderItems}">
+           <tr>
+               <td><img  width="50px" height="50px" th:src="${orderItem.product.ppicture}"></img></td>
+
+               <td th:text="${orderItem.product.pname}"></td>
+               <td th:text="${orderItem.product.rel_price}"></td>
+               <td th:text="${orderItem.number}"></td>
+               <td th:text="${orderItem.money}"></td>
+           </tr>
+       </th:block>
+
+
+       收货人姓名：<input th:value="${nowOrder.name}"></input> <br>
+       收货人电话：<input th:value="${nowOrder.phone}"></input> <br>
+
+
+</body>
+</html>

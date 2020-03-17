@@ -2,6 +2,10 @@ package xyz.worldzhile.util;
 
 
 
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 import java.util.UUID;
 
@@ -40,6 +44,32 @@ public final class UuidUtil {
 		return sb.toString();
 	}
 
+
+	public static void main(String[] args) {
+//		long time = new java.util.Date().getTime();
+//		Date date = new Date(time);
+//		System.out.println(date.toString());
+//		System.out.println(date.getHours());
+
+
+//		Date date = new Date();
+//		System.out.println(DateUtil.getDateTime("yyyy-MM-dd HH:mm:ss" ,date));
+//
+//		java.sql.Date sQL = new java.sql.Date(date.getTime());
+//
+//		System.out.println(sQL.getHours());
+
+//		Timestamp a=new Timestamp(1111);
+//
+//		System.out.println(a);
+
+		Date date = new java.util.Date();//获取当前时间对象，也可以直接传入Date的对象
+
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+		String time= sdf.format(date);//获取格式化日期，带有时分
+		System.out.println(time);
+	}
 
 
 }

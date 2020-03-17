@@ -549,6 +549,7 @@ section h3{
 	display: flex;
 	height:146px;
 	border-bottom: 1px dashed #dbdbdb;
+
 }
 .table .tr:first-child{
 	display: flex;
@@ -696,7 +697,7 @@ section h3{
 	font-size: 16px;
 	color:#666;
 	text-align: center;
-	display: none;
+	display: block;
 }
 .table .goOn a{
 	color: #C10000;

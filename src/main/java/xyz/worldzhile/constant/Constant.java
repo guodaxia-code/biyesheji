@@ -56,6 +56,11 @@ public interface Constant {
 
    String USER_CART_SESSION="user_cart_list";
 
+    /**
+     * 未付款
+     */
+   Integer NO_PAY=0;
+
 
 
 

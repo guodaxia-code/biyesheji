@@ -47,6 +47,16 @@ public class Cart {
 
 
     /**
+     * 放回购物车里的商品
+     * @param pid
+     * @return
+     */
+    public CartItem getcartItem(String pid){
+        return cart.get(pid);
+
+    }
+
+    /**
      * 获取单列商品
      */
     public  Collection<CartItem> getCartItems(){

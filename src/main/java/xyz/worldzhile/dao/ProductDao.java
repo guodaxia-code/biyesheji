@@ -27,6 +27,7 @@ public interface ProductDao {
      */
     @Select("select * from product where pid=#{pid}")
     @Results( id = "productWithCategory",value = {
+            @Result(id = true,property = "pid",column = "pid"),
             @Result(property = "category" ,column="category_cid",one = @One(select = "xyz.worldzhile.dao.CategoryDao.findOneByCid",fetchType = FetchType.EAGER))
     })
     Product findByPid(String pid);

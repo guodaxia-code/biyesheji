@@ -31,9 +31,6 @@ public class CartController {
     @GetMapping("addToCart")
     public ModelAndView addToCart(@RequestParam("pid") String pid, @RequestParam("pcount") Integer pcount, ModelAndView model, HttpServletRequest request){
 
-        System.out.println("要添加的商品："+pid);
-
-        System.out.println("要添加的商品number："+pcount);
 
         Product product = productService.findOneByPid(pid);
 
@@ -83,6 +80,7 @@ public class CartController {
     }
 
     @GetMapping("seeCart")
+
     public ModelAndView seeCart(HttpServletRequest request,ModelAndView model){
 
         //权限校验
@@ -98,18 +96,16 @@ public class CartController {
         return model;
     }
     @GetMapping("removeProductFromCart")
-    public ModelAndView removeProductFromCart(@RequestParam("pid") String pid,HttpServletRequest request,ModelAndView model){
+    @ResponseBody
+    public void removeProductFromCart(@RequestParam("pid") String pid,HttpServletRequest request,ModelAndView model){
         //权限校验
         Cart hasCart = (Cart) request.getSession().getAttribute(Constant.USER_CART_SESSION);
         if (hasCart==null){
             System.out.println("不要意思,你没有登录没有购物车的权限");
-            model.addObject(Constant.USER_MESSAGEG_ERROR,"不要意思,你没有登录没有购物车的权限");
-            model.setViewName("msg");
-            return model;
+            return ;
         }
         hasCart.removeFromCart(pid);
-        model.setViewName("redirect:/cart/seeCart");
-        return model;
+
     }
 
     @GetMapping("cleanCart")

@@ -49,10 +49,6 @@
 
 
     <div class="middle">
-        <th:block th:if="${#lists.isEmpty(session.user_cart_list.cartItems)||#lists.size(session.user_cart_list.cartItems)==0}">
-            <div class="goOn">空空如也~<a href="/store/index">去逛逛</a></div>
-        </th:block>
-        <th:block th:if="${not #lists.isEmpty(session.user_cart_list.cartItems)&&#lists.size(session.user_cart_list.cartItems)!=0}">
             <div class="cart mt">
                 <!-- 		<div class="logo">
                             <h1 class="wrapper clearfix">
@@ -75,34 +71,42 @@
                         <div>小计</div>
                         <div>操作</div>
                     </div>
-                    <div class="th" th:each="cartItem:${session.user_cart_list.cartItems}">
-                        <div class="pro clearfix">
-                            <label class="fl">
-                                <input type="checkbox">
-                                <span></span>
-                            </label>
-                            <a class="fl" href="#">
-                                <dl class="clearfix">
-                                    <dt class="fl"><img th:src="${cartItem.product.ppicture}" width="120px" height="120px"></dt>
-                                    <dd class="fl">
-                                        <p th:text="${cartItem.product.pname}">创意现代简约干花花瓶摆件</p>
-                                        <p>颜色分类:</p>
-                                        <p>白色瓷瓶+白色串枚</p>
-                                    </dd>
-                                </dl>
-                            </a>
+                    <div class="goOn" th:if="${#lists.size(session.user_cart_list.cartItems)==0}">空空如也~<a href="/store/index">去逛逛</a></div>
+                    <th:block th:if="${not #lists.isEmpty(session.user_cart_list.cartItems)&&#lists.size(session.user_cart_list.cartItems)!=0}">
+                        <div class="th" th:each="cartItem:${session.user_cart_list.cartItems}">
+                            <div class="pro clearfix">
+                                <label class="fl">
+                                    <input type="checkbox">
+                                    <span></span>
+                                </label>
+                                <a class="fl" href="#">
+                                    <dl class="clearfix">
+                                        <dt class="fl"><img th:src="${cartItem.product.ppicture}" width="120px" height="120px"></dt>
+                                        <dd class="fl">
+                                            <p th:text="${cartItem.product.pname}">创意现代简约干花花瓶摆件</p>
+                                            <p>颜色分类:</p>
+                                            <p>白色瓷瓶+白色串枚</p>
+                                        </dd>
+                                    </dl>
+                                </a>
+                            </div>
+                            <div class="price" th:text="'￥'+${cartItem.product.rel_price}" >￥20.00</div>
+                            <div class="number">
+                                <p class="num clearfix">
+                                    <img class="fl sub" src="/store/static/mystore/images/sub.jpg">
+                                    <input type="text" hidden="hidden" th:value="${cartItem.product.pid}">
+                                    <span class="fl" th:text="${cartItem.count}">1</span>
+                                    <img class="fl add" src="/store/static/mystore/images/add.jpg">
+                                </p>
+                            </div>
+                            <div class="price sAll" th:text="'￥'+${cartItem.subtotal}">￥20.00</div>
+                            <!--                        onclick="return removeProductFromCart('你忍心将商品移除购物车吗？');"-->
+                            <!--                        th:href="@{/cart/removeProductFromCart(pid=${cartItem.product.pid})}"-->
+                            <div class="price"><a class="del"  >删除</a></div>
                         </div>
-                        <div class="price" th:text="'￥'+${cartItem.product.rel_price}" >￥20.00</div>
-                        <div class="number">
-                            <p class="num clearfix">
-                                <img class="fl sub" src="/store/static/mystore/images/sub.jpg">
-                                <span class="fl" th:text="${cartItem.count}">1</span>
-                                <img class="fl add" src="/store/static/mystore/images/add.jpg">
-                            </p>
-                        </div>
-                        <div class="price sAll" th:text="${cartItem.subtotal}">￥20.00</div>
-                        <div class="price"><a class="del" onclick="return removeProductFromCart('你忍心将商品移除购物车吗？');" th:href="@{/cart/removeProductFromCart(pid=${cartItem.product.pid})}">删除</a></div>
-                    </div>
+                    </th:block>
+
+
 
                     <div class="tr clearfix">
                         <label class="fl">
@@ -117,28 +121,28 @@
                         <p class="fr">
                             <span>共<small id="sl">0</small>件商品</span>
                             <span>合计:&nbsp;<small id="all">￥0.00</small></span>
-                            <a href="#" class="count">结算</a>
+                            <a href="#" id="count" class="count">提交订单</a>
                         </p>
                     </div>
                 </div>
             </div>
-        </th:block>
 
+            <div class="mask"></div>
+            <div class="tipDel">
+                <p>确定要删除该商品吗？</p>
+                <p class="clearfix">
+                    <a class="fl cer" href="#">确定</a>
+                    <a class="fr cancel" href="#">取消</a>
+                </p>
+            </div>
+            <div class="pleaseC">
+                <p>请选择宝贝</p>
+                <img class="off" src="/store/static/mystore/images/off.jpg" />
+            </div>
     </div>
 
 
 
-
-
-
-
-
-
-
-
-
-
-    <button id="aa" value="dianji">anniu</button>
     <div id="footerpage">footerpage</div>
 
 
@@ -150,54 +154,25 @@
             load_headpage_and_footerpage();
             getCategoryTenNumber();
 
-            // var yuanNumber;
-            // $("input[type='number']").input(function () {
-            //
-            //     // console.log("fdg")
-            //     yuanNumber = this.value;
-            //    // console.log("yuanzhi:"+yuanNumber)
-            //    $(this).blur(function () {
-            //        var newNumber=this.value;
-            //             if (newNumber===yuanNumber)
-            //                 this.onblur=null;
-            //                 return;
-            //             if (newNumber<=0){
-            //                 confirm("商品数量不能小于等于0");
-            //                 this.value=yuanNumber;
-            //                 this.onblur=null;
-            //                 return;
-            //             }
-            //             if (newNumber%1!==0){
-            //                 confirm("商品数量修改失败");
-            //                 this.value=yuanNumber;
-            //                 this.onblur=null;
-            //                 this.value=newNumber;
-            //                 return;
-            //             }
-            //             if (newNumber%1===0){
-            //                 console.log(newNumber)
-            //                 console.log("AJAX"+newNumber);
-            //                 this.onblur=null;
-            //                 this.value=newNumber;
-            //                 return;
-            //             }
-            //             location
-            //
-            //
-            //    })
-            //
-            // })
 
-            // $("input[type='number']").index(function (e) {
-            //     var newNumber=this.value;
-            //     if (newNumber%1===0){
-            //         console.log("AJAX"+newNumber);
-            //         this.value=newNumber;
-            //     }else{
-            //         confirm("商品数量不能小于等于0");
-            //         this.value=yuanNumber;
-            //     }
-            // })
+            $("#count").click(function () {
+                console.log("aaa")
+
+               var $input = $("input[type=checkbox]:checked[type='checkbox'][class!='checkAll']");
+                // input[type='text']"
+                var requst="http://localhost:8080/store/order/addOrder?";
+                if ($input.length==0)
+                    return false;
+
+               for (var i=0;i<$input.length;i++){
+                   var pid = $input[i].parentNode.parentNode.parentNode.children[2].children[0].children[1].value;
+                   console.log($input[i].parentNode.parentNode.parentNode.children[2].children[0].children[1].value)
+                   requst+='pids='+pid+"&"
+               }
+                requst=requst.substr(0,requst.length-1)
+                location.href=requst;
+            })
+
 
         })
     </script>
@@ -214,6 +189,8 @@
            return false;
 
        }
+
+
 
         /**
          * 修改购物车里的商品数量

@@ -18,6 +18,9 @@ public interface UserDao {
     @Select("select uid,username,password,qq_email,name,birthday,phone,code,states from user where code=#{code}")
     User findUserByCode(String code);
 
+    @Select("select uid,username,password,qq_email,name,birthday,phone,code,states from user where uid=#{uid}")
+    User findUserByUid(String uid);
+
     @Update("update user set states=1 where code=#{code}")
     void active(String code);
 }
