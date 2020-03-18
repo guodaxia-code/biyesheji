@@ -61,6 +61,10 @@ public interface Constant {
      */
    Integer NO_PAY=0;
 
+    /**
+     * 已付款
+     */
+    Integer IS_PAYE=1;
 
 
 

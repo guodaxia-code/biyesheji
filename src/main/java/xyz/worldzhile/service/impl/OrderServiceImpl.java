@@ -9,9 +9,11 @@ import xyz.worldzhile.dao.OrderItemDao;
 import xyz.worldzhile.dao.UserDao;
 import xyz.worldzhile.domain.Order;
 import xyz.worldzhile.domain.OrderItem;
+import xyz.worldzhile.domain.Product;
 import xyz.worldzhile.domain.User;
 import xyz.worldzhile.service.OrderService;
 import xyz.worldzhile.util.DateUtil;
+import xyz.worldzhile.util.PageBean;
 import xyz.worldzhile.util.UuidUtil;
 
 import java.util.Date;
@@ -64,6 +66,21 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Order findOrderByOid(String oid) {
         return orderDao.findOneByOid(oid);
+    }
+
+    @Override
+    public PageBean<Order> findPageBean(String uid, Integer currentPage, Integer pageCount) {
+
+        Integer totalCount = orderDao.findTotalCount(uid);
+        PageBean<Order> orderPageBean = new PageBean<>(currentPage, pageCount, totalCount);
+        List<Order> pageList = orderDao.findPageList(uid,orderPageBean.getStart(),orderPageBean.getPageCount());
+        orderPageBean.setList(pageList);
+        return orderPageBean;
+    }
+
+    @Override
+    public void updateOrder(Order order) {
+        orderDao.update(order);
     }
 
 

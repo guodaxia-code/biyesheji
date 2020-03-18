@@ -40,7 +40,7 @@ public class Order {
 
     public String getTime() {
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         String time= sdf.format(this.time);//获取格式化日期，带有时分
         return time;

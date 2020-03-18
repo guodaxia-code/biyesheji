@@ -13,7 +13,7 @@ var parentLink;
 
 function getLunBoTu(){
     $.ajax({
-        url:"http://localhost:8080/store/category/findLunBoTu",//请求的url
+        url:"/store/category/findLunBoTu",//请求的url
         dataType:"json",//返回参数类型
         async:true,//是否异步
         data:{},//请求的参数

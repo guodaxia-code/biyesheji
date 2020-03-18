@@ -35,7 +35,7 @@
         <p class="product-desc" th:text="${product.pdesc}">商品描述</p>
         <p class="product-price"><text th:text="${product.rel_price}+'元'">2552元 </text> <del th:text="${product.store_price}+'元'">3000元 </del></p>
     </div>
-</div>
+  </div>
  <div class="page middle">
     <th:block th:if="${pageBean.currentPage}==1">
 <!--        <a th:href="@{/product/getProductsByPage(cid=${param.cid},currentPage=1,pageCount=8)}" class="shangxiapage no-use">&lt;上一页</a>-->

@@ -3,6 +3,7 @@ package xyz.worldzhile.service;
 import org.springframework.stereotype.Service;
 import xyz.worldzhile.domain.Order;
 import xyz.worldzhile.domain.OrderItem;
+import xyz.worldzhile.util.PageBean;
 
 import java.util.List;
 
@@ -25,6 +26,15 @@ public interface OrderService {
     Order findOrderByOid(String oid);
 
 
+    /**
+     *
+        我的订单分页查询
+     */
+    PageBean<Order> findPageBean(String uid, Integer currentPage, Integer pageCount);
 
 
+    /*
+        修改订单 包括 状态 和收货人
+     */
+    void updateOrder(Order order);
 }

@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 import xyz.worldzhile.domain.Order;
+import xyz.worldzhile.domain.Product;
 import xyz.worldzhile.domain.User;
 
 import java.util.List;
@@ -13,6 +14,12 @@ public interface OrderDao {
 
     @Insert("insert into orders (oid,receiver_address,time,total_money,states,user_uid,name,phone) values(#{oid},#{address},#{time},#{totalMoney},#{states},#{uid},#{name},#{phone})")
     void add(Order order);
+
+    /**
+     user_uid 不给
+     */
+    @Update("update  orders set  receiver_address=#{address} , time=#{time}, total_money=#{totalMoney}, states=#{states}, name=#{name}, phone=#{phone} where oid=#{oid}")
+    void update(Order order);
 
 
 
@@ -35,5 +42,19 @@ public interface OrderDao {
     @Select("select * from orders where user_uid=#{uid}")
     @ResultMap("OrderMap")
     List<Order> findAllOrdersByUid(String uid);
+
+    /*
+     查询用户的订单数量
+     */
+    @Select("select count(oid) from orders where user_uid=#{uid}")
+    Integer findTotalCount(String uid);
+
+    /*
+     查询用户的订单分页
+     */
+    @Select("select * from orders where user_uid=#{uid} ORDER BY time desc  limit #{start},#{pageCount} " )
+    @ResultMap("OrderMap")
+    List<Order> findPageList(@Param("uid")String uid, @Param("start")int start,  @Param("pageCount")Integer pageCount);
+
 
 }
