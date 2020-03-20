@@ -1,6 +1,11 @@
 package xyz.worldzhile.service;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.Select;
 import xyz.worldzhile.domain.Category;
+import xyz.worldzhile.domain.Product;
+import xyz.worldzhile.util.PageBean;
 
 import java.util.List;
 
@@ -31,4 +36,15 @@ public interface CategoryService {
      * 查询分类名
      */
     String   findNameByCid(String cid);
+
+
+
+
+
+ /*layui分页*/
+    PageBean<Category> findAllByLayuiByPage(int page, int limit);
+
+
+    /*查看分页*/
+    Category findOne(String cid);
 }

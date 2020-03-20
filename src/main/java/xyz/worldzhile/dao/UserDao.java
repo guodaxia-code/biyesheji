@@ -9,18 +9,18 @@ import xyz.worldzhile.domain.User;
 @Repository
 public interface UserDao {
 
-    @Insert("insert into user (uid,username,password,qq_email,name,birthday,phone,code,states) values (#{uid},#{username},#{password},#{qqEmail},#{name},#{birthday},#{phone},#{code},#{states}) ")
+    @Insert("insert into users (uid,username,password,qq_email,name,birthday,phone,code,states) values (#{uid},#{username},#{password},#{qqEmail},#{name},#{birthday},#{phone},#{code},#{states}) ")
     void insert (User user);
 
-    @Select("select uid,username,password,qq_email,name,birthday,phone,code,states from user where username=#{username}")
+    @Select("select uid,username,password,qq_email,name,birthday,phone,code,states from users where username=#{username}")
     User findUserByUsername(String username);
 
-    @Select("select uid,username,password,qq_email,name,birthday,phone,code,states from user where code=#{code}")
+    @Select("select uid,username,password,qq_email,name,birthday,phone,code,states from users where code=#{code}")
     User findUserByCode(String code);
 
-    @Select("select uid,username,password,qq_email,name,birthday,phone,code,states from user where uid=#{uid}")
+    @Select("select uid,username,password,qq_email,name,birthday,phone,code,states from users where uid=#{uid}")
     User findUserByUid(String uid);
 
-    @Update("update user set states=1 where code=#{code}")
+    @Update("update users set states=1 where code=#{code}")
     void active(String code);
 }

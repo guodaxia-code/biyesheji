@@ -14,7 +14,9 @@ import redis.clients.jedis.JedisPool;
 import xyz.worldzhile.constant.Constant;
 import xyz.worldzhile.dao.CategoryDao;
 import xyz.worldzhile.domain.Category;
+import xyz.worldzhile.domain.LayuiData;
 import xyz.worldzhile.service.CategoryService;
+import xyz.worldzhile.util.PageBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,5 +80,24 @@ public class CategoryServiceImpl implements CategoryService {
     public String findNameByCid(String cid) {
         return categoryDao.findOneByCid(cid).getCname();
     }
+
+    @Override
+    public PageBean<Category> findAllByLayuiByPage(int page, int limit) {
+
+        int count = categoryDao.findCount();
+        PageBean<Category> pageBean = new PageBean<Category>(page,limit,count);
+
+        List<Category> allByLayuiByPage = categoryDao.findAllByLayuiByPage(pageBean.getStart(), pageBean.getPageCount());
+        pageBean.setList(allByLayuiByPage);
+
+
+        return pageBean;
+    }
+
+    @Override
+    public Category findOne(String cid) {
+        return categoryDao.findOneByCid(cid);
+    }
+
 
 }

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>至乐购(worldzhile.xyz)-网站的头页面！</title>
+    <!-- 网站seo 搜索引擎优化 -->
+    <meta name="description" content="至乐购worldzhile.xyz-专业的综合网上购物商城,手机数码，运动户外，电脑办公，家具家居，鞋靴箱包，图书音像，母婴孕婴等商品分类">
+    <meta name="Keywords" content="网上购物,网上商城,手机手机数码,笔记本,电脑,配件,家具家居,鞋靴箱包,图书音像,手表,存储卡,至乐购">
+    <!--  网站图标  -->
+    <link rel="shortcut icon" href="/store/static/mystore/favicon.ico">
+    <!--    初始化css    -->
+    <link rel="stylesheet" href="/store/static/mystore/css/normalize.css">
+    <!--     引入base公共css   -->
+    <link rel="stylesheet" href="/store/static/mystore/css/base.css">
+
+
+</head>
+<body>
+    <!-- 头部 -->
+    <header>
+        <!--  顶部广告栏  -->
+        <div class="header ">
+            <div class="middle">
+                <a href="#">
+                    <img src="/store/static/mystore/images/guangao.jpg" alt="纸巾广告">
+                </a>
+            </div>
+        </div>
+        <div class="shortcut">
+            <div class="middle">
+                <ul class="fl city">
+                    <li><i class="e3"></i><a href="#">安徽</a></li>
+                </ul>
+                <ul class="fr first-nav">
+                    <!--	有无登录				-->
+                    <li th:if="${session.user_login_session}"><a href="#"   th:text="'你好,'+${session.user_login_session.username}"></a></li>
+                    <li th:unless="${session.user_login_session}"><a href="/store/user/login"  >你好,请登录</a></li>
+                    <li class="span"></li>
+
+                    <li><a href="/store/user/register" class="e3">免费注册</a></li>
+                    <li class="span"></li>
+                    <li><a href="/store/order/seeMyOrdersByPage?currentPage=1&pageCount=4">我的订单</a></li>
+                    <li class="span"></li>
+                    <li><a href="/store/user/exit">退出登录</a></li>
+                    <li class="span"></li>
+                    <li><a href="#">我的商城</a><i></i></li>
+                    <li class="span"></li>
+                    <li><a href="#">客户服务</a><i></i></li>
+                    <li class="span"></li>
+                    <li><a href="#">网址导航</a><i></i></li>
+                    <li class="span"></li>
+                    <li class="mobile-store">
+                        <a href="#" >手机商城</a>
+                        <img class="mobile" src="/store/static/mystore/images/weixin.jpg"  alt="">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="header-bottom ">
+            <div class="middle father">
+                <!-- 6个定位 -->
+                <div class="logo">
+                    <h1>
+                        <a href="#"></a>
+                    </h1>
+                </div>
+                <!-- 搜索栏 -->
+                <div class="search">
+                    <input type="text" placeholder="九阳豆浆机">
+                    <button><i></i></button>
+                </div>
+                <!-- 购物车 -->
+                <div class="shop-car">
+                    <i></i>
+                    <a href="/store/cart/seeCart">我的购物车</a>
+<!--                <td th:text="${emp.gender}==0?'女':'男'"></td>-->
+                    <th:block>
+                        <span th:if="${session.user_login_session}" th:text="${session.user_cart_list.cartSubCount}">5</span>
+                        <span th:unless="${session.user_login_session}">0</span>
+                    </th:block>
+                </div>
+                <!-- 热搜索词汇start-->
+                <!-- 热搜索词汇end-->
+                <!-- 导航栏最多放十个最热分类 -->
+                <div class="two-nav">
+                    <ul id="category-nav-ten">
+                        <li><a href="#" class="e3">秒杀</a></li>
+                    </ul>
+                </div>
+
+
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+
+    <script src="/store/static/mystore/js/jquery-3.3.1.js" ></script>
+    <!-- 引入head.js   -->
+    <script src="/store/static/mystore/js/myjs/head.js"></script>
+
+
+</body>
+</html>

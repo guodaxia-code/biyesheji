@@ -1,10 +1,19 @@
 package xyz.worldzhile.controller;
 
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.api.request.AlipayTradePagePayRequest;
 import io.swagger.annotations.Api;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Role;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import xyz.worldzhile.alipay.AlipayConfig;
 import xyz.worldzhile.constant.Constant;
 import xyz.worldzhile.domain.*;
 import xyz.worldzhile.service.OrderService;
@@ -15,15 +24,28 @@ import xyz.worldzhile.yeepay.PaymentForOnlineService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @Api(tags = "订单接口")
 @Controller
 @RequestMapping("order")
 public class OrderController {
+
+
+    static String p1_MerId;
+
+    static String keyValue;
+    static String responseURL;
+
+    static{
+        p1_MerId="10001126856";
+        keyValue="69cl522AV6q613Ii4W6u8K6XuW8vM1N6bFgyv769220IuYe9u37N4y7rI4Pl";
+        responseURL="http://localhost:8080/store/order/callback";
+    }
+
+
+
+
 
     @Autowired
     OrderService orderService;
@@ -75,6 +97,7 @@ public class OrderController {
 
     }
 
+
     @GetMapping("seeOneOrder")
     public ModelAndView seeOrder(@RequestParam("oid") String oid, ModelAndView model, HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
@@ -102,6 +125,7 @@ public class OrderController {
             model.addObject("user_login_error", "没有登录不可以查看订单");
             return model;
         }
+
         List<Order> allOrdersByUid = orderService.findAllOrdersByUid(user.getUid());
         model.addObject("pageBean", allOrdersByUid);
 
@@ -122,6 +146,7 @@ public class OrderController {
             model.addObject("user_login_error", "没有登录不可以查看订单");
             return model;
         }
+
         PageBean<Order> pageBean = orderService.findPageBean(user.getUid(), currentPage, pageCount);
         model.addObject("pageBean", pageBean);
         model.setViewName("orderxx");
@@ -131,7 +156,10 @@ public class OrderController {
     }
 
 
-    @PostMapping("payOrder")
+    /*
+      易宝支付
+     */
+/*    @PostMapping("payOrder")
     public ModelAndView payOrder(@RequestParam("oid") String oid,
                                  @RequestParam("name") String name,
                                  @RequestParam("address") String address,
@@ -167,24 +195,27 @@ public class OrderController {
 
         String pd_FrpId = yinghang;
         String p0_Cmd = "Buy";
-        String p1_MerId = ResourceBundle.getBundle("merchantInfo").getString("p1_MerId");//我的商店id
+        String p1_MerId = this.p1_MerId;//我的商店id
         String p2_Order = oid;
         String p3_Amt = String.valueOf(orderByOid.getTotalMoney());
-        if (user.getUsername().equals("李强五")) {
+        System.out.println(user.getUsername());
+        if (user.getUsername().equals("李强5")) {
             p3_Amt = "0.01";
         }
+
+        System.out.println(p3_Amt+"yuan");
         String p4_Cur = "CNY";
         String p5_Pid = "";
         String p6_Pcat = "";
         String p7_Pdes = "";
 
         //用户和第三方都会访问的回调接口地址
-        String p8_Url = ResourceBundle.getBundle("merchantInfo").getString("responseURL");
+        String p8_Url = this.responseURL;
         String P9_SAF = "";
         String pa_MP = "";
         String pr_NeedResponse = "1"; //需要应答
         //加密hmac 需要密钥
-        String keyValue = ResourceBundle.getBundle("merchantInfo").getString("keyValue");
+        String keyValue = this.keyValue;
 
         //获取加密数据
         String hmac = PaymentForOnlineService.getReqMd5HmacForOnlinePayment(p0_Cmd, p1_MerId, p2_Order, p3_Amt, p4_Cur,
@@ -211,76 +242,332 @@ public class OrderController {
 
         model.setViewName("redirect:" + url);
         return model;
+    }*/
+
+
+    /*
+    支付宝支付
+     */
+
+    @PostMapping("payOrder")
+    public ModelAndView payOrder(@RequestParam("oid") String oid,
+                                 @RequestParam("name") String name,
+                                 @RequestParam("address") String address,
+                                 @RequestParam("phone") String phone,
+                                 ModelAndView model, HttpServletRequest request) {
+
+        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
+        if (user == null) {
+            System.out.println("没有登录");
+            model.setViewName("msg");
+            model.addObject("user_login_error", "没有登录不可以付款");
+            return model;
+        }
+
+        Order orderByOid = orderService.findOrderByOid(oid);
+        if (orderByOid == null) {
+            System.out.println("没有该订单");
+            model.setViewName("msg");
+            model.addObject("user_login_error", "没有该订单");
+            return model;
+        }
+        orderByOid.setName(name);
+        orderByOid.setAddress(address);
+        orderByOid.setPhone(address);
+
+        orderService.updateOrder(orderByOid);
+
+
+
+        //
+        //支付宝
+        //获得初始化的AlipayClient
+        AlipayClient alipayClient = new DefaultAlipayClient(AlipayConfig.gatewayUrl, AlipayConfig.app_id, AlipayConfig.merchant_private_key, "json", AlipayConfig.charset, AlipayConfig.alipay_public_key, AlipayConfig.sign_type);
+
+        //设置请求参数
+        AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
+        alipayRequest.setReturnUrl(AlipayConfig.return_url);
+        alipayRequest.setNotifyUrl(AlipayConfig.notify_url);
+
+        //商户订单号，商户网站订单系统中唯一订单号，必填
+        String out_trade_no = oid;
+        //付款金额，必填
+        String total_amount = String.valueOf(orderByOid.getTotalMoney());
+        if (user.getUsername().equals("李强5")) {
+            total_amount = "0.01";
+        }
+        //订单名称，必填
+        String subject = new String("至乐购付款");
+        //商品描述，可空
+        String body = "";
+
+        alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
+                + "\"total_amount\":\""+ total_amount +"\","
+                + "\"subject\":\""+ subject +"\","
+                + "\"body\":\""+ body +"\","
+                + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+
+        //若想给BizContent增加其他可选请求参数，以增加自定义超时时间参数timeout_express来举例说明
+        alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
+        		+ "\"total_amount\":\""+ total_amount +"\","
+        		+ "\"subject\":\""+ subject +"\","
+        		+ "\"body\":\""+ body +"\","
+        		+ "\"timeout_express\":\"10m\","
+        		+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+        //请求参数可查阅【电脑网站支付的API文档-alipay.trade.page.pay-请求参数】章节
+
+        //请求
+        String result = null;
+        try {
+            result = alipayClient.pageExecute(alipayRequest).getBody();
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(result);
+
+
+
+
+
+        model.setViewName("qualipay");
+       model.addObject("AliPay",result);
+
+        return model;
+
     }
 
 
-    public static void main(String[] args) {
-        String pd_FrpId = "yinghang";
-        String p0_Cmd = "Buy";
-        String p1_MerId = ResourceBundle.getBundle("merchantInfo").getString("p1_MerId");//我的商店id
-        String p2_Order = "oid";
-        String p3_Amt = String.valueOf(0.1);
+    /**
+     * 支付宝成功付款 异步通知
+     */
+/*    @GetMapping("callbackYi")
+    public ModelAndView callbackYi(ModelAndView model, HttpServletRequest request, HttpServletResponse response) {
 
-        String p4_Cur = "CNY";
-        String p5_Pid = "";
-        String p6_Pcat = "";
-        String p7_Pdes = "";
+        *//* *
+         * 功能：支付宝服务器异步通知页面
+         * 日期：2017-03-30
+         * 说明：
+         * 以下代码只是为了方便商户测试而提供的样例代码，商户可以根据自己网站的需要，按照技术文档编写,并非一定要使用该代码。
+         * 该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
 
-        //用户和第三方都会访问的回调接口地址
-        String p8_Url = ResourceBundle.getBundle("merchantInfo").getString("responseURL");
-        String P9_SAF = "";
-        String pa_MP = "";
-        String pr_NeedResponse = "1"; //需要应答
-        //加密hmac 需要密钥
-        String keyValue = ResourceBundle.getBundle("merchantInfo").getString("keyValue");
-        StringBuilder url1 = new StringBuilder("https://www.yeepay.com/app-merchant-proxy/node?");
 
-        url1.append("p0_Cmd=").append(p0_Cmd).append("&");
-        url1.append("p1_MerId=").append(p1_MerId).append("&");
-        url1.append("p2_Order=").append(p2_Order).append("&");
-        url1.append("p3_Amt=").append(p3_Amt).append("&");
-        url1.append("p4_Cur=").append(p4_Cur).append("&");
-        url1.append("p5_Pid=").append(p5_Pid).append("&");
-        url1.append("p6_Pcat=").append(p6_Pcat).append("&");
-        url1.append("p7_Pdes=").append(p7_Pdes).append("&");
-        url1.append("p8_Url=").append(p8_Url).append("&");
-        url1.append("P9_SAF=").append(P9_SAF).append("&");
-        url1.append("pa_MP=").append(pa_MP).append("&");
-        url1.append("pd_FrpId=").append(pd_FrpId).append("&");
-        url1.append("pr_NeedResponse=").append(pr_NeedResponse).append("&");
+         *************************页面功能说明*************************
+         * 创建该页面文件时，请留心该页面文件中无任何HTML代码及空格。
+         * 该页面不能在本机电脑测试，请到服务器上做测试。请确保外部可以访问该页面。
+         * 如果没有收到该页面返回的 success
+         * 建议该页面只做支付成功的业务逻辑处理，退款的处理请以调用退款查询接口的结果为准。
+         *//*
 
-        System.out.println(url1);
+        //获取支付宝POST过来反馈信息
+        Map<String,String> params = new HashMap<String,String>();
+        Map<String,String[]> requestParams = request.getParameterMap();
+        for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
+            String name = (String) iter.next();
+            String[] values = (String[]) requestParams.get(name);
+            String valueStr = "";
+            for (int i = 0; i < values.length; i++) {
+                valueStr = (i == values.length - 1) ? valueStr + values[i]
+                        : valueStr + values[i] + ",";
+            }
+            //乱码解决，这段代码在出现乱码时使用
+            params.put(name, valueStr);
+        }
 
-        //获取加密数据
-        String hmac = PaymentForOnlineService.getReqMd5HmacForOnlinePayment(p0_Cmd, p1_MerId, p2_Order, p3_Amt, p4_Cur,
-                p5_Pid, p6_Pcat, p7_Pdes, p8_Url, P9_SAF, pa_MP, pd_FrpId, pr_NeedResponse, keyValue);
+        boolean signVerified = false; //调用SDK验证签名
+        try {
+            signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.sign_type);
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
 
-        //url
-        StringBuilder url = new StringBuilder("https://www.yeepay.com/app-merchant-proxy/node?");
+        //——请在这里编写您的程序（以下代码仅作参考）——
 
-        url.append("p0_Cmd=").append(p0_Cmd).append("&");
-        url.append("p1_MerId=").append(p1_MerId).append("&");
-        url.append("p2_Order=").append(p2_Order).append("&");
-        url.append("p3_Amt=").append(p3_Amt).append("&");
-        url.append("p4_Cur=").append(p4_Cur).append("&");
-        url.append("p5_Pid=").append(p5_Pid).append("&");
-        url.append("p6_Pcat=").append(p6_Pcat).append("&");
-        url.append("p7_Pdes=").append(p7_Pdes).append("&");
-        url.append("p8_Url=").append(p8_Url).append("&");
-        url.append("P9_SAF=").append(P9_SAF).append("&");
-        url.append("pa_MP=").append(pa_MP).append("&");
-        url.append("pd_FrpId=").append(pd_FrpId).append("&");
-        url.append("pr_NeedResponse=").append(pr_NeedResponse).append("&");
-        url.append("hmac=").append(hmac);
+	*//* 实际验证过程建议商户务必添加以下校验：
+	1、需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
+	2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
+	3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）
+	4、验证app_id是否为该商户本身。
+	*//*
+        if(signVerified) {//验证成功
+            //商户订单号
+            String out_trade_no = request.getParameter("out_trade_no");
 
-        System.out.println(url);
+            //支付宝交易号
+            String trade_no = request.getParameter("trade_no");
+
+            //交易状态
+            String trade_status = request.getParameter("trade_status");
+
+            //交易状态
+            String total_amount = request.getParameter("total_amount");
+
+
+            if(trade_status.equals("TRADE_FINISHED")){
+                //判断该笔订单是否在商户网站中已经做过处理
+                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+                //如果有做过处理，不执行商户的业务程序
+                Order payedOrder = orderService.findOrderByOid(out_trade_no);
+                payedOrder.setStates(Constant.IS_PAYE);
+                orderService.updateOrder(payedOrder);
+                model.setViewName("msg");
+                model.addObject("user_login_error", "您的订单号为：" + out_trade_no + ",金额为：" + total_amount + "已经付款成功,等待发货中~~~");
+                return model;
+                //注意：
+                //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
+            }else if (trade_status.equals("TRADE_SUCCESS")){
+                //判断该笔订单是否在商户网站中已经做过处理
+                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+                //如果有做过处理，不执行商户的业务程序
+                System.out.println("付款成功未处理订单");
+                //注意：
+                //付款完成后，支付宝系统发送该交易状态通知
+            }
+
+            try {
+                response.getWriter().println("success");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }else {//验证失败
+            System.out.println("第三方支付数据被篡改了");
+            model.setViewName("msg");
+            model.addObject("user_login_error", "第三方支付数据被篡改了");
+            return model;
+
+            //调试用，写文本函数记录程序运行情况是否正常
+            //String sWord = AlipaySignature.getSignCheckContentV1(params);
+            //AlipayConfig.logResult(sWord);
+        }
+
+        //——请在这里编写您的程序（以上代码仅作参考）——
+
+
+        System.out.println("订单付款失败");
+        model.setViewName("msg");
+        model.addObject("user_login_error", "订单付款失败");
+        return model;
+
+
+
+    }*/
+
+
+    /**
+     * 支付宝成功付款 同步通知
+     */
+    @GetMapping("callbackTong")
+    public ModelAndView callbackTong(ModelAndView model, HttpServletRequest request, HttpServletResponse response) {
+
+
+        //获取支付宝GET过来反馈信息
+        Map<String,String> params = new HashMap<String,String>();
+        Map<String,String[]> requestParams = request.getParameterMap();
+        for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
+            String name = (String) iter.next();
+            String[] values = (String[]) requestParams.get(name);
+            String valueStr = "";
+            for (int i = 0; i < values.length; i++) {
+                valueStr = (i == values.length - 1) ? valueStr + values[i]
+                        : valueStr + values[i] + ",";
+            }
+
+            params.put(name, valueStr);
+        }
+
+
+        System.out.println(params);
+        boolean signVerified = false; //调用SDK验证签名
+        try {
+            signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.sign_type);
+        } catch (AlipayApiException e) {
+            e.printStackTrace();
+        }
+
+        if(signVerified) {//验证成功
+            //商户订单号
+            String out_trade_no = request.getParameter("out_trade_no");
+
+            //支付宝交易号
+            String trade_no = request.getParameter("trade_no");
+
+            //交易状态
+            String trade_status = request.getParameter("trade_status");
+
+            //交易状态
+            String total_amount = request.getParameter("total_amount");
+
+
+
+
+            System.out.println("trade_no:"+trade_no+"<br/>out_trade_no:"+out_trade_no+"<br/>total_amount:"+total_amount);
+
+
+//            if(trade_status.equals("TRADE_FINISHED")){
+//                //判断该笔订单是否在商户网站中已经做过处理
+//                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+//                //如果有做过处理，不执行商户的业务程序
+//                Order payedOrder = orderService.findOrderByOid(out_trade_no);
+//                payedOrder.setStates(Constant.IS_PAYE);
+//                orderService.updateOrder(payedOrder);
+//                model.setViewName("msg");
+//                model.addObject("user_login_error", "您的订单号为：" + out_trade_no + ",金额为：" + total_amount + "已经付款成功,等待发货中~~~");
+//                return model;
+//                //注意：
+//                //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
+//            }else if (trade_status.equals("TRADE_SUCCESS")){
+//                //判断该笔订单是否在商户网站中已经做过处理
+//                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+//                //如果有做过处理，不执行商户的业务程序
+//                System.out.println("付款成功未处理订单");
+//                //注意：
+//                //付款完成后，支付宝系统发送该交易状态通知
+//            }
+
+
+            //testdev
+            Order payedOrder = orderService.findOrderByOid(out_trade_no);
+            payedOrder.setStates(Constant.IS_PAYE);
+            orderService.updateOrder(payedOrder);
+
+            model.setViewName("payok");
+            model.addObject("user_login_error", "您的订单号为：" + out_trade_no + ",金额为：" + total_amount + "已经付款成功,等待发货中~~~");
+            return model;
+
+
+        }else {//验证失败
+            System.out.println("第三方支付数据被篡改了");
+            model.setViewName("msg");
+            model.addObject("user_login_error", "第三方支付数据被篡改了");
+            return model;
+
+            //调试用，写文本函数记录程序运行情况是否正常
+            //String sWord = AlipaySignature.getSignCheckContentV1(params);
+            //AlipayConfig.logResult(sWord);
+        }
+
+        //——请在这里编写您的程序（以上代码仅作参考）——
+
+
+
+//        System.out.println("订单付款失败");
+//        model.setViewName("msg");
+//        model.addObject("user_login_error", "订单付款失败");
+//        return model;
+
+
     }
+
+
+
+
 
     /**
      * 成功付款
      */
     @GetMapping("callback")
-    public ModelAndView addOrder(ModelAndView model, HttpServletRequest request, HttpServletResponse response) {
+    public ModelAndView yiBao(ModelAndView model, HttpServletRequest request, HttpServletResponse response) {
         String p1_MerId = request.getParameter("p1_MerId");
         String r0_Cmd = request.getParameter("r0_Cmd");
         String r1_Code = request.getParameter("r1_Code");
@@ -294,7 +581,7 @@ public class OrderController {
         String r9_BType = request.getParameter("r9_BType");
 
         //加密判断数据hmac 需要密钥
-        String keyValue = ResourceBundle.getBundle("merchantInfo").getString("keyValue");
+        String keyValue = this.keyValue;
         String hmac = request.getParameter("hmac");
 
 

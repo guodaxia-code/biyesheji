@@ -25,6 +25,7 @@
             <list>
                 <value>classpath:druid.properties</value>
                 <value>classpath:jedis.properties</value>
+                <value>classpath:merchantInfo.properties</value>
             </list>
         </property>
     </bean>
@@ -41,7 +42,56 @@
     </bean>
     <bean id="myjedis"  factory-bean="JedisPool" factory-method="getResource" scope="prototype" ></bean>
 
-<!--    配置spring整合mybatis-->
+
+
+
+
+
+
+
+
+    <!--    shiro配置-->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" >
+        <property name="securityManager" ref="ShiroManager"></property>
+        <!--   登录页的url     -->
+        <property name="loginUrl" value="login.html"></property>
+        <!--   未认证的跳转页面   -->
+        <property name="unauthorizedUrl" value="403.html"></property>
+        <property name="filterChainDefinitions">
+            <value>
+<!--                /login.html= anon-->
+                /user/loginIn= anon
+<!--                /index.html= anon-->
+<!--                /*= authc-->
+            </value>
+        </property>
+    </bean>
+
+    <bean id="ShiroManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="myRealm"></property>
+
+    </bean>
+
+    <bean id="myRealm" class="xyz.worldzhile.realm.MyRealm">
+        <property name="credentialsMatcher" ref="hashedCredentialsMatcher"></property>
+    </bean>
+
+    <bean id="hashedCredentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <property name="hashAlgorithmName" value="md5"></property>
+        <property name="hashIterations" value="1"></property>
+    </bean>
+
+
+
+
+
+
+
+
+
+
+
+    <!--    配置spring整合mybatis-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${driverClassName}"></property>
         <property name="jdbcUrl" value="${url}"></property>

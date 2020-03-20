@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户操作错误提示</title>
+</head>
+<body>
+    <div id="headpage">head</div>
+    <p>你的操作有误：</p>
+    <h th:text="${user_login_error}"></h>
+    <div id="footerpage">footerpage</div>
+
+
+    <script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
+    <script src="/store/static/mystore/js/myjs/head.js"></script>
+    <script>
+        $(function () {
+            /**
+             * url路径user之上
+             */
+            // $("#headpage").load("../head.html");
+            // $("#footerpage").load("../footer.html");
+            load_headpage_and_footerpage();
+            getCategoryTenNumber();
+
+        })
+
+    </script>
+
+
+
+</body>
+</html>

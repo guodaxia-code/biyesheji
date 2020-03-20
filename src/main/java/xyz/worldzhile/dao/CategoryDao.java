@@ -3,6 +3,7 @@ package xyz.worldzhile.dao;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 import xyz.worldzhile.domain.Category;
+import xyz.worldzhile.util.PageBean;
 
 import java.util.List;
 
@@ -37,4 +38,14 @@ public interface CategoryDao {
      */
    @Delete("delete from category where cid=#{cid}")
     void update(@Param("cid") String cid);
+
+
+   @Select("SELECT  count(cid) from category")
+    int findCount();
+
+
+    /*layui 分页查询*/
+    @Select("select * from category   limit #{start},#{pageCount}")
+    @ResultMap("CategoryMap")
+    List<Category> findAllByLayuiByPage(@Param("start") int start, @Param("pageCount")Integer pageCount);
 }

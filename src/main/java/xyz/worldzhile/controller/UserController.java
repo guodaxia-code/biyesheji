@@ -4,12 +4,11 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import xyz.worldzhile.constant.Constant;
 import xyz.worldzhile.domain.Cart;
@@ -17,6 +16,7 @@ import xyz.worldzhile.domain.User;
 import xyz.worldzhile.service.UserSerice;
 import xyz.worldzhile.util.UuidUtil;
 
+import javax.security.auth.Subject;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -191,5 +191,54 @@ public class UserController {
         model.setViewName("redirect:/templates/pages/index.html");
         return model;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @GetMapping("loginIn")
+    public ModelAndView logintest(HttpServletRequest request,ModelAndView model){
+        model.setViewName("shirologin");
+        return model;
+    }
+
+
+    @PostMapping(value = "loginIn")
+    @ResponseBody
+     public String loginIn( User user){
+        System.out.println("-------------------获取的用户名-----------------");
+        System.out.println(user.getUsername());
+        System.out.println(user.getPassword());
+        System.out.println("-------------------获取的用户名-----------------");
+        boolean login = userService.login(user);
+
+
+        if (login){
+            Session session = SecurityUtils.getSubject().getSession();
+            System.out.println("-------------登录成功--------------");
+            return "登录成功";
+        }else {
+            System.out.println("登录失败");
+            return "登录失败";
+        }
+
+
+
+    }
+
 
 }

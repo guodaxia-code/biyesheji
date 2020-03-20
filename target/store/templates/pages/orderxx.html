@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>订单信息</title>
+    <link rel="stylesheet" href="/store/static/mystore/css/base.css"/>
+    <link rel="stylesheet" href="/store/static/mystore/css/product_list.css"></link>
+    <style>
+        tbale,td,th{
+            border: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <h>订单信息</h>
+
+
+    <table class="middle">
+        <tr>
+            <th>下单时间</th>
+            <th>下单人姓名</th>
+            <th>订单号</th>
+            <th>订单状态</th>
+            <th>购买详情</th>
+            <th>订单总金额</th>
+
+        </tr>
+        <th:block th:each="order:${pageBean.list}">
+            <tr>
+                <td th:text="${order.time}"></td>
+                <td th:text="${order.user.username}"></td>
+                <td th:text="${order.oid}"></td>
+                <th:block th:switch="${order.states}">
+                    <td th:case="0"><a th:href="@{/order/seeOneOrder(oid=${order.oid})}">去付款</a></td>
+                    <td th:case="1">已付款</td>
+                    <td th:case="2">发货中</td>
+                    <td th:case="3">已完成</td>
+                </th:block>
+
+
+
+               <td>
+                   <table>
+                       <tr>
+                           <th>商品图片</th>
+                           <th>商品名称</th>
+                           <th>商品单价</th>
+                           <th>商品数量</th>
+                           <th>小计</th>
+                       </tr>
+                       <th:block th:each="orderItem:${order.orderItems}">
+                           <tr>
+                               <td><img  width="50px" height="50px" th:src="${orderItem.product.ppicture}"></img></td>
+
+                               <td th:text="${orderItem.product.pname}"></td>
+                               <td th:text="${orderItem.product.rel_price}"></td>
+                               <td th:text="${orderItem.number}"></td>
+                               <td th:text="${orderItem.money}"></td>
+                           </tr>
+                       </th:block>
+                   </table>
+               </td>
+
+                <td th:text="${order.totalMoney}"></td>
+            </tr>
+
+        </th:block>
+    </table>
+
+
+    <div class="page middle">
+        <th:block th:if="${pageBean.currentPage}==1">
+        </th:block>
+
+        <th:block th:if="${pageBean.currentPage}!=1">
+            <a th:href="@{/order/seeMyOrdersByPage(currentPage=${pageBean.currentPage-1},pageCount=4)}" th:class="shangxiapage">&lt;上一页</a>
+        </th:block>
+        <th:block th:each="i:${#numbers.sequence(pageBean.StartPage,pageBean.EndPage)}">
+            <th:block th:if="${pageBean.currentPage}==${i}">
+                <a th:href="@{/order/seeMyOrdersByPage(currentPage=${i},pageCount=4)}" class="currentPage yepage" th:text="${i}"></a>
+            </th:block>
+            <th:block th:if="${pageBean.currentPage}!=${i}">
+                <a th:href="@{/order/seeMyOrdersByPage(currentPage=${i},pageCount=4)}" th:class="yepage" th:text="${i}"></a>
+            </th:block>
+        </th:block>
+
+        <th:block th:if="${pageBean.currentPage}==${pageBean.totalPage}">
+        </th:block>
+        <th:block th:if="${pageBean.currentPage}!=${pageBean.totalPage} and ${pageBean.totalPage}!=0">
+            <a th:href="@{/order/seeMyOrdersByPage(currentPage=${pageBean.currentPage+1},pageCount=4)}" class="shangxiapage">下一页&gt;</a>
+        </th:block>
+        <!--    总共 <span th:text="${pageBean.totalPage}"></span>页-->
+
+    </div>
+
+</body>
+</html>

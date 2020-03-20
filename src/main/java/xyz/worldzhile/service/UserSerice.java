@@ -34,5 +34,14 @@ public interface UserSerice {
 
 
     User findByUsername(String username);
+
+    /**
+     *
+    shiro login
+     */
+    boolean login(User user);
+
+
+
 }
 

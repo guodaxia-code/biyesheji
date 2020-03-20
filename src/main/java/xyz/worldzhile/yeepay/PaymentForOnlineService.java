@@ -14,7 +14,7 @@ import xyz.worldzhile.yeepay.*;
 
 public class PaymentForOnlineService {
 
-    private static Log log 					= LogFactory.getLog(xyz.worldzhile.yeepay.PaymentForOnlineService.class);
+   /* private static Log log 					= LogFactory.getLog(xyz.worldzhile.yeepay.PaymentForOnlineService.class);
     private static String p1_MerId 			= Configuration.getInstance().getValue("p1_MerId"); 			// 商家ID
     private static String queryRefundReqURL = Configuration.getInstance().getValue("queryRefundReqURL");	// 请求地址
     private static String keyValue 			= Configuration.getInstance().getValue("keyValue");				// 商家密钥
@@ -23,7 +23,7 @@ public class PaymentForOnlineService {
     private static String refund_Cmd 		= "RefundOrd";			   										// 退款请求，固定值 ” RefundOrd”
     private static String decodeCharset 	= "GBK";			   											// 定义编码格式
     private static String EMPTY = "";
-
+*/
 
 
     /**
@@ -106,7 +106,7 @@ public class PaymentForOnlineService {
      * @param p2_Order
      * @return queryResult
      */
-    public static QueryResult queryByOrder(String p2_Order) {
+   /* public static QueryResult queryByOrder(String p2_Order) {
 
         QueryResult qr = null;
         String hmac = DigestUtil.getHmac(new String[] {query_Cmd,p1_MerId,p2_Order},keyValue);
@@ -182,7 +182,7 @@ public class PaymentForOnlineService {
         }
         return (qr);
 
-    }
+    }*/
 
     /**
      * 订单退款请求参数
@@ -198,7 +198,7 @@ public class PaymentForOnlineService {
      * @param p5_Desc
      * @return refundResult
      */
-    public static RefundResult refundByTrxId(String pb_TrxId, String p3_Amt, String p4_Cur, String p5_Desc) {
+/*    public static RefundResult refundByTrxId(String pb_TrxId, String p3_Amt, String p4_Cur, String p5_Desc) {
         RefundResult rr = null;
         String hmac = DigestUtil.getHmac(new String[] {refund_Cmd,p1_MerId,pb_TrxId,p3_Amt,p4_Cur,p5_Desc},keyValue);
         Map reParams = new HashMap();
@@ -263,7 +263,7 @@ public class PaymentForOnlineService {
             throw new RuntimeException("Hmac error.");
         }
         return (rr);
-    }
+    }*/
 
     /**
      * 返回校验hmac方法

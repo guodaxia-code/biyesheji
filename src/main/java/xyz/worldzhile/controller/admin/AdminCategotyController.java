@@ -21,9 +21,14 @@ public class AdminCategotyController {
      */
     @GetMapping("findAll")
     public ModelAndView findAll(ModelAndView model){
-        List<Category> all = categoryService.findAll();
-        model.addObject("categorys",all);
-        model.setViewName("admin/categoryManager");
+//        List<Category> all = categoryService.findAll();
+//        model.addObject("categorys",all);
+
+
+//        model.setViewName("admin/categoryManager");
+
+        //这里必需要要跳转
+        model.setViewName("redirect:/templates/pages/admin/categoryManager.html");
         return model;
     }
     @GetMapping("update/{cid}")
@@ -32,6 +37,16 @@ public class AdminCategotyController {
         System.out.println("删除分类");
         categoryService.update(cid);
         System.out.println("删除分类成功");
+    }
+
+
+
+
+    @GetMapping("test")
+    @ResponseBody
+    public ModelAndView test(ModelAndView model){
+        model.setViewName("admin/adminone");
+        return model;
     }
 
 }

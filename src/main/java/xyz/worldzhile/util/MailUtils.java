@@ -71,10 +71,10 @@ public final class MailUtils {
 
     public static void main(String[] args) throws Exception { // 做测试用
         String code="8064d5b715e14081a8421af58037e154";
-        //"<h1>来自XXX网站的激活邮件,激活请点击以下链接：</h1><br/><h3><a href='http://www.worldzhile.xyz/JavaMail/ActiveServlet?code="+code+"'>http://www.worldzhile.xyz/JavaMail/ActiveServlet?code="+code+"</a></h3>"
+        //"<h1>来自XXX网站的激活邮件,激活请点击以下链接：</h1><br/><h3><a href='http://localhost:8080/JavaMail/ActiveServlet?code="+code+"'>http://localhost:8080/JavaMail/ActiveServlet?code="+code+"</a></h3>"
 
-//        MailUtils.sendMail("2561587813@qq.com","<h1>来自XXX网站的激活邮件,激活请点击以下链接：</h1><br/><h3><a href='http://www.worldzhile.xyz/store/user/active?code="+code+"'>激活</a></h3>","测试邮件");
-        MailUtils.sendMail("2561587813@qq.com","<h1>欢迎您成为至乐购商城的一员</h1><h2>来自至乐购商城网站的激活邮件,激活请点击以下链接：</h2><br/><h3><a href='http://www.worldzhile.xyz/store/user/active?code="+code+"'>激活</a></h3>","至乐购用户注册");
+//        MailUtils.sendMail("2561587813@qq.com","<h1>来自XXX网站的激活邮件,激活请点击以下链接：</h1><br/><h3><a href='http://localhost:8080/store/user/active?code="+code+"'>激活</a></h3>","测试邮件");
+        MailUtils.sendMail("2561587813@qq.com","<h1>欢迎您成为至乐购商城的一员</h1><h2>来自至乐购商城网站的激活邮件,激活请点击以下链接：</h2><br/><h3><a href='http://localhost:8080/store/user/active?code="+code+"'>激活</a></h3>","至乐购用户注册");
         System.out.println("发送成功");
     }
 

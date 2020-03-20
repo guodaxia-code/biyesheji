@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品详情页</title>
+    <style>
+        a{
+            text-decoration: none;
+        }
+        .addCart{
+            border: 2px solid red;
+        }
+    </style>
+</head>
+<body>
+
+    <H3><span th:text="${product.category.cname}"></span> > <span th:text="${product.pname}"></span><br/> </H3>
+    <div>
+        商品的名字：<span th:text="${product.pname}"></span><br/>
+        <img th:src="${product.ppicture}" alt=""><br/>
+        商品的描述：<span th:text="${product.pdesc}"></span><br/>
+    </div>
+
+    数量 : <input id="number" type="number" name="pcount" value="1"> <br>
+    <a id="addCart" class="addCart" th:href="@{/cart/addToCart(pid=${product.pid},pcount=1)}">加入购物车</a>
+
+
+    <script>
+        var addCart = document.getElementById("addCart");
+
+        addCart.onclick=function () {
+            var number = document.getElementById("number").value;
+            console.log(this.href);
+            var url=this.href.toString();
+            // url="/cart/addToCart?pid=123&pcount=21";
+            var newUrl;
+            var allParamsString = url.split("?")[1];//pid=123&pcount=2
+            newUrl=url.split("?")[0]+'?';
+            var allParams = allParamsString.split("&");
+            for (var i = 0; i <allParams.length ; i++) {
+               if (allParams[i].startsWith("pcount")){
+                   var beforeCount = allParams[i].split("=")[1];
+                   newUrl+=allParams[i].split("=")[0]+'='+number+'&';
+               }else {
+                   newUrl+=allParams[i]+"&";
+               }
+            }
+            //去除最后一个&
+            this.href=newUrl.substr(0,newUrl.length-1);
+            return true;
+        }
+
+    </script>
+
+</body>
+</html>

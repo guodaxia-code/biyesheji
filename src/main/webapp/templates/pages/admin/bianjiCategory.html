@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑分类</title>
+    <link rel="stylesheet" href="/store/static/layui/css/layui.css">
+</head>
+<body>
+
+
+
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">分类名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="title" th:value="${category.cname}" required  lay-verify="required" placeholder="请输入分类名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">热度</label>
+            <div class="layui-input-inline">
+                <input type="number" name="hot"  placeholder="请输入数字" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">热度越高越排前</div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">开关</label>
+            <div class="layui-input-block">
+                <input type="checkbox" name="switch" lay-skin="switch">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">分类图片</label>
+            <div class="layui-input-block">
+                <img  th:src="${category.picture}" width="200" alt="">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">分类图片</label>
+            <div class="layui-input-block">
+                <button type="button" class="layui-btn" id="test1">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+            </div>
+
+        </div>
+
+
+
+                <!- 哪里发送数据--->
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="formDemo">确定</button>
+                <button type="reset" class="layui-btn layui-btn-primary">取消</button>
+            </div>
+        </div>
+
+
+    </form>
+
+
+    <script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
+    <script src="/store/static/layui/layui.js"></script>
+
+    <script>
+        //Demo
+        layui.use('form', function(){
+            var form = layui.form;
+
+            //监听提交
+            form.on('submit(formDemo)', function(data){
+                layer.msg(JSON.stringify(data.field));
+                return false;
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+
+
