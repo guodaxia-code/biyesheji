@@ -48,18 +48,18 @@ public class UserController {
         request.getSession().removeAttribute(Constant.CHECKCODE_SESSION);
         if (sessionCheckCode==null){
             request.setAttribute(Constant.USER_MESSAGEG_ERROR,"验证码不存在");
-            model.setViewName("msg");
+            model.setViewName("register");
             return model;
         }
         if (!sessionCheckCode.equalsIgnoreCase(code)){
             request.setAttribute(Constant.USER_MESSAGEG_ERROR,"验证码错误");
-            model.setViewName("msg");
+            model.setViewName("register");
             return model;
         }
 
         if (!userService.isUnique(user.getUsername())){
             request.setAttribute(Constant.USER_MESSAGEG_ERROR,"用户名已经被注册过了或者被改名使用过了");
-            model.setViewName("msg");
+            model.setViewName("register");
             return model;
         }
 
@@ -71,7 +71,7 @@ public class UserController {
         boolean isSuccessSendQQEmailAndInsert = userService.register(user);
         if (!isSuccessSendQQEmailAndInsert) {
             request.setAttribute(Constant.USER_MESSAGEG_ERROR,"亲，你没有联网,我们无法给你发送激活邮件");
-            model.setViewName("msg");
+            model.setViewName("register");
             return model;
         }
         model.setViewName("registerOrActive-ok");
@@ -122,50 +122,72 @@ public class UserController {
     }
 
 
-    @ApiOperation(value = "用户登录信息提交")
-    @ApiImplicitParams(value = {
-            @ApiImplicitParam(paramType = "query",name="code",value = "提交的验证码",required = true),
-            @ApiImplicitParam(paramType = "query",name="user",value = "提交的用户信息",required = true) //不知道的类型 默认String
-    })
+//    @ApiOperation(value = "用户登录信息提交")
+//    @ApiImplicitParams(value = {
+//            @ApiImplicitParam(paramType = "query",name="code",value = "提交的验证码",required = true),
+//            @ApiImplicitParam(paramType = "query",name="user",value = "提交的用户信息",required = true) //不知道的类型 默认String
+//    })
+
+
+
+    @GetMapping("exit")
+    public ModelAndView exit(ModelAndView model){
+        SecurityUtils.getSubject().logout();
+        model.setViewName("redirect:/templates/pages/index.html");
+        return model;
+    }
+
+
     @PostMapping("login")
     public ModelAndView login(ModelAndView model, User user, @RequestParam("checkCode")String code, HttpServletRequest request, HttpServletResponse response){
 
-        String sessionCheckCode = (String) request.getSession().getAttribute(Constant.CHECKCODE_SESSION);
-        request.getSession().removeAttribute(Constant.CHECKCODE_SESSION);
-        if (sessionCheckCode==null){
-            request.setAttribute(Constant.USER_MESSAGEG_ERROR,"验证码不存在");
-            model.setViewName("login");
-            return model;
-        }
-        if (!sessionCheckCode.equalsIgnoreCase(code)){
-            request.setAttribute(Constant.USER_MESSAGEG_ERROR,"验证码错误");
-            model.setViewName("login");
-            return model;
-        }
+//        String sessionCheckCode = (String) request.getSession().getAttribute(Constant.CHECKCODE_SESSION);
+//        request.getSession().removeAttribute(Constant.CHECKCODE_SESSION);
+//        if (sessionCheckCode==null){
+//            request.setAttribute(Constant.USER_MESSAGEG_ERROR,"验证码不存在");
+//            model.setViewName("login");
+//            return model;
+//        }
+//        if (!sessionCheckCode.equalsIgnoreCase(code)){
+//            request.setAttribute(Constant.USER_MESSAGEG_ERROR,"验证码错误");
+//            model.setViewName("login");
+//            return model;
+//        }
+
+
         String loginUsername=user.getUsername();
         if (userService.isUnique(loginUsername)){
             request.setAttribute(Constant.USER_MESSAGEG_ERROR,"用户名不存在");
             model.setViewName("login");
             return model;
         }
-        User userInMysql = userService.findByUsername(user.getUsername());
-        //密码
-        boolean passwordLogin = userService.passwordLogin(user);
-        if (!passwordLogin){
-            request.setAttribute(Constant.USER_MESSAGEG_ERROR,"密码错误");
-            model.setViewName("login");
-            return model;
-        }
+        User byUsername = userService.findByUsername(loginUsername);
+
         //激活
-        if (userInMysql.getStates()==Constant.USER_NO_ACTIVE){
+        if (byUsername.getStates()==Constant.USER_NO_ACTIVE){
             request.setAttribute(Constant.USER_MESSAGEG_ERROR,"账号暂时没有激活,请先激活后再登录");
             model.setViewName("login");
             return model;
         }
+
+        boolean login = userService.login(user);
+
+
+        if (login){
+            Session session = SecurityUtils.getSubject().getSession();
+            System.out.println("-------------登录成功--------------");
+            Cart cart = new Cart();
+            session.setAttribute(Constant.USER_CART_SESSION,cart);
+        }else {
+            request.setAttribute(Constant.USER_MESSAGEG_ERROR,"登陆失败");
+            model.setViewName("login");
+            return model;
+        }
+
         //是否勾选了记住用户名
         if(Constant.SAVE_USERNAME.equals(request.getParameter("rememberUsername"))){
             try {
-                Cookie cookie = new Cookie("rememberUsername", URLEncoder.encode(userInMysql.getUsername(),"utf-8"));
+                Cookie cookie = new Cookie("rememberUsername", URLEncoder.encode(user.getUsername(),"utf-8"));
                 cookie.setMaxAge(Integer.MAX_VALUE);
                 cookie.setPath(request.getContextPath()+"/");
                 response.addCookie(cookie);
@@ -175,69 +197,33 @@ public class UserController {
                 e.printStackTrace();
             }
         }
-        //跳转登录页面 地址要变的
-        request.getSession().setAttribute(Constant.USER_LOGIN_SESSION,userInMysql);
-        //为登录用户添加购物车
-        Cart cart = new Cart();
-        request.getSession().setAttribute(Constant.USER_CART_SESSION,cart);
+
         model.setViewName("redirect:/index");
         return model;
     }
-    @GetMapping("exit")
-    public ModelAndView exit(HttpServletRequest request,ModelAndView model){
-//        request.getSession().removeAttribute(Constant.USER_LOGIN_SESSION);
-//        不是移除一个信息 干掉session
-        request.getSession().invalidate();
-        model.setViewName("redirect:/templates/pages/index.html");
+
+
+
+
+
+
+
+
+
+    @GetMapping("testOrder")
+    public ModelAndView aa(HttpServletRequest request,ModelAndView model){
+        model.setViewName("testOrder");
+        Session session = SecurityUtils.getSubject().getSession();
+        String shiro = (String) session.getAttribute("shirosession");
+
+
+        System.out.println(shiro+"-----------------------");
+
+//        ShiroUser user = SecurityUtils.getSubject().getPrincipal();
+
+        String loginAccount = SecurityUtils.getSubject().getPrincipal().toString();
+        System.out.println(loginAccount);
         return model;
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    @GetMapping("loginIn")
-    public ModelAndView logintest(HttpServletRequest request,ModelAndView model){
-        model.setViewName("shirologin");
-        return model;
-    }
-
-
-    @PostMapping(value = "loginIn")
-    @ResponseBody
-     public String loginIn( User user){
-        System.out.println("-------------------获取的用户名-----------------");
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
-        System.out.println("-------------------获取的用户名-----------------");
-        boolean login = userService.login(user);
-
-
-        if (login){
-            Session session = SecurityUtils.getSubject().getSession();
-            System.out.println("-------------登录成功--------------");
-            return "登录成功";
-        }else {
-            System.out.println("登录失败");
-            return "登录失败";
-        }
-
-
-
     }
 
 

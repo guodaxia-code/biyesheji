@@ -13,50 +13,51 @@
         <div class="layui-form-item">
             <label class="layui-form-label">分类名称</label>
             <div class="layui-input-block">
-                <input type="text" name="title" th:value="${category.cname}" required  lay-verify="required" placeholder="请输入分类名称" autocomplete="off" class="layui-input">
+                <input type="text" id="cname" name="cname" th:value="${category.cname}" required  lay-verify="required" placeholder="请输入分类名称" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">热度</label>
             <div class="layui-input-inline">
-                <input type="number" name="hot"  placeholder="请输入数字" autocomplete="off" class="layui-input">
+                <input type="number" name="hot" id="hot" th:value="${category.hot}" placeholder="请输入数字" autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">热度越高越排前</div>
         </div>
 
+<!--        <div class="layui-form-item">-->
+<!--            <label class="layui-form-label">开关</label>-->
+<!--            <div class="layui-input-block">-->
+<!--                <input type="checkbox" name="switch" lay-skin="switch">-->
+<!--            </div>-->
+<!--        </div>-->
+
         <div class="layui-form-item">
-            <label class="layui-form-label">开关</label>
+            <label class="layui-form-label">分类图片</label>
             <div class="layui-input-block">
-                <input type="checkbox" name="switch" lay-skin="switch">
+                <img  id="show" th:src="${category.picture}" width="200" alt="">
             </div>
         </div>
 
         <div class="layui-form-item">
             <label class="layui-form-label">分类图片</label>
             <div class="layui-input-block">
-                <img  th:src="${category.picture}" width="200" alt="">
-            </div>
-        </div>
-
-        <div class="layui-form-item">
-            <label class="layui-form-label">分类图片</label>
-            <div class="layui-input-block">
-                <button type="button" class="layui-btn" id="test1">
+                <button type="button" name="upload"  class="layui-btn" id="upload">
                     <i class="layui-icon">&#xe67c;</i>上传图片
                 </button>
             </div>
+            <input type="text" hidden="hidden"   id="cid"  th:value="${category.cid}">
 
         </div>
 
 
 
-                <!- 哪里发送数据--->
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="formDemo">确定</button>
-                <button type="reset" class="layui-btn layui-btn-primary">取消</button>
-            </div>
-        </div>
+<!--                <!- 哪里发送数据-&ndash;&gt;-->
+<!--        <div class="layui-form-item">-->
+<!--            <div class="layui-input-block">-->
+<!--                <button class="layui-btn" lay-submit lay-filter="formDemo">确定</button>-->
+<!--                <button type="reset" class="layui-btn layui-btn-primary">取消</button>-->
+<!--            </div>-->
+<!--        </div>-->
 
 
     </form>
@@ -66,14 +67,34 @@
     <script src="/store/static/layui/layui.js"></script>
 
     <script>
-        //Demo
-        layui.use('form', function(){
-            var form = layui.form;
+        layui.use('upload', function(){
+            var upload = layui.upload;
 
-            //监听提交
-            form.on('submit(formDemo)', function(data){
-                layer.msg(JSON.stringify(data.field));
-                return false;
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#upload' //绑定元素
+                ,url: '/store/uploadFiles' //上传接口
+                ,done: function(res){
+                    //上传完毕回调
+                    console.log("aasc")
+                    $("#show").attr("src",res[0]);
+                    var cid = $("#cid").val();
+                    var curl=res[0];
+                    console.log(cid)
+                    console.log(curl);
+
+                    $.ajax({
+                        url: "/store/category/updateCategoryPicture?",//请求的url
+                        dataType: "json",//返回参数类型
+                        async: true,//是否异步
+                        data: {"cid":cid,"picture":curl},//请求的参数
+                        type: "GET",//请求方式
+                    })
+
+                }
+                ,error: function(){
+                    //请求异常回调
+                }
             });
         });
     </script>

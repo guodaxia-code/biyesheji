@@ -6,6 +6,7 @@ import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
 import io.swagger.annotations.Api;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,13 +54,13 @@ public class OrderController {
     @GetMapping("addOrder")
     public ModelAndView addOrder(@RequestParam("pids") String[] pids, ModelAndView model, HttpServletRequest request) {
 
-        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
-        if (user == null) {
-            System.out.println("没有登录");
-            model.setViewName("msg");
-            model.addObject("user_login_error", "没有登录不可以提交订单");
-            return model;
-        }
+//        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
+//        if (user == null) {
+//            System.out.println("没有登录");
+//            model.setViewName("msg");
+//            model.addObject("user_login_error", "没有登录不可以提交订单");
+//            return model;
+//        }
 
         //添加订单
         System.out.println(Arrays.toString(pids));
@@ -89,6 +90,7 @@ public class OrderController {
                 return model;
             }
         }
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
         String oid = orderService.saveOrder(user.getUid(), orderItems, totalMany);//下单
         Order nowOrder = orderService.findOrderByOid(oid);
         model.addObject("nowOrder", nowOrder);
@@ -100,13 +102,13 @@ public class OrderController {
 
     @GetMapping("seeOneOrder")
     public ModelAndView seeOrder(@RequestParam("oid") String oid, ModelAndView model, HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
-        if (user == null) {
-            System.out.println("没有登录");
-            model.setViewName("msg");
-            model.addObject("user_login_error", "没有登录不可以查看订单详情");
-            return model;
-        }
+//        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
+//        if (user == null) {
+//            System.out.println("没有登录");
+//            model.setViewName("msg");
+//            model.addObject("user_login_error", "没有登录不可以查看订单详情");
+//            return model;
+//        }
 
         Order nowOrder = orderService.findOrderByOid(oid);
         model.addObject("nowOrder", nowOrder);
@@ -118,14 +120,14 @@ public class OrderController {
 
     @GetMapping("seeMyOrders")
     public ModelAndView seeOrder(ModelAndView model, HttpServletRequest request) {
-        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
-        if (user == null) {
-            System.out.println("没有登录");
-            model.setViewName("msg");
-            model.addObject("user_login_error", "没有登录不可以查看订单");
-            return model;
-        }
-
+//        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
+//        if (user == null) {
+//            System.out.println("没有登录");
+//            model.setViewName("msg");
+//            model.addObject("user_login_error", "没有登录不可以查看订单");
+//            return model;
+//        }
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
         List<Order> allOrdersByUid = orderService.findAllOrdersByUid(user.getUid());
         model.addObject("pageBean", allOrdersByUid);
 
@@ -139,14 +141,14 @@ public class OrderController {
     @ResponseBody
     public ModelAndView getProductsByPage(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage, @RequestParam(value = "pageCount", defaultValue = "4") Integer pageCount, ModelAndView model, HttpServletRequest request) {
 
-        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
-        if (user == null) {
-            System.out.println("没有登录");
-            model.setViewName("msg");
-            model.addObject("user_login_error", "没有登录不可以查看订单");
-            return model;
-        }
-
+//        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
+//        if (user == null) {
+//            System.out.println("没有登录");
+//            model.setViewName("msg");
+//            model.addObject("user_login_error", "没有登录不可以查看订单");
+//            return model;
+//        }
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
         PageBean<Order> pageBean = orderService.findPageBean(user.getUid(), currentPage, pageCount);
         model.addObject("pageBean", pageBean);
         model.setViewName("orderxx");
@@ -256,13 +258,15 @@ public class OrderController {
                                  @RequestParam("phone") String phone,
                                  ModelAndView model, HttpServletRequest request) {
 
-        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
-        if (user == null) {
-            System.out.println("没有登录");
-            model.setViewName("msg");
-            model.addObject("user_login_error", "没有登录不可以付款");
-            return model;
-        }
+//        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
+//        if (user == null) {
+//            System.out.println("没有登录");
+//            model.setViewName("msg");
+//            model.addObject("user_login_error", "没有登录不可以付款");
+//            return model;
+//        }
+
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
 
         Order orderByOid = orderService.findOrderByOid(oid);
         if (orderByOid == null) {

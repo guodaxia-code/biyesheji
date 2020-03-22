@@ -63,6 +63,15 @@ public class CommonController {
         ImageIO.write(image,"PNG",response.getOutputStream());
     }
 
+
+
+
+    @GetMapping("/msg")
+    public ModelAndView msg(ModelAndView model){
+        model.setViewName("msg");
+        return model;
+    }
+
     @ApiOperation(value = "获取头部页面")
     /*测试head页面*/
     @GetMapping("/head")

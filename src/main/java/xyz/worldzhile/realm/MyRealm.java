@@ -31,7 +31,8 @@ public class MyRealm extends AuthorizingRealm {
 
     //授权
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        String username = (String) principalCollection.getPrimaryPrincipal();
+        User curr_user = (User) principalCollection.getPrimaryPrincipal();
+        String username = curr_user.getUsername();
 
         Set<String> roles = getRolesByUsername(username);
         Set<String> permissions = getPermissionsByUsername(username);
@@ -59,9 +60,17 @@ public class MyRealm extends AuthorizingRealm {
         if (password == null)
             return null;
 
-        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(username, password, "MyRealm");
+        User user=getUserByUsername(username);
+
+        SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(user, password, "MyRealm");
         authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(username));
         return authenticationInfo;
+    }
+
+    private User getUserByUsername(String username) {
+        User user = userDao.findUserByUsername(username);
+        return user;
+
     }
 
     /**
@@ -78,7 +87,7 @@ public class MyRealm extends AuthorizingRealm {
 
 
     public static void main(String[] args) {
-        Md5Hash md5Hash = new Md5Hash("1234567", "Mark");
+        Md5Hash md5Hash = new Md5Hash("123456", "李强5");
         System.out.println(md5Hash.toString());
     }
 }

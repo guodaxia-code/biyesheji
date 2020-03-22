@@ -33,7 +33,7 @@ public class ProductController {
     @GetMapping("getProductByPid")
      public ModelAndView getProductByPid(@RequestParam("pid") String pid,ModelAndView model){
 
-        if (pid==null||pid.length()!=32){
+        if (pid==null||pid.length()<6){
             model.addObject(Constant.USER_MESSAGEG_ERROR,"商品的pid格式不正确");
             model.setViewName("msg");
             return model;
@@ -61,7 +61,7 @@ public class ProductController {
     @GetMapping("getProductsByPage")
     public ModelAndView getProductsByPage(@RequestParam("cid") String cid,@RequestParam(value = "currentPage",defaultValue = "1") Integer currentPage,@RequestParam(value = "pageCount",defaultValue = "8") Integer pageCount,ModelAndView model){
 
-        if (cid==null||cid.length()!=32){
+        if (cid==null||cid.length()<6){
             model.addObject(Constant.USER_MESSAGEG_ERROR,"商品的cid格式不正确");
             model.setViewName("msg");
             return model;

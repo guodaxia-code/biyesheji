@@ -4,6 +4,7 @@ import com.sun.org.apache.regexp.internal.RE;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import xyz.worldzhile.constant.Constant;
 import xyz.worldzhile.domain.Cart;
 import xyz.worldzhile.domain.CartItem;
 import xyz.worldzhile.domain.Product;
+import xyz.worldzhile.domain.User;
 import xyz.worldzhile.service.ProductService;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,26 +33,12 @@ public class CartController {
     @GetMapping("addToCart")
     public ModelAndView addToCart(@RequestParam("pid") String pid, @RequestParam("pcount") Integer pcount, ModelAndView model, HttpServletRequest request){
 
-
         Product product = productService.findOneByPid(pid);
-
         CartItem cartItem = new CartItem(product,pcount);
-
-        HttpSession session = request.getSession();
         //权限校验重复
-        Cart hasCart = (Cart) request.getSession().getAttribute(Constant.USER_CART_SESSION);
-        if (hasCart==null){
-            System.out.println("不要意思,你没有登录没有购物车的权限");
-            model.addObject(Constant.USER_MESSAGEG_ERROR,"不要意思,你没有登录没有购物车的权限");
-            model.setViewName("msg");
-            return model;
-        }
-
+        Cart hasCart = (Cart)SecurityUtils.getSubject().getSession().getAttribute(Constant.USER_CART_SESSION);
         hasCart.addToCart(cartItem);
-
         model.addObject("cartItem",cartItem);
-
-
         model.setViewName("addToCartSuccess");
         return model;
 
@@ -67,31 +55,17 @@ public class CartController {
 
         System.out.println("要查的商品number："+pcount);
 
-        HttpSession session = request.getSession();
         //权限校验重复
-        Cart hasCart = (Cart) request.getSession().getAttribute(Constant.USER_CART_SESSION);
-        if (hasCart==null){
-            System.out.println("不要意思,你没有登录没有购物车的权限");
-            return;
-        }
+        Cart hasCart = (Cart)SecurityUtils.getSubject().getSession().getAttribute(Constant.USER_CART_SESSION);
         hasCart.updateNumberByPid(pid,pcount);
 
 
     }
 
     @GetMapping("seeCart")
-
     public ModelAndView seeCart(HttpServletRequest request,ModelAndView model){
-
         //权限校验
-        Cart hasCart = (Cart) request.getSession().getAttribute(Constant.USER_CART_SESSION);
-        if (hasCart==null){
-            System.out.println("不要意思,你没有登录没有购物车的权限");
-            model.addObject(Constant.USER_MESSAGEG_ERROR,"不要意思,你没有登录没有购物车的权限");
-            model.setViewName("msg");
-            return model;
-        }
-
+        Cart hasCart = (Cart)SecurityUtils.getSubject().getSession().getAttribute(Constant.USER_CART_SESSION);
         model.setViewName("cart");
         return model;
     }
@@ -99,11 +73,7 @@ public class CartController {
     @ResponseBody
     public void removeProductFromCart(@RequestParam("pid") String pid,HttpServletRequest request,ModelAndView model){
         //权限校验
-        Cart hasCart = (Cart) request.getSession().getAttribute(Constant.USER_CART_SESSION);
-        if (hasCart==null){
-            System.out.println("不要意思,你没有登录没有购物车的权限");
-            return ;
-        }
+        Cart hasCart = (Cart)SecurityUtils.getSubject().getSession().getAttribute(Constant.USER_CART_SESSION);
         hasCart.removeFromCart(pid);
 
     }
@@ -111,13 +81,7 @@ public class CartController {
     @GetMapping("cleanCart")
     public ModelAndView cleanCart(HttpServletRequest request,ModelAndView model){
         //权限校验
-        Cart hasCart = (Cart) request.getSession().getAttribute(Constant.USER_CART_SESSION);
-        if (hasCart==null){
-            System.out.println("不要意思,你没有登录没有购物车的权限");
-            model.addObject(Constant.USER_MESSAGEG_ERROR,"不要意思,你没有登录没有购物车的权限");
-            model.setViewName("msg");
-            return model;
-        }
+        Cart hasCart = (Cart)SecurityUtils.getSubject().getSession().getAttribute(Constant.USER_CART_SESSION);
         hasCart.cleanCart();
         model.setViewName("redirect:/cart/seeCart");
         return model;

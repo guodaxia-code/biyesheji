@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="/store/static/mystore/css/base.css"/>
 	<!--    引入自己的index.css-->
     <link rel="stylesheet" href="/store/static/mystore/css/index.css"/>
+
+    <link rel="stylesheet" href="/store/static/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="/store/static/layui/css/admin.css" media="all">
 </head>
 <body>
 
@@ -26,7 +29,7 @@
     <!-- 隐藏的顶部搜索栏 -->
     <div class="top-nav"></div>
     <!-- index自己的导航栏10个+轮播图 -->
-     <div  class="middle grid">
+     <div  class="middle  ">
        <div class="grid-clo1">
            <ul>
               <li><a href="#123">运动户外</a></li>
@@ -41,21 +44,40 @@
               <li><a href="#">运动户外</a></li>
            </ul>
        </div>
-       <a href="#" class="grid-clo2">
-          <img src="/store/static/mystore/images/1947569266905afe6abfff3456751bc4.jpg" alt="Redmi Note8" class="product-picture" >
-       </a>
-       <a href="javascript:void(0)" class="arrow-l"><</a>
-       <a href="javascript:void(0)" class="arrow-r">></a>
-       <ul class="lunbocircle">
-         <li index="0" class="current-lunbo-picture"></li>
-         <li index="1"></li>
-         <li index="2"></li>
-         <li index="3"></li>
-         <li index="4"></li>
-       </ul>
-       
+
+         <div class="layui-carousel" lay-filter="carofilter" id="test1">
+             <div carousel-item id="tus">
+
+                 <th:block th:each="one,oneStat:${lunBoTu}">
+                     <div><a  th:href="'/store/product/getProductsByPage?cid='+${one.cid}+'&pageCount=8'+'&cu'+'rrentPage=1'" class="grid-clo2" ><img width="100%" height="100%"  class="product-picture" th:src="${one.picture}"></a></div>
+                 </th:block>
+<!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src=""></a></div>-->
+<!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src="" alt=""></a></div>-->
+<!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src="" alt=""></a></div>-->
+<!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src="" alt=""></a></div>-->
+<!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src="" alt=""></a></div>-->
+                 <!--                   <div><img src="/store/upload/e5314e39a8af4277a80ca22678710051_timg (3).jpg" alt="Redmi Note1" class="product-picture" ></div>-->
+             </div>
+         </div>
+
+
+<!--       <a href="javascript:void(0)" class="arrow-l"><</a>-->
+<!--       <a href="javascript:void(0)" class="arrow-r">></a>-->
+<!--       <ul class="lunbocircle">-->
+<!--         <li index="0" class="current-lunbo-picture"></li>-->
+<!--         <li index="1"></li>-->
+<!--         <li index="2"></li>-->
+<!--         <li index="3"></li>-->
+<!--         <li index="4"></li>-->
+<!--       </ul>-->
+<!--       -->
         
     </div>
+
+
+
+
+
 
 
 
@@ -106,6 +128,7 @@
 
 
 
+    <script src="/store/static/layui/layui.js"></script>
     <script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
     <script src="/store/static/mystore/js/myjs/head.js"></script>
     <script>
@@ -128,9 +151,64 @@
                     top_nav.style.display="none";
                 }
             }
-            //轮播图+点击切换
-            getLunBoTu();
+
         }
+    </script>
+
+
+
+    <script>
+        //自己的轮播图+点击切换
+        // getLunBoTu();
+
+        // $(function () {
+        //     $.get("/store/category/findLunBoTu",null,function (data) {
+        //         // var chilldren = $("#tus")[0].chilldren;
+        //         // console.log(chilldren.left)
+        //         var tus = document.getElementById("#tus");
+        //         var childrens = tus.children;
+        //         console.log(childrens.length)
+        //
+        //         for (var i = 0; i <data.length ; i++) {
+        //             childrens[i].children[0].children[0].setAttribute("src",data[i].picture);
+        //             alert(data[i].picture)
+        //             childrens[i].children[0].setAttribute("href",'/store/product/getProductsByPage?cid='+data[i].cid+'&currentPage=1&pageCount=8');
+        //             alert('/store/product/getProductsByPage?cid='+data[i].cid+'&currentPage=1&pageCount=8')
+        //         }
+        //         alert("aaa")
+        //     },"json");
+        // })
+
+
+
+        layui.use('carousel', function () {
+            var carousel = layui.carousel;
+            //***************************建造实例
+            var ins=carousel.render({
+                elem: '#test1'
+                , width: '1190x'     //设置容器宽度
+                , height:'460'
+                , arrow: 'always'    //始终显示箭头，可选hover,none
+                ,anim: 'updown'    //切换动画方式，可选fade,default
+                , full: false        //全屏
+                , autoplay: false     //自动切换
+                , interval: 1000     //自动切换的时间间隔
+                , index: 0           //初始化时item索引,默认时0
+                , indicator:'inside' //指示器位置，可选outside,none
+            });
+
+            //**************************监听轮播切换事件
+            carousel.on('change(carofilter)', function (obj) { //test1来源于对应HTML容器的 lay-filter="test1" 属性值
+
+                console.log(obj.index);     //当前条目的索引
+                console.log(obj.prevIndex); //上一个条目的索引
+                console.log(obj.item);      //当前条目的元素对象
+            });
+
+            //****************************重置轮播
+            //var ins = carousel.render(options);
+            ins.reload({arrow:'hover'});//将arror从alway变成hover
+        });
     </script>
 
 

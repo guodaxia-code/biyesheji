@@ -54,13 +54,38 @@
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" >
         <property name="securityManager" ref="ShiroManager"></property>
         <!--   登录页的url     -->
-        <property name="loginUrl" value="login.html"></property>
-        <!--   未认证的跳转页面   -->
-        <property name="unauthorizedUrl" value="403.html"></property>
+        <property name="loginUrl" value="/user/login"></property>
+        <!--   未认证的跳转页面  没有对应的的角色  -->
+        <property name="unauthorizedUrl" value="msg.html"></property>
         <property name="filterChainDefinitions">
             <value>
-<!--                /login.html= anon-->
-                /user/loginIn= anon
+
+                /msg anon
+                /user/login= anon
+                /user/testOrder= authc
+
+
+                /order/payOrder authc
+                /order/seeMyOrdersByPage authc
+                /order/seeMyOrders authc
+                /order/seeOneOrder authc
+                /order/addOrder authc
+
+                /cart/addToCart authc
+                /cartupdateProductNumberFromCart authc
+                /cart/seeCart authc
+                /cart/removeProductFromCart authc
+                /cart/cleanCart   authc
+
+
+
+
+                /admin/index  authc
+
+
+
+
+
 <!--                /index.html= anon-->
 <!--                /*= authc-->
             </value>
@@ -80,11 +105,6 @@
         <property name="hashAlgorithmName" value="md5"></property>
         <property name="hashIterations" value="1"></property>
     </bean>
-
-
-
-
-
 
 
 

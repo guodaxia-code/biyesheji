@@ -41,10 +41,31 @@ public interface CategoryService {
 
 
 
- /*layui分页*/
-    PageBean<Category> findAllByLayuiByPage(int page, int limit);
+ /*layui分页 cname 为条件*/
+//    PageBean<Category> findAllByLayuiByPage(int page, int limit);
 
 
-    /*查看分页*/
+      /*查看分类*/
     Category findOne(String cid);
+
+
+    /**
+     *
+        修改分类图片url
+     */
+    void updatePicture(Category category);
+
+
+    /**
+     * 修改分类 除了url
+     * @param category
+     */
+
+    void updateCategory(Category category);
+
+
+    void insertOne(Category category);
+
+    /*layui分页 cname 为条件*/
+    PageBean<Category> findAllByLayuiByPage(Integer page, Integer limit, String cname);
 }

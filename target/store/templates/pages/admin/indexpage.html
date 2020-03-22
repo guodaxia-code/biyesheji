@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<title>至乐购后台管理系统</title>
+	<link rel="stylesheet" href="/store/static/layui/css/layui.css">
+</head>
+<body>
+	<!-- 主容器 -->
+	<div class="layui-layout-admin">
+		<!-- 头部内容区 -->
+		<div class="layui-header">
+			<!-- 项目标题 -->
+			<div class="layui-logo">
+				至乐购后台管理系统
+			</div>
+			<!-- 管理员登录信息 -->
+			<div class="layui-layout-right">
+				<ul class="layui-nav">
+					<!-- 当前管理员信息 一个nav 分耳二级菜单 -->
+					<li class="layui-nav-item">
+						<a href="#">
+							<img src="aaa.jpg" class="layui-nav-img"  alt="">
+							<span th:text="${session.user_login_session.username}">郭健全</span>
+						</a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="">个人信息</a>
+							</dd>
+							<dd>
+								<a href="">资料修改</a>
+							</dd>
+							<hr/>
+							<dd>
+								<a href="">退出登录</a>
+							</dd>
+							
+						</dl>
+
+					</li>
+
+
+
+
+				</ul>
+				
+			</div>
+
+
+		</div>
+
+		<!-- 侧边导航栏 -->
+		<div class="layui-side layui-bg-black">
+			<ul class="layui-nav layui-nav-tree">
+				<li class="layui-nav-item">
+					<a href="javascript:void(0)">
+						<i class="layui-icon layui-icon-home"></i>
+						主页
+					</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="#">
+						<i class="layui-icon layui-icon-user"></i>
+						学员管理
+					</a>
+				</li>
+
+				<li class="layui-nav-item">
+					<a href="#">
+						<i class="layui-icon layui-icon-set"></i>
+						分类管理
+					</a>
+					<!-- 二级菜单 -->
+					<dl class="layui-nav-child">
+						<dd>
+							<a href="/store/category/findAllPage">查看所有分类</a>
+						</dd>
+						<dd>
+							<a href="角色管理.html">角色管理</a>
+						</dd>
+						<dd>
+							<a href="权限管理.html">权限管理</a>
+						</dd>
+					</dl>
+
+				</li>
+
+
+				<li class="layui-nav-item">
+					<a href="#">
+						<i class="layui-icon layui-icon-set"></i>
+						系统管理
+					</a>
+					<!-- 二级菜单 -->
+					<dl class="layui-nav-child">
+						<dd>
+							<a href="用户管理.html">用户管理</a>
+						</dd>
+						<dd>
+							<a href="角色管理.html">角色管理</a>
+						</dd>
+						<dd>
+							<a href="权限管理.html">权限管理</a>
+						</dd>
+					</dl>
+
+				</li>
+
+
+				<li class="layui-nav-item">
+					<a href="#">
+						<i class="layui-icon layui-icon-set"></i>
+						系统管理
+					</a>
+					<!-- 二级菜单 -->
+					<dl class="layui-nav-child">
+						<dd>
+							<a href="用户管理.html">用户管理</a>
+						</dd>
+						<dd>
+							<a href="角色管理.html">角色管理</a>
+						</dd>
+						<dd>
+							<a href="权限管理.html">权限管理</a>
+						</dd>
+					</dl>
+
+				</li>
+			</ul>
+		
+		
+
+		</div>
+
+		<!-- 主内容区 -->
+		<div class="layui-body">
+				
+
+			<iframe src=""  id="main_Contetnt" name="main_Contetnt" style="width: 100%;height: 100%;"  frameborder="0"></iframe>
+			
+
+		</div>
+
+		<!-- 下方脚注区 -->
+		<div class="layui-footer">
+			李强互联网科技有限公司
+		</div>
+
+	</div>
+	<script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
+	<script src="/store/static/layui/layui.all.js"></script>
+
+	<script>
+		$(document).ready(function(){
+       $("dd>a").click(function (e) {
+            e.preventDefault();
+            $("#main_Contetnt").attr("src",$(this).attr("href"));
+            console.log($(this).attr("href"));
+        });
+    });
+
+
+	
+	</script>
+
+</body>
+</html>

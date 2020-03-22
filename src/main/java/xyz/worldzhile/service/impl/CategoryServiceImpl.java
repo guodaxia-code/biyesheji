@@ -81,13 +81,23 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryDao.findOneByCid(cid).getCname();
     }
 
-    @Override
-    public PageBean<Category> findAllByLayuiByPage(int page, int limit) {
 
-        int count = categoryDao.findCount();
+    @Override
+    public PageBean<Category> findAllByLayuiByPage(Integer page, Integer limit, String cname) {
+
+        System.out.println(cname);
+
+
+
+
+
+        int count = categoryDao.findCountByCname(cname);
+        System.out.println(count+"dao");
         PageBean<Category> pageBean = new PageBean<Category>(page,limit,count);
 
-        List<Category> allByLayuiByPage = categoryDao.findAllByLayuiByPage(pageBean.getStart(), pageBean.getPageCount());
+        List<Category> allByLayuiByPage = categoryDao.findAllByLayuiByPage(pageBean.getStart(), pageBean.getPageCount(),cname);
+
+        System.out.println(allByLayuiByPage.toString());
         pageBean.setList(allByLayuiByPage);
 
 
@@ -98,6 +108,28 @@ public class CategoryServiceImpl implements CategoryService {
     public Category findOne(String cid) {
         return categoryDao.findOneByCid(cid);
     }
+
+    @Override
+    public void updatePicture(Category giveMe) {
+        Category oneByCid = categoryDao.findOneByCid(giveMe.getCid());
+        oneByCid.setPicture(giveMe.getPicture());
+        categoryDao.updateCategory(oneByCid);
+    }
+
+    @Override
+    public void updateCategory(Category category) {
+        Category oneByCid = categoryDao.findOneByCid(category.getCid());
+        oneByCid.setCname(category.getCname());
+        oneByCid.setHot(category.getHot());
+        categoryDao.updateCategory(oneByCid);
+    }
+
+    @Override
+    public void insertOne(Category category) {
+        categoryDao.insert(category);
+    }
+
+
 
 
 }

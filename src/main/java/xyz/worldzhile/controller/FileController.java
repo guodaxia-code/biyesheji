@@ -20,7 +20,7 @@ public class FileController {
 
     @PostMapping("uploadFiles")
     @ResponseBody
-    public List<String> uploadFiles(HttpServletRequest request, @RequestParam(value="upload",required=false) MultipartFile[] uploadFiles){
+    public List<String> uploadFiles(HttpServletRequest request, @RequestParam(value="file",required=true) MultipartFile[] uploadFiles){
 
         System.out.println("文件上传");
         //传统文件上传使用fileupload组件
@@ -54,7 +54,7 @@ public class FileController {
                 try {
                     multipartFile.transferTo(new File(path,fieldName));
                     System.out.println(multipartFile+"：文件上传成功");
-                    listImagePath.add("http://localhost:8080/store/upload/"+fieldName);
+                    listImagePath.add("/store/upload/"+fieldName);
                 } catch (IOException e) {
                     System.out.println(multipartFile+"：文件上传失败");
                     e.printStackTrace();

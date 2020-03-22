@@ -44,8 +44,33 @@ public interface CategoryDao {
     int findCount();
 
 
-    /*layui 分页查询*/
-    @Select("select * from category   limit #{start},#{pageCount}")
+    /*layui 分页查询 cname weitiaojiao */
+    @Select("<script>"+"SELECT * FROM category  where 1=1 "
+            +"<if test='cname!=null'> and cname like CONCAT('%',#{cname},'%')</if>"
+            +"limit #{start},#{pageCount}"
+            +"</script>"
+    )
     @ResultMap("CategoryMap")
-    List<Category> findAllByLayuiByPage(@Param("start") int start, @Param("pageCount")Integer pageCount);
+    List<Category> findAllByLayuiByPage(@Param("start") int start, @Param("pageCount") Integer pageCount,@Param("cname") String cname);
+
+
+
+    /*修改*/
+    @Update("update category set cname=#{cname},picture=#{picture},hot=#{hot} where cid=#{cid}")
+    void updateCategory(Category oneByCid);
+
+
+    /*添加*/
+    @Insert("insert into category values ( #{cid},#{cname},#{picture},#{hot}) ")
+    void insert(Category category);
+
+
+
+
+//+"<if test='cname!=null'> and cname like CONCAT('%',#{cname},'%')</if>"
+    @Select("<script>"+"SELECT count(cid) FROM category  where 1=1 "
+            +" and cname like CONCAT('%',#{cname},'%') "
+            +"</script>"
+    )
+    int findCountByCname(String cname);
 }
