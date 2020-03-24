@@ -19,6 +19,9 @@
     <context:component-scan base-package="xyz.worldzhile.dao"> </context:component-scan>
     <context:component-scan base-package="xyz.worldzhile.service"> </context:component-scan>
 
+
+    <context:component-scan base-package="xyz.worldzhile.shiro"> </context:component-scan>
+
 <!--    配置读取多个配置文件-->
     <bean id="property" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -51,63 +54,76 @@
 
 
     <!--    shiro配置-->
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" >
-        <property name="securityManager" ref="ShiroManager"></property>
-        <!--   登录页的url     -->
-        <property name="loginUrl" value="/user/login"></property>
-        <!--   未认证的跳转页面  没有对应的的角色  -->
-        <property name="unauthorizedUrl" value="msg.html"></property>
-        <property name="filterChainDefinitions">
-            <value>
+<!--    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" >-->
+<!--        <property name="securityManager" ref="ShiroManager"></property>-->
+<!--        &lt;!&ndash;   登录页的url     &ndash;&gt;-->
+<!--        <property name="loginUrl" value="/user/login"></property>-->
+<!--        &lt;!&ndash;   未认证的跳转页面  没有对应的的角色  &ndash;&gt;-->
+<!--        <property name="unauthorizedUrl" value="msg.html"></property>-->
+<!--        <property name="filterChainDefinitions">-->
+<!--            <value>-->
 
-                /msg anon
-                /user/login= anon
-                /user/testOrder= authc
-
-
-                /order/payOrder authc
-                /order/seeMyOrdersByPage authc
-                /order/seeMyOrders authc
-                /order/seeOneOrder authc
-                /order/addOrder authc
-
-                /cart/addToCart authc
-                /cartupdateProductNumberFromCart authc
-                /cart/seeCart authc
-                /cart/removeProductFromCart authc
-                /cart/cleanCart   authc
+<!--                /msg anon-->
+<!--                /user/login= anon-->
+<!--                /user/testOrder= authc-->
 
 
+<!--                /order/payOrder authc-->
+<!--                /order/seeMyOrdersByPage authc-->
+<!--                /order/seeMyOrders authc-->
+<!--                /order/seeOneOrder authc-->
+<!--                /order/addOrder authc-->
 
-
-                /admin/index  authc
+<!--                /cart/addToCart authc-->
+<!--                /cartupdateProductNumberFromCart authc-->
+<!--                /cart/seeCart authc-->
+<!--                /cart/removeProductFromCart authc-->
+<!--                /cart/cleanCart   authc-->
 
 
 
 
+<!--                /admin/index  authc-->
 
-<!--                /index.html= anon-->
-<!--                /*= authc-->
-            </value>
+
+
+<!--&lt;!&ndash;                /index.html= anon&ndash;&gt;-->
+<!--&lt;!&ndash;                /*= authc&ndash;&gt;-->
+<!--            </value>-->
+<!--        </property>-->
+<!--    </bean>-->
+
+<!--    <bean id="ShiroManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">-->
+<!--&lt;!&ndash;        <property name="sessionManager" ref="sessionManager"></property>&ndash;&gt;-->
+<!--        <property name="realm" ref="myRealm"></property>-->
+
+<!--    </bean>-->
+
+<!--    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">-->
+<!--        <property name="sessionDAO" ref="sessiondao"></property>-->
+<!--    </bean>-->
+<!--    <bean id="sessiondao" class="xyz.worldzhile.config.RedisSessionDao"></bean>-->
+
+<!--    <bean id="myRealm" class="xyz.worldzhile.realm.MyRealm">-->
+<!--        <property name="credentialsMatcher" ref="hashedCredentialsMatcher"></property>-->
+<!--    </bean>-->
+
+<!--    <bean id="hashedCredentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">-->
+<!--        <property name="hashAlgorithmName" value="md5"></property>-->
+<!--        <property name="hashIterations" value="1"></property>-->
+<!--    </bean>-->
+
+
+
+
+    <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <!-- 错误异常转发 -->
+                <prop key="org.apache.shiro.authz.UnauthorizedException">/errors/nopermission</prop>
+            </props>
         </property>
     </bean>
-
-    <bean id="ShiroManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
-        <property name="realm" ref="myRealm"></property>
-
-    </bean>
-
-    <bean id="myRealm" class="xyz.worldzhile.realm.MyRealm">
-        <property name="credentialsMatcher" ref="hashedCredentialsMatcher"></property>
-    </bean>
-
-    <bean id="hashedCredentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
-        <property name="hashAlgorithmName" value="md5"></property>
-        <property name="hashIterations" value="1"></property>
-    </bean>
-
-
-
 
 
 
@@ -162,9 +178,6 @@
             <aop:before method="printf" pointcut-ref="pt1"></aop:before>
         </aop:aspect>
     </aop:config>-->
-
-
-
 
 
 

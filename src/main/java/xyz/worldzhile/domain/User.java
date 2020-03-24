@@ -2,7 +2,10 @@ package xyz.worldzhile.domain;
 
 import io.swagger.annotations.ApiModel;
 
-public class User {
+import java.io.Serializable;
+import java.util.List;
+
+public class User implements Serializable {
     private String uid;
     private String username;
     private String password;
@@ -12,6 +15,16 @@ public class User {
     private String phone;
     private String code;
     private Integer states;
+
+
+
+
+
+
+
+
+
+
 
     public String getUid() {
         return uid;

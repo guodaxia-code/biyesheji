@@ -5,116 +5,206 @@
     <meta charset="UTF-8">
     <title>至乐购(worldzhile.xyz)-正品低价、品质保障、配送及时、轻松购物！</title>
     <!-- 网站seo 搜索引擎优化 -->
-	<meta name="description" content="至乐购worldzhile.xyz-专业的综合网上购物商城,销售家电、数码通讯、电脑、家居百货、服装服饰、母婴、图书、食品等数万个品牌优质商品.便捷、诚信的服务，为您提供愉悦的网上购物体验!">
-	<meta name="Keywords" content="网上购物,网上商城,手机,笔记本,电脑,MP3,CD,VCD,DV,相机,数码,配件,手表,存储卡,至乐购">
+    <meta name="description" content="至乐购worldzhile.xyz-专业的综合网上购物商城,销售家电、数码通讯、电脑、家居百货、服装服饰、母婴、图书、食品等数万个品牌优质商品.便捷、诚信的服务，为您提供愉悦的网上购物体验!">
+    <meta name="Keywords" content="网上购物,网上商城,手机,笔记本,电脑,MP3,CD,VCD,DV,相机,数码,配件,手表,存储卡,至乐购">
 
-	<!--  网站图标  -->
+    <!--  网站图标  -->
     <link rel="shortcut icon" href="/store/static/mystore/favicon.ico">
-	<!--    初始化css    -->
+    <!--    初始化css    -->
     <link rel="stylesheet" href="/store/static/mystore/css/normalize.css">
     <!--    引入公共的base.css-->
     <link rel="stylesheet" href="/store/static/mystore/css/base.css"/>
-	<!--    引入自己的index.css-->
+    <!--    引入自己的index.css-->
     <link rel="stylesheet" href="/store/static/mystore/css/index.css"/>
 
     <link rel="stylesheet" href="/store/static/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/store/static/layui/css/admin.css" media="all">
+
+
+    <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/style.css">
 </head>
 <body>
 
 
 
-    <div id="headpage">head</div>
+<div id="headpage">head</div>
 
-    <!-- 隐藏的顶部搜索栏 -->
-    <div class="top-nav"></div>
-    <!-- index自己的导航栏10个+轮播图 -->
-     <div  class="middle  ">
-       <div class="grid-clo1">
-           <ul>
-              <li><a href="#123">运动户外</a></li>
-              <li><a href="#">运动户外</a></li>
-              <li><a href="#">运动户外</a></li>
-              <li><a href="#">运动户外</a></li>
-              <li><a href="#">运动户外</a></li>
-              <li><a href="#">运动户外</a></li>
-              <li><a href="#">运动户外</a></li>
-              <li><a href="#">运动户外</a></li>
-              <li><a href="#">运动户外</a></li>
-              <li><a href="#">运动户外</a></li>
-           </ul>
-       </div>
-
-         <div class="layui-carousel" lay-filter="carofilter" id="test1">
-             <div carousel-item id="tus">
-
-                 <th:block th:each="one,oneStat:${lunBoTu}">
-                     <div><a  th:href="'/store/product/getProductsByPage?cid='+${one.cid}+'&pageCount=8'+'&cu'+'rrentPage=1'" class="grid-clo2" ><img width="100%" height="100%"  class="product-picture" th:src="${one.picture}"></a></div>
-                 </th:block>
-<!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src=""></a></div>-->
-<!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src="" alt=""></a></div>-->
-<!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src="" alt=""></a></div>-->
-<!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src="" alt=""></a></div>-->
-<!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src="" alt=""></a></div>-->
-                 <!--                   <div><img src="/store/upload/e5314e39a8af4277a80ca22678710051_timg (3).jpg" alt="Redmi Note1" class="product-picture" ></div>-->
-             </div>
-         </div>
-
-
-<!--       <a href="javascript:void(0)" class="arrow-l"><</a>-->
-<!--       <a href="javascript:void(0)" class="arrow-r">></a>-->
-<!--       <ul class="lunbocircle">-->
-<!--         <li index="0" class="current-lunbo-picture"></li>-->
-<!--         <li index="1"></li>-->
-<!--         <li index="2"></li>-->
-<!--         <li index="3"></li>-->
-<!--         <li index="4"></li>-->
-<!--       </ul>-->
-<!--       -->
-        
+<!-- 隐藏的顶部搜索栏 -->
+<div class="top-nav"></div>
+<!-- index自己的导航栏10个+轮播图 -->
+<div  class="middle  ">
+    <div class="grid-clo1">
+        <ul>
+            <li><a href="#123">运动户外</a></li>
+            <li><a href="#">运动户外</a></li>
+            <li><a href="#">运动户外</a></li>
+            <li><a href="#">运动户外</a></li>
+            <li><a href="#">运动户外</a></li>
+            <li><a href="#">运动户外</a></li>
+            <li><a href="#">运动户外</a></li>
+            <li><a href="#">运动户外</a></li>
+            <li><a href="#">运动户外</a></li>
+            <li><a href="#">运动户外</a></li>
+        </ul>
     </div>
 
+    <div class="layui-carousel" lay-filter="carofilter" id="test1">
+        <div carousel-item id="tus">
 
-
-
-
-
-
-
-
-    <div>1234566666</div>
-
-
-
-
-    <div style="height: 50px">
-        二级导航栏+轮播图
-        热门产品
-        <div ></div>
-        推荐产品
-
-        手机一个模块
-
-        家电一个模块
-
-    </div>
-    <div class="index-nav">123</div>
-
-    <div style="height: 1000px; background-color:pink;">
-
-        <div th:each="one,oneStat:${hotList}">
-            <a style="display: block" th:href="'/store/product/getProductByPid?pid='+${one.pid}"><img th:src="${one.ppicture}" width="200px" height="200px"></img></a>
-            <h5 th:text="${one.ppicture}"></h5>
-            <h5 th:text="${one.pname}"></h5>
-            <h5 th:text="${one.rel_price}"></h5>
-
+            <th:block th:each="one,oneStat:${lunBoTu}">
+                <div><a  th:href="'/store/product/getProductsByPage?cid='+${one.cid}+'&pageCount=8'+'&cu'+'rrentPage=1'" class="grid-clo2" ><img width="100%" height="100%"  class="product-picture" th:src="${one.picture}"></a></div>
+            </th:block>
+            <!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src=""></a></div>-->
+            <!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src="" alt=""></a></div>-->
+            <!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src="" alt=""></a></div>-->
+            <!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src="" alt=""></a></div>-->
+            <!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src="" alt=""></a></div>-->
+            <!--                   <div><img src="/store/upload/e5314e39a8af4277a80ca22678710051_timg (3).jpg" alt="Redmi Note1" class="product-picture" ></div>-->
         </div>
-        <div th:text="${hotList}"></div>
-
-
     </div>
 
 
+    <!--       <a href="javascript:void(0)" class="arrow-l"><</a>-->
+    <!--       <a href="javascript:void(0)" class="arrow-r">></a>-->
+    <!--       <ul class="lunbocircle">-->
+    <!--         <li index="0" class="current-lunbo-picture"></li>-->
+    <!--         <li index="1"></li>-->
+    <!--         <li index="2"></li>-->
+    <!--         <li index="3"></li>-->
+    <!--         <li index="4"></li>-->
+    <!--       </ul>-->
+    <!--       -->
+
+</div>
+
+
+
+
+
+
+
+
+    <div  class="middle" style="height: 760px;width: 1190px" >
+        <div class="danpin center">
+
+            <div class="biaoti center">最新产品</div>
+            <div class="main center">
+
+<!--                <div th:each="one,oneStat:${hotList}">-->
+<!--                    <a style="display: block" th:href="'/store/product/getProductByPid?pid='+${one.pid}"><img th:src="${one.ppicture}" width="200px" height="200px"></img></a>-->
+<!--                    <h5 th:text="${one.ppicture}"></h5>-->
+<!--                    <h5 th:text="${one.pname}"></h5>-->
+<!--                    <h5 th:text="${one.rel_price}"></h5>-->
+
+<!--                </div>-->
+
+<!--                <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">&ndash;&gt;-->
+<!--                                            <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"><img th:src="${one.ppicture}" alt=""></a></div>-->
+<!--                                            <div class="pinpai"><a href="./xiangqing.html"  th:text="${one.pname}" target="_blank">小米6</a></div>-->
+<!--                                            <div class="youhui">5.16早10点开售</div>-->
+<!--                                            <div class="jiage" th:text="${one.rel_price}">2499.00元</div>-->
+<!--                                        </div>-->
+
+                <th:block   th:each="one,oneStart:${newList}">
+                    <th:block th:if="${oneStart.index<=4}">
+                        <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
+                            <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"><img th:src="${one.ppicture}" alt=""></a></div>
+                            <div class="pinpai"><a href="JavaScript:void(0);"  th:text="${one.pname}" >小米6</a></div>
+                            <div class="youhui"  >5.16早10点开售</div>
+                            <div class="jiage" th:text="${one.rel_price}">2499.00元</div>
+                        </div>
+                    </th:block>
+
+                </th:block>
+
+
+                <div class="clear"></div>
+            </div>
+            <div class="main center mb20">
+
+                <th:block   th:each="one,oneStart:${newList}">
+                    <th:block th:if="${oneStart.index>=5}">
+                        <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
+                            <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"><img th:src="${one.ppicture}" alt=""></a></div>
+                            <div class="pinpai"><a href="JavaScript:void(0);"  th:text="${one.pname}" >小米6</a></div>
+                            <div class="youhui"  >5.16早10点开售</div>
+                            <div class="jiage" th:text="${one.rel_price}">2499.00元</div>
+                        </div>
+                    </th:block>
+
+                </th:block>
+
+
+<!--                <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">-->
+<!--                    <div class="sub_mingxing"><a href=""><img src="./image/liebiao_xiaomi5.jpg" alt=""></a></div>-->
+<!--                    <div class="pinpai"><a href="">小米手机5</a></div>-->
+<!--                    <div class="youhui">骁龙820处理器 / UFS 2.0 闪存</div>-->
+<!--                    <div class="jiage">1799.00元</div>-->
+<!--                </div>-->
+
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div  class="middle" style="height: 760px;width: 1190px" >
+    <div class="danpin center">
+
+        <div class="biaoti center">热门产品</div>
+        <div class="main center">
+            <th:block   th:each="one,oneStart:${hotList}">
+                <th:block th:if="${oneStart.index<=4}">
+                    <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
+                        <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"><img th:src="${one.ppicture}" alt=""></a></div>
+                        <div class="pinpai"><a href="JavaScript:void(0);"  th:text="${one.pname}" >小米6</a></div>
+                        <div class="youhui"  >5.16早10点开售</div>
+                        <div class="jiage" th:text="${one.rel_price}">2499.00元</div>
+                    </div>
+                </th:block>
+
+            </th:block>
+
+            <div class="clear"></div>
+        </div>
+        <div class="main center mb20">
+            <th:block   th:each="one,oneStart:${hotList}">
+                <th:block th:if="${oneStart.index>=5}">
+                    <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
+                        <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"><img th:src="${one.ppicture}" alt=""></a></div>
+                        <div class="pinpai"><a href="JavaScript:void(0);"  th:text="${one.pname}" >小米6</a></div>
+                        <div class="youhui"  >5.16早10点开售</div>
+                        <div class="jiage" th:text="${one.rel_price}">2499.00元</div>
+                    </div>
+                </th:block>
+
+            </th:block>
+
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+<!--<div style="height: 1000px; background-color:pink;">-->
+
+<!--    <div th:each="one,oneStat:${hotList}">-->
+<!--        <a style="display: block" th:href="'/store/product/getProductByPid?pid='+${one.pid}"><img th:src="${one.ppicture}" width="200px" height="200px"></img></a>-->
+<!--        <h5 th:text="${one.ppicture}"></h5>-->
+<!--        <h5 th:text="${one.pname}"></h5>-->
+<!--        <h5 th:text="${one.rel_price}"></h5>-->
+
+<!--    </div>-->
+
+
+
+<!--</div>-->
 
 
 
@@ -124,92 +214,94 @@
 
 
 
-    <div id="footerpage">footerpage</div>
+
+
+<div id="footerpage">footerpage</div>
 
 
 
-    <script src="/store/static/layui/layui.js"></script>
-    <script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
-    <script src="/store/static/mystore/js/myjs/head.js"></script>
-    <script>
-        $(function () {
-            load_headpage_and_footerpage();
-            getCategoryTenNumber();
-        })
-    </script>
-    <script src="/store/static/mystore/js/myjs/index.js"></script>
-    <script>
-        window.onload=function(){
-            <!-- 顶部导航栏 -->
-            window.onscroll=function(){
-                console.log("aaatop");
-                var top=document.documentElement.scrollTop;
-                var top_nav=document.getElementsByClassName("top-nav")[0];
-                if(top>100){
-                    top_nav.style.display="block";
-                }else{
-                    top_nav.style.display="none";
-                }
+<script src="/store/static/layui/layui.js"></script>
+<script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
+<script src="/store/static/mystore/js/myjs/head.js"></script>
+<script>
+    $(function () {
+        load_headpage_and_footerpage();
+        getCategoryTenNumber();
+    })
+</script>
+<script src="/store/static/mystore/js/myjs/index.js"></script>
+<script>
+    window.onload=function(){
+        <!-- 顶部导航栏 -->
+        window.onscroll=function(){
+            console.log("aaatop");
+            var top=document.documentElement.scrollTop;
+            var top_nav=document.getElementsByClassName("top-nav")[0];
+            if(top>100){
+                top_nav.style.display="block";
+            }else{
+                top_nav.style.display="none";
             }
-
         }
-    </script>
+
+    }
+</script>
 
 
 
-    <script>
-        //自己的轮播图+点击切换
-        // getLunBoTu();
+<script>
+    //自己的轮播图+点击切换
+    // getLunBoTu();
 
-        // $(function () {
-        //     $.get("/store/category/findLunBoTu",null,function (data) {
-        //         // var chilldren = $("#tus")[0].chilldren;
-        //         // console.log(chilldren.left)
-        //         var tus = document.getElementById("#tus");
-        //         var childrens = tus.children;
-        //         console.log(childrens.length)
-        //
-        //         for (var i = 0; i <data.length ; i++) {
-        //             childrens[i].children[0].children[0].setAttribute("src",data[i].picture);
-        //             alert(data[i].picture)
-        //             childrens[i].children[0].setAttribute("href",'/store/product/getProductsByPage?cid='+data[i].cid+'&currentPage=1&pageCount=8');
-        //             alert('/store/product/getProductsByPage?cid='+data[i].cid+'&currentPage=1&pageCount=8')
-        //         }
-        //         alert("aaa")
-        //     },"json");
-        // })
+    // $(function () {
+    //     $.get("/store/category/findLunBoTu",null,function (data) {
+    //         // var chilldren = $("#tus")[0].chilldren;
+    //         // console.log(chilldren.left)
+    //         var tus = document.getElementById("#tus");
+    //         var childrens = tus.children;
+    //         console.log(childrens.length)
+    //
+    //         for (var i = 0; i <data.length ; i++) {
+    //             childrens[i].children[0].children[0].setAttribute("src",data[i].picture);
+    //             alert(data[i].picture)
+    //             childrens[i].children[0].setAttribute("href",'/store/product/getProductsByPage?cid='+data[i].cid+'&currentPage=1&pageCount=8');
+    //             alert('/store/product/getProductsByPage?cid='+data[i].cid+'&currentPage=1&pageCount=8')
+    //         }
+    //         alert("aaa")
+    //     },"json");
+    // })
 
 
 
-        layui.use('carousel', function () {
-            var carousel = layui.carousel;
-            //***************************建造实例
-            var ins=carousel.render({
-                elem: '#test1'
-                , width: '1190x'     //设置容器宽度
-                , height:'460'
-                , arrow: 'always'    //始终显示箭头，可选hover,none
-                ,anim: 'updown'    //切换动画方式，可选fade,default
-                , full: false        //全屏
-                , autoplay: false     //自动切换
-                , interval: 1000     //自动切换的时间间隔
-                , index: 0           //初始化时item索引,默认时0
-                , indicator:'inside' //指示器位置，可选outside,none
-            });
-
-            //**************************监听轮播切换事件
-            carousel.on('change(carofilter)', function (obj) { //test1来源于对应HTML容器的 lay-filter="test1" 属性值
-
-                console.log(obj.index);     //当前条目的索引
-                console.log(obj.prevIndex); //上一个条目的索引
-                console.log(obj.item);      //当前条目的元素对象
-            });
-
-            //****************************重置轮播
-            //var ins = carousel.render(options);
-            ins.reload({arrow:'hover'});//将arror从alway变成hover
+    layui.use('carousel', function () {
+        var carousel = layui.carousel;
+        //***************************建造实例
+        var ins=carousel.render({
+            elem: '#test1'
+            , width: '1190x'     //设置容器宽度
+            , height:'460'
+            , arrow: 'always'    //始终显示箭头，可选hover,none
+            ,anim: 'updown'    //切换动画方式，可选fade,default
+            , full: false        //全屏
+            , autoplay: false     //自动切换
+            , interval: 1000     //自动切换的时间间隔
+            , index: 0           //初始化时item索引,默认时0
+            , indicator:'inside' //指示器位置，可选outside,none
         });
-    </script>
+
+        //**************************监听轮播切换事件
+        carousel.on('change(carofilter)', function (obj) { //test1来源于对应HTML容器的 lay-filter="test1" 属性值
+
+            console.log(obj.index);     //当前条目的索引
+            console.log(obj.prevIndex); //上一个条目的索引
+            console.log(obj.item);      //当前条目的元素对象
+        });
+
+        //****************************重置轮播
+        //var ins = carousel.render(options);
+        ins.reload({arrow:'hover'});//将arror从alway变成hover
+    });
+</script>
 
 
 
@@ -223,4 +315,3 @@
 
 </body>
 </html>
-

@@ -10,13 +10,16 @@ import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
+import org.mapstruct.Qualifier;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import xyz.worldzhile.dao.PermissionDao;
 import xyz.worldzhile.dao.RoleDao;
 import xyz.worldzhile.dao.UserDao;
 import xyz.worldzhile.domain.User;
 
 import java.util.Set;
+
 
 public class MyRealm extends AuthorizingRealm {
 
@@ -28,6 +31,8 @@ public class MyRealm extends AuthorizingRealm {
 
     @Autowired
     PermissionDao permissionDao;
+
+
 
     //授权
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {

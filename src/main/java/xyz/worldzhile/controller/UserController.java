@@ -33,16 +33,16 @@ public class UserController {
     @ApiOperation(value = "用户注册页面")
     @GetMapping("register")
     public ModelAndView register(){
-
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("redirect:/templates/pages/register.html");
         return modelAndView;
     }
+
+
     @ApiOperation(value = "用户注册提交数据")
     @ApiImplicitParam(paramType = "query",name="code",value = "提交的验证码",required = true)
     @PostMapping("register")
     public ModelAndView register(User user, ModelAndView model, @RequestParam("checkCode")String code, HttpServletRequest request){
-
 
         String sessionCheckCode = (String) request.getSession().getAttribute(Constant.CHECKCODE_SESSION);
         request.getSession().removeAttribute(Constant.CHECKCODE_SESSION);
@@ -63,7 +63,6 @@ public class UserController {
             return model;
         }
 
-
         //用户服务
         user.setUid(UuidUtil.getUuid());
         user.setCode(UuidUtil.getUuid());
@@ -79,6 +78,7 @@ public class UserController {
         model.addObject(Constant.USER_MESSAGEG_SUCCESS, "恭喜你，成功注册了,请登录邮箱进行账号激活");
         return model;
     }
+
 
     @ApiOperation(value = "用户激活账号")
     @ApiImplicitParam(paramType = "query",name="code",value = "提交的验证码" ,required = true)
@@ -122,14 +122,6 @@ public class UserController {
     }
 
 
-//    @ApiOperation(value = "用户登录信息提交")
-//    @ApiImplicitParams(value = {
-//            @ApiImplicitParam(paramType = "query",name="code",value = "提交的验证码",required = true),
-//            @ApiImplicitParam(paramType = "query",name="user",value = "提交的用户信息",required = true) //不知道的类型 默认String
-//    })
-
-
-
     @GetMapping("exit")
     public ModelAndView exit(ModelAndView model){
         SecurityUtils.getSubject().logout();
@@ -139,21 +131,7 @@ public class UserController {
 
 
     @PostMapping("login")
-    public ModelAndView login(ModelAndView model, User user, @RequestParam("checkCode")String code, HttpServletRequest request, HttpServletResponse response){
-
-//        String sessionCheckCode = (String) request.getSession().getAttribute(Constant.CHECKCODE_SESSION);
-//        request.getSession().removeAttribute(Constant.CHECKCODE_SESSION);
-//        if (sessionCheckCode==null){
-//            request.setAttribute(Constant.USER_MESSAGEG_ERROR,"验证码不存在");
-//            model.setViewName("login");
-//            return model;
-//        }
-//        if (!sessionCheckCode.equalsIgnoreCase(code)){
-//            request.setAttribute(Constant.USER_MESSAGEG_ERROR,"验证码错误");
-//            model.setViewName("login");
-//            return model;
-//        }
-
+    public ModelAndView login(ModelAndView model, User user, HttpServletRequest request, HttpServletResponse response){
 
         String loginUsername=user.getUsername();
         if (userService.isUnique(loginUsername)){
@@ -171,7 +149,6 @@ public class UserController {
         }
 
         boolean login = userService.login(user);
-
 
         if (login){
             Session session = SecurityUtils.getSubject().getSession();
@@ -204,27 +181,20 @@ public class UserController {
 
 
 
-
-
-
-
-
-
     @GetMapping("testOrder")
     public ModelAndView aa(HttpServletRequest request,ModelAndView model){
         model.setViewName("testOrder");
         Session session = SecurityUtils.getSubject().getSession();
         String shiro = (String) session.getAttribute("shirosession");
 
-
         System.out.println(shiro+"-----------------------");
-
 //        ShiroUser user = SecurityUtils.getSubject().getPrincipal();
-
         String loginAccount = SecurityUtils.getSubject().getPrincipal().toString();
         System.out.println(loginAccount);
         return model;
     }
+
+
 
 
 }

@@ -10,6 +10,9 @@
 
     <!--    开启扫描bean 注解-->
     <context:component-scan base-package="xyz.worldzhile.controller"></context:component-scan>
+    <context:component-scan base-package="xyz.worldzhile.shiro"></context:component-scan>
+<!--    <context:component-scan base-package="xyz.worldzhile"></context:component-scan>-->
+
 
     <!--    视图解析器-->
    <!-- <bean id="internalResourceViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -72,10 +75,11 @@
 
     <!--  开启shiro扫包权限  -->
     <aop:config proxy-target-class="true" />
-    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>
-    <bean id="authorizationAttributeSourceAdvisor" class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-        <property name="securityManager" ref="ShiroManager"></property>
-    </bean>
+    <!-- shiro 整合spring  生命周期 和通知   -->
+<!--    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"></bean>-->
+<!--    <bean id="authorizationAttributeSourceAdvisor" class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">-->
+<!--        <property name="securityManager" ref="ShiroManager"></property>-->
+<!--    </bean>-->
 
 
 
@@ -111,12 +115,6 @@
     <context:component-scan base-package="xyz.worldzhile.controller,xyz.worldzhile.swagger"/>
     <mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/"/>
     <mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/"/>
-
-
-
-
-
-
 
 
 

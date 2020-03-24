@@ -17,7 +17,7 @@
 /*轮播图*/
 .grid {
 	height: 460px;
-	position: relative;
+	position: relative !important;
 }
 
 .grid img{
@@ -35,6 +35,7 @@
 	background: rgba(0,0,0,0.6);
 	z-index: 2;
 	position: absolute;
+
 	
 }
 .grid-clo1 ul {

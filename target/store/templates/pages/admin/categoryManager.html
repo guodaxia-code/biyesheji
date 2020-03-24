@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http:www.thymeleaf.org">
+<html lang="en" xmlns:th="http:www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>分类管理</title>
@@ -37,7 +37,13 @@
 </head>
 <body>
 
-    <div class="layui-fluid">
+
+
+
+
+
+
+<div class="layui-fluid">
         <div class="layui-card">
 <!--            索索-->
             <div style="position: relative;height: 30px; margin-top: 20px;margin-bottom: 10px;">
@@ -66,6 +72,8 @@
             <div class="layui-card-body ">
                 <div style="padding-bottom: 10px;">
                     <button class="layui-btn layuiadmin-btn-admin" data-type="batchdel">删除</button>
+
+
                     <button class="layui-btn layuiadmin-btn-admin" data-type="add" id="add"  lay-event="add"><i class="layui-icon">&#xe654;</i>添加</button>
                 </div>
                 <table id="category" class="layui-table" layui-filter="category" lay-filter="category"></table>
@@ -74,8 +82,13 @@
     </div>
 
 
-    <script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
+
     <script src="/store/static/layui/layui.js"></script>
+
+    <script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
+
+
+
 
 
     <script>
@@ -173,7 +186,7 @@
                         //向服务端发送删除指令
                         $.get("/store/category/del/"+data.cid,
                             function (data) {
-                                console.log("sucessaaaaaaaaaaaaaa")
+                                console.log("sucess")
                             }
                         );
                         table.reload();
@@ -184,7 +197,7 @@
                     var index = layer.open({
                         type: 2,
                         title: "分类修改页面",
-                        area: ['30%', '60%'],
+                        area: ['30%', '70%'],
                         fix: false,
                         maxmin: true,
                         shadeClose: true,
@@ -227,7 +240,7 @@
                     layer.open({
                         type: 2,
                         title: "添加分类页面",
-                        area: ['30%', '60%'],
+                        area: ['30%', '70%'],
                         fix: false,
                         maxmin: true,
                         shadeClose: true,
@@ -248,7 +261,7 @@
             var index = layer.open({
                 type: 2,
                 title: "添加分类页面",
-                area: ['30%', '60%'],
+                area: ['30%', '70%'],
                 fix: false,
                 maxmin: true,
                 shadeClose: true,
@@ -355,7 +368,7 @@
             if (flag){
                 $.get("/store/categoty/del/"+this.getAttribute("cid"),
                     function (data) {
-                        console.log("sucessaaaaaaaaaaaaaa")
+                        console.log("sucess)
                         location.reload();
                     }
                 );
@@ -371,6 +384,8 @@
 
         }
     </script>-->
+
+
 
 
 </body>

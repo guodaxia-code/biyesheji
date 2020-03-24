@@ -28,40 +28,13 @@ public class CategoryController {
         return categoryService.findAll();
     }
 
-//    @GetMapping("findAllByLayui")
-//    public @ResponseBody LayuiData<Category> findAllByLayui(){
-//
-//        LayuiData<Category> categoryLayuiData = new LayuiData<>();
-//        List<Category> all = categoryService.findAll();
-//        categoryLayuiData.setCode(0);
-//        categoryLayuiData.setData(all);
-//        categoryLayuiData.setMsg("");
-//        categoryLayuiData.setCount(800);
-//        return categoryLayuiData;
-//    }
-
-
-
-
-
-
 
     @GetMapping("findAllPage")
     public ModelAndView findAllPage(ModelAndView model){
-
         //这里必需要要跳转
         model.setViewName("redirect:/templates/pages/admin/categoryManager.html");
         return model;
     }
-
-
-
-
-
-
-
-
-
 
 
     /**
@@ -73,20 +46,16 @@ public class CategoryController {
      */
     @RequiresPermissions("category:seecategoty")
     @GetMapping("findAllByLayui")
-    public @ResponseBody LayuiData<Category> findAllByLayuiByPage(@RequestParam(value = "page",defaultValue = "1") Integer page, @RequestParam(value = "limit",defaultValue = "8") Integer limit,@RequestParam(value = "cname",required = false) String cname){
-
+    public @ResponseBody LayuiData<Category> findAllByLayuiByPage(@RequestParam(value = "page",defaultValue = "1") Integer page,
+                                                                  @RequestParam(value = "limit",defaultValue = "8") Integer limit,
+                                                                  @RequestParam(value = "cname",required = false) String cname){
 //        接口地址。默认会自动传递两个参数：?page=1&limit=30（该参数可通过 request 自定义）
 //        page 代表当前页码、limit 代表每页数据量
-
         //条件校验
         if (cname==null||cname.length()==0){
            cname="";
         }
-
-//        categoryService
         PageBean<Category> allByLayuiByPage = categoryService.findAllByLayuiByPage(page, limit,cname);
-
-
         LayuiData<Category> categoryLayuiData = new LayuiData<>();
         categoryLayuiData.setCode(0);
         categoryLayuiData.setData(allByLayuiByPage.getList());
@@ -94,7 +63,6 @@ public class CategoryController {
         categoryLayuiData.setCount(allByLayuiByPage.getTotalCount());
         return categoryLayuiData;
     }
-
 
 
     @GetMapping("findLunBoTu")
@@ -117,18 +85,17 @@ public class CategoryController {
     @RequiresPermissions("category:updatecategoty")
     @GetMapping("updateOneCategory")
     public ModelAndView update(String cid,ModelAndView model){
-
         Category one = categoryService.findOne(cid);
         model.addObject("category",one);
         model.setViewName("admin/bianjiCategory");
         return model;
     }
 
+
     /*添加分类*/
     @RequiresPermissions("category:addcategoty")
     @GetMapping("addCategory")
     public ModelAndView addCategory(ModelAndView model){
-
         model.setViewName("admin/addCategory");
         return model;
     }
@@ -139,7 +106,6 @@ public class CategoryController {
     @GetMapping("addCategoryMsg")
     @ResponseBody
     public void addCategoryMsg(Category category){
-
        categoryService.insertOne(category);
 
     }

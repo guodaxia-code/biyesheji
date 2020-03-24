@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserSerice {
 
 
 
-        boolean isSendSuccess = MailUtils.sendMail("2561587813@qq.com", "<h1>欢迎您成为至乐购商城的一员</h1><h2>来自至乐购商城网站的激活邮件,激活请点击以下链接：</h2><br/><h3><a href='http://localhost:8080/store/user/active?code=" + user.getCode() + "'>激活</a></h3>", "至乐购用户注册");
+        boolean isSendSuccess = MailUtils.sendMail("2561587813@qq.com", "<h1>欢迎您成为至乐购商城的一员</h1><h2>来自至乐购商城网站的激活邮件,激活请点击以下链接：</h2><br/><h3><a href='http://www.worldzhile.xyz/store/user/active?code=" + user.getCode() + "'>激活</a></h3>", "至乐购用户注册");
         if (isSendSuccess) {
             String username = user.getUsername();
             String password = user.getPassword();
@@ -89,6 +89,8 @@ public class UserServiceImpl implements UserSerice {
         }
         catch (Exception e){
             System.out.println("---未知错误--");
+            System.out.println(e.getMessage());
+            e.printStackTrace();
             return false;
         }
 

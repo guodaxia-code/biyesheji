@@ -2,12 +2,13 @@ package xyz.worldzhile.domain;
 
 import com.sun.org.apache.regexp.internal.RE;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-public class Cart {
+public class Cart implements Serializable {
 
     /**
      * 购物车 pid

@@ -34,33 +34,24 @@ public class OrderController {
 
 
     static String p1_MerId;
-
     static String keyValue;
     static String responseURL;
 
     static{
         p1_MerId="10001126856";
         keyValue="69cl522AV6q613Ii4W6u8K6XuW8vM1N6bFgyv769220IuYe9u37N4y7rI4Pl";
-        responseURL="http://localhost:8080/store/order/callback";
+        responseURL="http://www.worldzhile.xyz/store/order/callback";
     }
-
-
-
 
 
     @Autowired
     OrderService orderService;
 
+    /**
+     购物车里多选下单
+     * */
     @GetMapping("addOrder")
     public ModelAndView addOrder(@RequestParam("pids") String[] pids, ModelAndView model, HttpServletRequest request) {
-
-//        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
-//        if (user == null) {
-//            System.out.println("没有登录");
-//            model.setViewName("msg");
-//            model.addObject("user_login_error", "没有登录不可以提交订单");
-//            return model;
-//        }
 
         //添加订单
         System.out.println(Arrays.toString(pids));
@@ -99,17 +90,18 @@ public class OrderController {
 
     }
 
+    /**
+     *
+    直接买一种商品下单
+     */
+
+
+
+
+
 
     @GetMapping("seeOneOrder")
     public ModelAndView seeOrder(@RequestParam("oid") String oid, ModelAndView model, HttpServletRequest request) {
-//        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
-//        if (user == null) {
-//            System.out.println("没有登录");
-//            model.setViewName("msg");
-//            model.addObject("user_login_error", "没有登录不可以查看订单详情");
-//            return model;
-//        }
-
         Order nowOrder = orderService.findOrderByOid(oid);
         model.addObject("nowOrder", nowOrder);
         model.setViewName("order");
@@ -120,13 +112,6 @@ public class OrderController {
 
     @GetMapping("seeMyOrders")
     public ModelAndView seeOrder(ModelAndView model, HttpServletRequest request) {
-//        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
-//        if (user == null) {
-//            System.out.println("没有登录");
-//            model.setViewName("msg");
-//            model.addObject("user_login_error", "没有登录不可以查看订单");
-//            return model;
-//        }
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         List<Order> allOrdersByUid = orderService.findAllOrdersByUid(user.getUid());
         model.addObject("pageBean", allOrdersByUid);
@@ -141,13 +126,6 @@ public class OrderController {
     @ResponseBody
     public ModelAndView getProductsByPage(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage, @RequestParam(value = "pageCount", defaultValue = "4") Integer pageCount, ModelAndView model, HttpServletRequest request) {
 
-//        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
-//        if (user == null) {
-//            System.out.println("没有登录");
-//            model.setViewName("msg");
-//            model.addObject("user_login_error", "没有登录不可以查看订单");
-//            return model;
-//        }
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         PageBean<Order> pageBean = orderService.findPageBean(user.getUid(), currentPage, pageCount);
         model.addObject("pageBean", pageBean);
@@ -258,14 +236,6 @@ public class OrderController {
                                  @RequestParam("phone") String phone,
                                  ModelAndView model, HttpServletRequest request) {
 
-//        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
-//        if (user == null) {
-//            System.out.println("没有登录");
-//            model.setViewName("msg");
-//            model.addObject("user_login_error", "没有登录不可以付款");
-//            return model;
-//        }
-
         User user = (User) SecurityUtils.getSubject().getPrincipal();
 
         Order orderByOid = orderService.findOrderByOid(oid);
@@ -280,7 +250,6 @@ public class OrderController {
         orderByOid.setPhone(address);
 
         orderService.updateOrder(orderByOid);
-
 
 
         //
@@ -330,13 +299,8 @@ public class OrderController {
 
         System.out.println(result);
 
-
-
-
-
         model.setViewName("qualipay");
        model.addObject("AliPay",result);
-
         return model;
 
     }
@@ -347,21 +311,6 @@ public class OrderController {
      */
 /*    @GetMapping("callbackYi")
     public ModelAndView callbackYi(ModelAndView model, HttpServletRequest request, HttpServletResponse response) {
-
-        *//* *
-         * 功能：支付宝服务器异步通知页面
-         * 日期：2017-03-30
-         * 说明：
-         * 以下代码只是为了方便商户测试而提供的样例代码，商户可以根据自己网站的需要，按照技术文档编写,并非一定要使用该代码。
-         * 该代码仅供学习和研究支付宝接口使用，只是提供一个参考。
-
-
-         *************************页面功能说明*************************
-         * 创建该页面文件时，请留心该页面文件中无任何HTML代码及空格。
-         * 该页面不能在本机电脑测试，请到服务器上做测试。请确保外部可以访问该页面。
-         * 如果没有收到该页面返回的 success
-         * 建议该页面只做支付成功的业务逻辑处理，退款的处理请以调用退款查询接口的结果为准。
-         *//*
 
         //获取支付宝POST过来反馈信息
         Map<String,String> params = new HashMap<String,String>();
@@ -552,7 +501,6 @@ public class OrderController {
         }
 
         //——请在这里编写您的程序（以上代码仅作参考）——
-
 
 
 //        System.out.println("订单付款失败");

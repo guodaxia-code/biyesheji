@@ -30,14 +30,11 @@ public class AdminController {
     @Autowired
     UserSerice userSerice;
 
-
     @GetMapping("login")
     public ModelAndView adminlogin(HttpServletRequest request, ModelAndView model){
         model.setViewName("/admin/login");
         return model;
     }
-
-
 
 
     @PostMapping("login")
@@ -86,24 +83,13 @@ public class AdminController {
 //            }
 //        }
 
-        model.setViewName("redirect:/admin/index");
+//        model.setViewName("redirect:/admin/index");
+
+        model.setViewName("/admin/indexpage");
+
         return model;
 
 
-
     }
-
-
-
-    @RequiresPermissions("seeManagerPage")
-    @GetMapping(value = {"index"})
-    public ModelAndView adminindex(HttpServletRequest request, ModelAndView model){
-
-        System.out.println("aaaquindex");
-        model.setViewName("redirect:/templates/pages/admin/indexpage.html");
-        return model;
-    }
-
-
 
 }

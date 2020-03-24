@@ -10,25 +10,369 @@
         .addCart{
             border: 2px solid red;
         }
+
+        /*******************proDets*************************/
+        .proDets{
+            position: fixed;
+            top:50%;
+            left:50%;
+            z-index: 102;
+            margin-left: -370px;
+            margin-top: -280px;
+            padding:30px;
+            width:740px;
+            background: #fff;
+            display: none;
+        }
+        .off{
+            position: absolute;
+            right:0;
+            top:0;
+            width: 26px;
+            height:26px;
+            cursor: pointer;
+        }
+        .proDets .tit{
+            height:50px;
+            line-height:50px;
+            font-size:26px;
+            margin-bottom:20px;
+        }
+        .proDets .tit h4{
+            font-weight: normal;
+        }
+        .proDets .tit span{
+            color:#C10000;
+        }
+        .proCon .proImg{
+            width:360px;
+        }
+        .proCon .proImg img{
+            display: block;
+        }
+        .smallImg{
+            margin-top:20px;
+        }
+        .smallImg img{
+            float: left;
+        }
+        .proIntro .smallImg p{
+            padding: 2px;
+            margin-right: 20px;
+            border:1px solid #fff;
+        }
+        .proIntro .smallImg img{
+            width:45px;
+        }
+        .proImg .smallImg img{
+            width:50px;
+            margin-right: 20px;
+        }
+        .proIntro{
+            width:350px;
+            padding:20px 10px;
+            margin:35px 0;
+            border-top:1px solid #dbdbdb;
+            border-bottom:1px solid #dbdbdb;
+        }
+        .proIntro > p{
+            height:30px;
+            line-height:30px;
+        }
+        .proIntro > p span{
+            color:#C10000;
+        }
+        .proIntro .smallImg{
+            margin:20px 0 35px;
+            position: relative;
+        }
+        .proIntro .smallImg p.on{
+            border:1px solid #C10000;
+        }
+        .proIntro .smallImg p{
+            border:1px solid #fff;
+        }
+        .proIntro .smallImg span{
+            position: absolute;
+            top:55px;
+            left:0;
+            padding:5px;
+            border:1px solid #dbdbdb;
+        }
+        .proIntro .num{
+            margin-top:20px;
+        }
+        .proIntro .num span{
+            width:27px;
+            height:27px;
+            line-height:27px;
+            text-align: center;
+        }
+        .proIntro .num img{
+            width:27px;
+            height:27px;
+            cursor: pointer;
+        }
+        .proIntro .num p.please{
+            margin-left:20px;
+            color:#C10000;
+            line-height:27px;
+            display: none;
+        }
+        .btns p,.changeBtn p{
+            width:170px;
+            height:40px;
+            line-height:40px;
+            text-align: center;
+            cursor:pointer;
+        }
+        .btns p.buy,.changeBtn p.buy{
+            background: #C10000;
+            color: #fff;
+        }
+        .btns p.cart,.changeBtn p.cart{
+            border:1px solid #000;
+        }
+        a.more{
+            position: absolute;
+            right: 26px;
+            bottom: 26px;
+            text-decoration: underline;
+        }
+
+        /******************************proDetail******************************/
+        .detCon{
+            margin-top:30px;
+        }
+        .detCon .proDet .proImg > img{
+            width:580px;
+            height:580px;
+        }
+        .detCon .smallImg > img{
+            width:85px;
+            height:85px;
+        }
+        .detCon .proImg{
+            width: auto;
+        }
+        .detCon .intro{
+            width:500px;
+
+        }
+        .detCon .intro .title h4{
+            height:50px;
+            line-height:50px;
+            font-weight:normal;
+            font-size: 22px;
+        }
+        .detCon .intro .title p{
+            margin:10px 0;
+            color: #777;
+        }
+        .detCon .intro .title span{
+            font-size: 22px;
+            color:#C10000;
+        }
+        .detCon .intro .proIntro{
+            width:auto;
+        }
+        .detCon .btn{
+            padding:0 30px;
+        }
+
+
+
     </style>
+
+    <style>
+        .box{
+            margin: 50px 80px;
+            width: 300px;
+            height: 300px;
+            background-color: pink;
+            position: relative;
+        }
+        .big{
+            width: 400px;
+            height: 400px;
+            position: absolute;
+            left: 320px;
+            top: 0px;
+            background-color: skyblue;
+            display:none;
+            overflow: hidden;
+        }
+        .mask {
+            width: 100px;
+            height: 100px;
+            background: rgba(200,150,100,0.3);
+            position: absolute;
+            left: 0;
+            top: 0;
+            display: none;
+            cursor: move;
+        }
+        .small{
+            width: 300px;
+            height: 300px;
+        }
+        .small img{
+            width: 300px;
+            height: 300px;
+            /*border: 1px solid #fff;*/
+        }
+        .big img{
+            width: 500px;
+            height: 500px;
+            position: absolute;
+            left: 0;
+            right: 0;
+        }
+
+
+    </style>
+    <!--    引入公共的base.css-->
+<!--    <link rel="stylesheet" href="/store/static/mystore/css/base.css"/>-->
+<!--    <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/public.css"/>-->
+<!--    <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/proList.css"/>-->
 </head>
 <body>
 
-    <H3><span th:text="${product.category.cname}"></span> > <span th:text="${product.pname}"></span><br/> </H3>
-    <div>
-        商品的名字：<span th:text="${product.pname}"></span><br/>
-        <img th:src="${product.ppicture}" alt=""><br/>
-        商品的描述：<span th:text="${product.pdesc}"></span><br/>
+<div id="headpage">head</div>
+
+<!--<div class="middle">-->
+<!--    <div class="box" id="box">-->
+<!--        <div class="small" id="small">-->
+<!--            <img th:src="${product.ppicture}" alt="">-->
+<!--            <div class="mask" id="mask"></div>-->
+<!--        </div>-->
+<!--        <div class="big" id="big">-->
+<!--            <img src="/store/static/mystore/images/categorys/1947569266905afe6abfff3456751bc4.jpg" id="bigImg" alt="">-->
+<!--        </div>-->
+<!--</div>-->
+
+<div class="middle" style="height: 550px; border: 2px solid #fff;">
+    <div class="detCon">
+        <div class="proDet wrapper">
+            <div class="proCon clearfix">
+
+
+
+
+<!--                </div>-->
+
+                <div class="proImg fl" >
+<!--                    <img class="det" th:src="${product.ppicture}" style="width: 450px; height: 450px;">-->
+                    <div class="box" id="box">
+                        <div class="small" id="small">
+                            <img class="det" th:src="${product.ppicture}" style="width: 300px; height: 300px;">
+                            <div class="mask" id="mask"></div>
+                        </div>
+                        <div class="big" id="big">
+                            <img class="det" id="bigImg" th:src="${product.ppicture}" width="500px" height="500px">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="fr intro">
+                    <div class="title">
+                        <h3><span th:text="${product.category.cname}"></span></h3>
+                            <h4 th:text="${product.pname}" >【最家】非洲菊仿真花干花</h4>
+                        <p th:text="${product.pdesc}">【破损补寄】【适合放室内、卧室、书房、餐桌、办公室、客厅、电视柜等地方】【无理由退换货】【包邮】【白色现代简约花瓶】</p>
+                        <span th:text="￥+${product.rel_price}">￥59.90</span>
+                    </div>
+                    <div class="proIntro">
+                        <p>颜色分类</p>
+                        <div class="smallImg clearfix categ">
+<!--                            <p class="fl"><img src="img/temp/prosmall01.jpg" alt="白瓷花瓶+20支快乐花" data-src="img/temp/proBig01.jpg"></p>-->
+                        </div>
+                        <p>数量&nbsp;&nbsp;库存<span>2096</span>件</p>
+                        <div class="num clearfix">
+<!--                            <img class="fl sub" src="img/temp/sub.jpg">-->
+<!--                            <span class="fl" contenteditable="true">1</span>-->
+<!--                            <img class="fl add" src="img/temp/add.jpg">-->
+<!--                            <p class="please fl">请选择商品属性!</p>-->
+                            购买数量: <input id="number" style="color: black;font-size:  26px;width: 62px; " min="1" max="200" type="number" name="pcount" value="1">
+                        </div>
+                    </div>
+                    <div class="btns clearfix">
+                        <a href="#2"><p class="buy fl">立即购买</p></a>
+                        <a id="addCart" href="#2" th:href="@{/cart/addToCart(pid=${product.pid},pcount=1)}"><p class="cart fr">加入购物车</p></a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
-    数量 : <input id="number" type="number" name="pcount" value="1"> <br>
-    <a id="addCart" class="addCart" th:href="@{/cart/addToCart(pid=${product.pid},pcount=1)}">加入购物车</a>
 
+
+<div id="footerpage">footerpage</div>
+
+
+<script src="/store/static/layui/layui.js"></script>
+<script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
+<script src="/store/static/mystore/js/myjs/head.js"></script>
+<script src="/store/static/mystore/js/myjs/common.js"></script>
+<script>
+    $(function () {
+        load_headpage_and_footerpage();
+        getCategoryTenNumber();
+    })
+</script>
+
+<!--放大镜效果-->
+<script>
+    var box=document.getElementById('box');
+    var small=document.getElementById('small');
+    var mask=document.getElementById('mask');
+    var big=document.getElementById('big');
+    var bigImg=document.getElementById('bigImg');
+
+
+
+    small.onmouseover=function(){
+        mask.style.display="block";
+        big.style.display="block";
+
+
+
+        document.onmousemove=function(e){
+            e=e||window.event
+
+
+            var x=e.pageX-box.offsetLeft-mask.offsetWidth/2;
+            var y=e.pageY-box.offsetTop-mask.offsetHeight/2;
+            // console.log(x,y);
+            x=x<0?0:x;
+            y=y<0?0:y;
+            x=(x>box.offsetWidth-mask.offsetWidth)?box.offsetWidth-mask.offsetWidth:x;
+            y=(y>box.offsetHeight-mask.offsetHeight)?box.offsetHeight-mask.offsetHeight:y;
+
+            var movex=x/(box.offsetWidth-mask.offsetWidth)*(bigImg.offsetWidth-big.offsetWidth);
+            var movey=y/(box.offsetHeight-mask.offsetHeight)*(bigImg.offsetHeight-big.offsetHeight);
+
+
+            bigImg.style.left=-movex+'px';
+            bigImg.style.top=-movey+'px';
+            mask.style.left=x+'px';
+            mask.style.top=y+'px';
+
+
+        }
+
+
+    }
+    small.onmouseout=function(){
+        mask.style.display="none";
+        big.style.display="none";
+    }
+</script>
 
     <script>
         var addCart = document.getElementById("addCart");
 
-        addCart.onclick=function () {
+        addCart.onclick=function(){
             var number = document.getElementById("number").value;
             console.log(this.href);
             var url=this.href.toString();

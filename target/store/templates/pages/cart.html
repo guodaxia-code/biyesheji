@@ -21,8 +21,8 @@
             </ul>
             <ul class="fr first-nav">
                 <!--	有无登录				-->
-                <li th:if="${session.user_login_session}"><a href="#"   th:text="'你好,'+${session.user_login_session.username}"></a></li>
-                <li th:unless="${session.user_login_session}"><a href="/store/user/login"  >你好,请登录</a></li>
+                <li th:if="${user}"><a href="#"   th:text="'你好,'+${user.name}"></a></li>
+                <li th:unless="${user}"><a href="/store/user/login"  >你好,请登录</a></li>
                 <li class="span"></li>
 
                 <li><a href="/store/user/register" class="e3">免费注册</a></li>

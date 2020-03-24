@@ -8,6 +8,16 @@ import java.util.Set;
 @Repository
 public interface RoleDao {
 
-    @Select("select role_name from user_roles where username=#{username}")
+
+
+    @Select(
+            "SELECT roles.role_name " +
+                    " FROM users  " +
+                    " LEFT JOIN user_roles  " +
+                    " ON users.uid=user_roles.urid_uid  " +
+                    " Left join roles  " +
+                    "on user_roles.urid_rid=roles.rid " +
+                    "   where username=#{username} "
+    )
     Set<String> findRolesByUsername(String username);
 }

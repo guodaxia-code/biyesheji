@@ -33,11 +33,9 @@ public class FileController {
         if (!file.exists()){
             file.mkdirs();
         }
-
         List<String> listImagePath=new ArrayList<String>();
         for (MultipartFile multipartFile:uploadFiles){
             if (multipartFile!=null){
-
 
                 //获得文件类型（可以判断如果不是图片，禁止上传）
                 String contentType=multipartFile.getContentType();
@@ -61,8 +59,11 @@ public class FileController {
                 }
             }
 
+
+
         }
                 return listImagePath;
+
     }
 
 

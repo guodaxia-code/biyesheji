@@ -10,6 +10,17 @@ import java.util.Set;
 public interface PermissionDao {
 
 
-    @Select("select  permission from roles_permissions where  role_name in(SELECT role_name FROM `user_roles` where username=#{username})")
+
+    @Select("SELECT permissions.permission\n" +
+            "FROM users\n" +
+            "LEFT JOIN user_roles \n" +
+            "ON users.uid=user_roles.urid_uid\n" +
+            "Left join roles \n" +
+            "on user_roles.urid_rid=roles.rid\n" +
+            "Left join roles_permissions\n" +
+            "ON roles.rid=roles_permissions.rp_rid\n" +
+            "Left join permissions\n" +
+            "on roles_permissions.rp_pid=permissions.perid\n" +
+            "where username=#{username} ")
     Set<String> findPermissionsByUsername(String username);
 }
