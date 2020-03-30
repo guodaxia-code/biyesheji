@@ -3,8 +3,9 @@
 a{text-decoration: none;color: #000;}
 img {border: 0; vertical-align:middle;} 
 ul li{list-style: none;}
-body,h1,h2,h3,h4,h5,h6{font: 12px 宋体,Times New Roman;}
-body{background: rgb(20,33,42)  }
+body,h1,h2,h3,h4,h5,h6{font: 12px 宋体,Times New Roman; }
+body{background: #eee   }
+/*rgb(20,33,42)*/
 
 /*预定义样式*/
 .w{width: 1000px;margin: 0 auto;}
@@ -19,10 +20,13 @@ tr,th,td{height: 20px;}
 th{width: 60px;}
 input:focus{border: 2px solid orange;}
 /*用户登录*/
-.top{width: 100%;height: 100px;background: #fff;}
+.top{width: 100%;height: 100px; background: rgba(4,4,4,0.2);}
+/*background: rgba(4,4,4,0.2);*/
 .top .logo{width: 1130px;height: 100px;}
-.form{width: 1130px;height:588px;background: url('/store/static/mystore/images/')no-repeat center center; }
-.login{width: 400px;height: 470px;/*border:1px solid #ff6700;*/margin:30px auto;background: #444;color:#fff;margin-right: 0px;border-radius: 4px;}
+.form{width: 1130px;height:588px;background: url('/store/static/mystore/images/gouwu_tuan_sucai-003.jpg')no-repeat left top; }
+.login{width: 400px;height: 470px;/*border:1px solid #ff6700;*/margin:30px auto;
+    background-color: rgba(4,4,4,0.5); color:#fff;margin-right: 0px;border-radius: 4px;}
+/*rgba(4,4,4,0.1)*/
 .login .login_center{width: 360px;margin: 10px auto;}
 .login .login_top{margin: 10px 0;}
 .login .login_top .left{height: 40px;line-height: 40px;font-weight: bold;font-size: 20px;}

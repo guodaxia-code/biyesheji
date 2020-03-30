@@ -29,4 +29,7 @@ public interface OrderItemDao {
     @Select("select * from orderitem where order_oid=#{oid}")
     @ResultMap("OrderItemMap")
     List<OrderItem> findAllByOid(String oid);
+
+    @Delete("delete from orderitem where order_oid=#{oid}")
+    void delete(String oid);
 }

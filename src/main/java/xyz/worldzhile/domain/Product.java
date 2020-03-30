@@ -1,5 +1,6 @@
 package xyz.worldzhile.domain;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Product {
@@ -67,8 +68,13 @@ public class Product {
         this.pdesc = pdesc;
     }
 
-    public Date getPdate() {
-        return pdate;
+    public String getPdate() {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        String time= sdf.format(this.pdate);//获取格式化日期，带有时分
+
+        return time;
     }
 
     public void setPdate(Date pdate) {

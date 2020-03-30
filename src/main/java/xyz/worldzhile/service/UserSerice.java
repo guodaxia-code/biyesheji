@@ -2,6 +2,7 @@ package xyz.worldzhile.service;
 
 import org.springframework.stereotype.Service;
 import xyz.worldzhile.domain.User;
+import xyz.worldzhile.util.PageBean;
 
 
 public interface UserSerice {
@@ -42,6 +43,12 @@ public interface UserSerice {
     boolean login(User user);
 
 
+    void updateUserPicture(String uid,String url);
 
+    void updatenameandphone(String uid, String name, String phone);
+
+
+
+    PageBean<User> findAllByLayuiByPage(Integer page, Integer limit, String pname);
 }
 

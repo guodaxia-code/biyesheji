@@ -34,10 +34,10 @@
 
 
 
-    <!-- login -->
+<!--     login-->
     <div class="top center">
         <div class="logo center">
-<!--            <a href="/store/index" target="_blank"><img src="/store/static/mystore/images/logotwo.jpg" alt="主页"></a>-->
+                            <a href="/store/index" target="_blank"><img src="/store/static/mystore/images/logotwo.jpg" alt="主页"></a>
         </div>
     </div>
     <form  method="post" action="/store/user/login" class="form center">
@@ -67,8 +67,11 @@
                     <div class="layui-form">
                         记住用户名:&nbsp;
                         <input type="checkbox" name="rememberUsername" value="yes" lay-skin="switch" lay-text="开启|关闭"><div class="layui-unselect layui-form-switch" lay-skin="_switch"><em>关闭</em><i></i></div>
-                        <span th:text="${user_login_error}"   id="msg"></span>
+                        <span th:text="${user_login_error}"  style="margin-left: 6px;font-size: 16px;" id="msg"></span>
+                        <a href="forget.html" style="color:white; font-size: 16px; margin-left: 6px">忘记密码？</a>
                     </div>
+
+
 
                 </div>
                 <div class="login_submit">

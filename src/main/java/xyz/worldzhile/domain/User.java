@@ -17,14 +17,16 @@ public class User implements Serializable {
     private Integer states;
 
 
+    private String url;
 
 
+    public String getUrl() {
+        return url;
+    }
 
-
-
-
-
-
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getUid() {
         return uid;
@@ -98,18 +100,5 @@ public class User implements Serializable {
         this.states = states;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "uid='" + uid + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", qqEmail='" + qqEmail + '\'' +
-                ", name='" + name + '\'' +
-                ", birthday='" + birthday + '\'' +
-                ", phone='" + phone + '\'' +
-                ", code='" + code + '\'' +
-                ", states=" + states +
-                '}';
-    }
+
 }

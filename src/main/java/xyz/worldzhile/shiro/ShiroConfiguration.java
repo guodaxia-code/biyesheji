@@ -59,6 +59,7 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setLoginUrl("/user/login");
         //未认证的跳转页面  没有对应的的角色 不会跳配置了error page 500
         shiroFilterFactoryBean.setUnauthorizedUrl("/msg");
+
         //有序拦截
         HashMap<String, String> urls = new LinkedHashMap<>();
         urls.put("/msg","anon");
@@ -89,6 +90,7 @@ public class ShiroConfiguration {
         defaultWebSecurityManager.setRealm(myRealm);
         //还可以 redis 缓存sessionManager
         // defaultWebSecurityManager.setSessionManager(defaultWebSessionManager);
+
         return defaultWebSecurityManager;
 
     }
@@ -182,11 +184,11 @@ public class ShiroConfiguration {
     }
 
 
-    /*shiro标签*/
-    @Bean(name = "shiroDialect")
-    public ShiroDialect shiroDialect(){
-        return new ShiroDialect();
-    }
+//    /*shiro标签*/
+//    @Bean(name = "shiroDialect")
+//    public ShiroDialect shiroDialect(){
+//        return new ShiroDialect();
+//    }
 
 
 

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑商品</title>
+    <link rel="stylesheet" href="/store/static/layui/css/layui.css">
+</head>
+<body>
+
+
+    <form class="layui-form" action="">
+        <input type="text" hidden="hidden" th:value="${product.pid}">
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品名称</label>
+            <div class="layui-input-block layui-col-md6">
+                <input type="text" id="pname" name="pname" th:value="${product.pname}" required  lay-verify="required" placeholder="请输入商品名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">销售价</label>
+            <div class="layui-input-inline">
+                <input type="number" name="rel_price" id="rel_price" th:value="${product.rel_price}" placeholder="请输入数字" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">热度越高越排前</div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商城价</label>
+            <div class="layui-input-inline">
+                <input type="number"  name="store_price" id="store_price"  th:value="${product.store_price}"placeholder="请输入数字" autocomplete="off" class="layui-input">
+            </div>
+            <div class="layui-form-mid layui-word-aux">热度越高越排前</div>
+        </div>
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">热门</label>
+                <div class="layui-input-inline ">
+                    <input type="checkbox"  th:checked="${product.is_hot==1?'checked':'false'}" lay-text="开启|关闭"  name="is_hot" id="is_hot" lay-skin="switch">
+                </div>
+            </div>
+           <div class="layui-inline">
+               <label class="layui-form-label">上架</label>
+               <div class="layui-input-inline">
+                   <input type="checkbox"  th:checked="${product.pflag==1?'checked':'false'}" lay-text="开启|关闭" name="pflag" id="pflag"  lay-skin="switch">
+                   <div class="layui-unselect layui-form-switch layui-form-onswitch" lay-skin="_switch"><em>ON</em><i></i></div>
+               </div>
+           </div>
+
+        </div>
+
+<!--        <div class="layui-form-item">-->
+<!--            <label class="layui-form-label">上架</label>-->
+<!--            <div class="layui-input-block">-->
+<!--                <input type="checkbox" name="pflag" id="pflag"  lay-skin="switch">-->
+<!--            </div>-->
+<!--        </div>-->
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品图片</label>
+            <div class="layui-input-block">
+                <img  id="show" th:src="${product.ppicture}" width="200" alt="">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">商品图片</label>
+            <div class="layui-input-block">
+                <button type="button" name="upload"  class="layui-btn" id="upload">
+                    <i class="layui-icon">&#xe67c;</i>上传图片
+                </button>
+            </div>
+            <input type="text" hidden="hidden"   id="pid"  th:value="${product.pid}">
+
+        </div>
+
+
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">分类选择框</label>
+                <div class="layui-input-inline">
+                    <select name="modules" lay-verify="required" lay-search="">
+                        <th:block th:each="one:${all}">
+                            <th:block th:if="${product.category.cid} eq ${one.cid}">
+                                <option  selected="selected"  th:value="${one.cid}" th:text="${one.cname}"></option>
+                            </th:block>
+                            <th:block th:if="${product.category.cid} ne ${one.cid}">
+                                <option   th:value="${one.cid}" th:text="${one.cname}"></option>
+                            </th:block>
+                        </th:block>
+
+                    </select>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">商品描述</label>
+            <div class="layui-input-block">
+                <textarea name="desc" id="pdesc" th:text="${product.pdesc}" placeholder="请输入内容" class="layui-textarea"></textarea>
+             </div>
+         </div>
+
+
+
+<!--                <!- 哪里发送数据-&ndash;&gt;-->
+<!--        <div class="layui-form-item">-->
+<!--            <div class="layui-input-block">-->
+<!--                <button class="layui-btn" lay-submit lay-filter="formDemo">确定</button>-->
+<!--                <button type="reset" class="layui-btn layui-btn-primary">取消</button>-->
+<!--            </div>-->
+<!--        </div>-->
+
+
+    </form>
+
+
+    <script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
+    <script src="/store/static/layui/layui.js"></script>
+    <script src="/store/static/layui/layui.all.js"></script>
+
+    <script>
+        layui.use('upload', function(){
+            var upload = layui.upload;
+
+            //执行实例
+            var uploadInst = upload.render({
+                elem: '#upload' //绑定元素
+                ,url: '/store/uploadFiles' //上传接口
+                ,done: function(res){
+                    //上传完毕回调
+                    console.log("aasc")
+                    $("#show").attr("src",res[0]);
+                    var pid = $("#pid").val();
+                    var curl=res[0];
+                    console.log(pid)
+                    console.log(curl);
+
+                    $.ajax({
+                        url: "/store/product/updateProductPicture?",//请求的url
+                        // dataType: "json",//返回参数类型
+                        async: true,//是否异步
+                        data: {"pid":pid,"ppicture":curl},//请求的参数
+                        type: "GET",//请求方式
+                        success:function () {
+                            console.log("xiugaile")
+                        }
+                    })
+
+                }
+                ,error: function(){
+                    //请求异常回调
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
+
+
+

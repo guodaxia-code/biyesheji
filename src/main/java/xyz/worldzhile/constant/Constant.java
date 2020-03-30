@@ -66,6 +66,16 @@ public interface Constant {
      */
     Integer IS_PAYE=1;
 
+    /**
+     * 已发货
+     */
+    Integer IS_FAHUO=2;
+
+    /**
+     * 已完成
+     */
+    Integer IS_OK=3;
+
 
 
 }

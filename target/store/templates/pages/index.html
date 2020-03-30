@@ -109,7 +109,7 @@
                     <th:block th:if="${oneStart.index<=4}">
                         <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
                             <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"><img th:src="${one.ppicture}" alt=""></a></div>
-                            <div class="pinpai"><a href="JavaScript:void(0);"  th:text="${one.pname}" >小米6</a></div>
+                            <div class="pinpai"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"  th:text="${one.pname}" >小米6</a></div>
                             <div class="youhui"  >5.16早10点开售</div>
                             <div class="jiage" th:text="${one.rel_price}">2499.00元</div>
                         </div>
@@ -126,7 +126,7 @@
                     <th:block th:if="${oneStart.index>=5}">
                         <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
                             <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"><img th:src="${one.ppicture}" alt=""></a></div>
-                            <div class="pinpai"><a href="JavaScript:void(0);"  th:text="${one.pname}" >小米6</a></div>
+                            <div class="pinpai"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"  th:text="${one.pname}" >小米6</a></div>
                             <div class="youhui"  >5.16早10点开售</div>
                             <div class="jiage" th:text="${one.rel_price}">2499.00元</div>
                         </div>
@@ -157,7 +157,7 @@
                 <th:block th:if="${oneStart.index<=4}">
                     <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
                         <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"><img th:src="${one.ppicture}" alt=""></a></div>
-                        <div class="pinpai"><a href="JavaScript:void(0);"  th:text="${one.pname}" >小米6</a></div>
+                        <div class="pinpai"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"  th:text="${one.pname}" >小米6</a></div>
                         <div class="youhui"  >5.16早10点开售</div>
                         <div class="jiage" th:text="${one.rel_price}">2499.00元</div>
                     </div>
@@ -172,7 +172,7 @@
                 <th:block th:if="${oneStart.index>=5}">
                     <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
                         <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"><img th:src="${one.ppicture}" alt=""></a></div>
-                        <div class="pinpai"><a href="JavaScript:void(0);"  th:text="${one.pname}" >小米6</a></div>
+                        <div class="pinpai"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"  th:text="${one.pname}" >小米6</a></div>
                         <div class="youhui"  >5.16早10点开售</div>
                         <div class="jiage" th:text="${one.rel_price}">2499.00元</div>
                     </div>
@@ -281,7 +281,7 @@
             , width: '1190x'     //设置容器宽度
             , height:'460'
             , arrow: 'always'    //始终显示箭头，可选hover,none
-            ,anim: 'updown'    //切换动画方式，可选fade,default
+            // ,anim: 'updown'    //切换动画方式，可选fade,default
             , full: false        //全屏
             , autoplay: false     //自动切换
             , interval: 1000     //自动切换的时间间隔

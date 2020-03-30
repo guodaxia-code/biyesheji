@@ -57,4 +57,32 @@ public interface OrderDao {
     List<Order> findPageList(@Param("uid")String uid, @Param("start")int start,  @Param("pageCount")Integer pageCount);
 
 
+    @Select("select * from orders ")
+    @ResultMap("OrderMap")
+    List<Order> findAll();
+
+    /*
+    查询所有的订单数量
+    */
+    @Select("select count(oid) from orders ")
+    int findCount();
+
+
+
+    /*layui 分页查询  weitiaojiao */
+    @Select("<script>"+"SELECT * FROM orders  where 1=1 "
+//            +"<if test='pname!=null'> and pname like CONCAT('%',#{pname},'%')</if>"
+            +"limit #{start},#{pageCount}"
+            +"</script>"
+    )
+    @ResultMap("OrderMap")
+    List<Order> findAllByLayuiByPage(@Param("start") int start, @Param("pageCount") Integer pageCount, @Param("pname") String pname);
+
+
+    /**
+     * 删除
+     * @param oid
+     */
+    @Delete("delete from orders where oid=#{oid}")
+    void delete(String oid);
 }

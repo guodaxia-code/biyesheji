@@ -27,4 +27,22 @@ public interface ProductService {
      */
      PageBean<Product> findPageBean(String cid,Integer currentPage,Integer pageCount);
 
+    List<Product> findAll();
+
+
+
+    PageBean<Product> findAllByLayuiByPage(Integer page, Integer limit, String pname);
+
+
+    void updatePicture(Product product);
+
+
+
+    void updateProduct(Product product);
+
+
+
+    void add(Product product);
+
+    void del(String pid);
 }

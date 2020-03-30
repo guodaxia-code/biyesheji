@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
 	<meta charset="UTF-8">
 	<title>至乐购后台管理系统</title>
@@ -9,164 +9,26 @@
 	<!-- 主容器 -->
 	<div class="layui-layout-admin">
 		<!-- 头部内容区 -->
-		<div class="layui-header">
-			<!-- 项目标题 -->
-			<div class="layui-logo">
-				至乐购后台管理系统
-			</div>
-			<!-- 管理员登录信息 -->
-			<div class="layui-layout-right">
-				<ul class="layui-nav">
-					<!-- 当前管理员信息 一个nav 分耳二级菜单 -->
-					<li class="layui-nav-item">
-						<a href="#">
-							<img src="aaa.jpg" class="layui-nav-img"  alt="">
-<!--							<span th:text="${session.user_login_session.username}">郭健全</span>-->
-						</a>
-						<dl class="layui-nav-child">
-							<dd>
-								<a href="">个人信息</a>
-							</dd>
-							<dd>
-								<a href="">资料修改</a>
-							</dd>
-							<hr/>
-							<dd>
-								<a href="">退出登录</a>
-							</dd>
-							
-						</dl>
-
-					</li>
+        <div th:insert="/admin/common::adminhead(zhi='shouye')"></div>
 
 
-
-
-				</ul>
-				
-			</div>
-
-
-		</div>
 
 		<!-- 侧边导航栏 -->
-		<div class="layui-side layui-bg-black">
-			<ul class="layui-nav layui-nav-tree">
-				<li class="layui-nav-item">
-					<a href="javascript:void(0)">
-						<i class="layui-icon layui-icon-home"></i>
-						主页
-					</a>
-				</li>
-
-
-				<li class="layui-nav-item">
-					<a href="#">
-						<i class="layui-icon layui-icon-set"></i>
-						应用
-					</a>
-					<!-- 二级菜单 -->
-					<dl class="layui-nav-child">
-						<p shiro:hasAllRoles="admin"><!-- 角色与判断 -->
-							<dd>
-								<a href="/store/category/findAllPage">分类管理</a>
-							</dd>
-
-						</p>
-
-<!--						<p shiro:authenticated="">-->
-
-<!--							Hello, <span shiro:principal="username"></span>, how are you today?-->
-
-<!--						</p>-->
-
-
-						<dd>
-							<a href="角色管理.html">商品管理</a>
-						</dd>
-						<dd>
-							<a href="权限管理.html">订单管理</a>
-						</dd>
-						<!-- 验证当前用户是否属于该角色。 -->
-
-<!--						<a shiro:hasRole="admin" href="">Administer the system</a>&lt;!&ndash; 拥有该角色 &ndash;&gt;-->
-<!--						<a shiro:hasRole="ordinary" href="">ordinary the system</a>&lt;!&ndash; 拥有该角色 &ndash;&gt;-->
-
-<!--                        <p>Hello, <shiro:principal/>, how are you today?</p>-->
-
-                    </dl>
-
-				</li>
-
-				<li class="layui-nav-item">
-					<a href="#">
-						<i class="layui-icon layui-icon-user"></i>
-						用户
-					</a>
-					<!-- 二级菜单 -->
-					<dl class="layui-nav-child">
-						<dd>
-							<a href="1.html">用户管理</a>
-						</dd>
-						<dd>
-							<a href="角色管理.html">角色管理</a>
-						</dd>
-						<dd>
-							<a href="权限管理.html">权限管理</a>
-						</dd>
-					</dl>
-				</li>
-
-
-<!--				<li class="layui-nav-item">-->
-<!--					<a href="#">-->
-<!--						<i class="layui-icon layui-icon-set"></i>-->
-<!--						系统管理-->
-<!--					</a>-->
-<!--					&lt;!&ndash; 二级菜单 &ndash;&gt;-->
-<!--					<dl class="layui-nav-child">-->
-<!--						<dd>-->
-<!--							<a href="用户管理.html">用户管理</a>-->
-<!--						</dd>-->
-<!--						<dd>-->
-<!--							<a href="角色管理.html">角色管理</a>-->
-<!--						</dd>-->
-<!--						<dd>-->
-<!--							<a href="权限管理.html">权限管理</a>-->
-<!--						</dd>-->
-<!--					</dl>-->
-
-<!--				</li>-->
-
-
-				<li class="layui-nav-item">
-					<a href="#">
-						<i class="layui-icon layui-icon-set"></i>
-						我的设置
-					</a>
-					<!-- 二级菜单 -->
-					<dl class="layui-nav-child">
-						<dd>
-							<a href="基本资料.html">基本资料</a>
-						</dd>
-						<dd>
-							<a href="修改密码.html">修改密码</a>
-						</dd>
-
-					</dl>
-
-				</li>
-			</ul>
-		
-		
-
-		</div>
+		<div th:insert="admin/common::slidebar"></div>
 
 		<!-- 主内容区 -->
 		<div class="layui-body">
 				
 
-			<iframe src=""  id="main_Contetnt" name="main_Contetnt" style="width: 100%;height: 100%;"  frameborder="0"></iframe>
+			<iframe src=""  id="main_Contetnt" name="main_Contetnt" style="width: 100%;height: 100%;"  frameborder="0">
+
+				回家54654565看看美女激活客家话客家话 老客户莱卡棉 看了好久了
+				<p>了hike离开离开</p>
+				<h>昆仑决 ；两节课</h>
+
+
+
+			</iframe>
 			
 
 		</div>
@@ -184,9 +46,20 @@
 		$(document).ready(function(){
        $("dd>a").click(function (e) {
             e.preventDefault();
+
+
+
             $("#main_Contetnt").attr("src",$(this).attr("href"));
             console.log($(this).attr("href"));
+
+
+
         });
+			$("#exit").click(function () {
+				location.href="http://localhost:8080/store/admin/login";
+			})
+
+
     });
 
 

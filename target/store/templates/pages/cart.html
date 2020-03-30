@@ -8,8 +8,7 @@
     <!--    初始化css    -->
     <link rel="stylesheet" href="/store/static/mystore/css/normalize.css">
     <!--    引入公共的base.css-->
-    <link rel="stylesheet" href="/store/static/mystore/css/base.css"/>
-    <link rel="stylesheet" type="text/css" href="/store/static/mystore/csspublic.css"/>
+
     <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/proList.css" />
 </head>
 <body>
@@ -27,11 +26,11 @@
 
                 <li><a href="/store/user/register" class="e3">免费注册</a></li>
                 <li class="span"></li>
-                <li><a href="#">我的订单</a></li>
+                <li><a th:href="@{/order/seeMyOrdersByPage(currentPage=1,pageCount=4)}">我的订单</a></li>
                 <li class="span"></li>
                 <li><a href="/store/user/exit">退出登录</a></li>
                 <li class="span"></li>
-                <li><a href="#">我的商城</a><i></i></li>
+                <li><a href="/store/index">我的商城</a><i></i></li>
                 <li class="span"></li>
                 <li><a href="#">客户服务</a><i></i></li>
                 <li class="span"></li>
@@ -59,8 +58,8 @@
                 <div class="site">
                     <p class=" wrapper clearfix">
                         <span class="fl">购物车</span>
-                        <img class="top" src="/store/static/mystore/images/cartTop01.png">
-                        <a href="index.html" class="fr">继续购物&gt;</a>
+<!--                        <img class="top" src="/store/static/mystore/images/cartTop01.png">-->
+                        <a href="/store/index" class="fr">继续购物&gt;</a>
                     </p>
                 </div>
                 <div class="table wrapper">

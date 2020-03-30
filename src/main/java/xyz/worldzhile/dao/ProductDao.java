@@ -5,6 +5,7 @@ import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import xyz.worldzhile.constant.Constant;
+import xyz.worldzhile.domain.Category;
 import xyz.worldzhile.domain.Product;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public interface ProductDao {
     @Select("select * from product ")
     @Results(id = "productMap",value = {
             @Result(id = true,property = "pid",column = "pid"),
+            @Result(property = "category" ,column="category_cid",one = @One(select = "xyz.worldzhile.dao.CategoryDao.findOneByCid",fetchType = FetchType.EAGER))
     })
     List<Product> findAll();
 
@@ -75,4 +77,43 @@ public interface ProductDao {
 
 
 
+
+
+
+
+
+
+
+
+
+
+    @Select("<script>"+"SELECT count(pid) FROM product  where 1=1 "
+            +" and pname like CONCAT('%',#{panme},'%') "
+            +"</script>"
+    )
+    int findCountByCname(String pname);
+
+    /*layui 分页查询 cname weitiaojiao */
+    @Select("<script>"+"SELECT * FROM product  where 1=1 "
+            +"<if test='pname!=null'> and pname like CONCAT('%',#{pname},'%')</if>"
+            +"limit #{start},#{pageCount}"
+            +"</script>"
+    )
+    @ResultMap("productMap")
+    List<Product> findAllByLayuiByPage(@Param("start") int start, @Param("pageCount") Integer pageCount, @Param("pname") String pname);
+
+
+    /*修改*/
+    @Update("update product set pname=#{pname},ppicture=#{ppicture},is_hot=#{is_hot},store_price=#{store_price},rel_price=#{rel_price},pdesc=#{pdesc},pflag=#{pflag} ,category_cid=#{category.cid} where pid=#{pid}")
+    void updatePicture(Product byPid);
+
+
+
+
+    /*添加*/
+    @Insert("insert into product (pid,pname,store_price,rel_price,ppicture,pdesc,is_hot,pflag,category_cid,pdate) values ( #{pid},#{pname},#{store_price},#{rel_price},#{ppicture},#{pdesc},#{is_hot},#{pflag},#{category.cid},#{pdate}) ")
+    void insert(Product product);
+
+    @Delete("delete from product where pid=#{pid}")
+    void del(String pid);
 }

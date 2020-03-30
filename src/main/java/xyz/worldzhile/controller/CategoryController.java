@@ -11,6 +11,7 @@ import xyz.worldzhile.domain.Category;
 import xyz.worldzhile.domain.LayuiData;
 import xyz.worldzhile.service.CategoryService;
 import xyz.worldzhile.util.PageBean;
+import xyz.worldzhile.util.UuidUtil;
 
 import java.util.List;
 
@@ -44,7 +45,6 @@ public class CategoryController {
      * @param cname
      * @return
      */
-    @RequiresPermissions("category:seecategoty")
     @GetMapping("findAllByLayui")
     public @ResponseBody LayuiData<Category> findAllByLayuiByPage(@RequestParam(value = "page",defaultValue = "1") Integer page,
                                                                   @RequestParam(value = "limit",defaultValue = "8") Integer limit,
@@ -72,9 +72,9 @@ public class CategoryController {
 
 
 
-    @RequiresPermissions("category:seecategoty")
     @GetMapping("findOneCategory")
     public ModelAndView see(String cid,ModelAndView model){
+
         Category one = categoryService.findOne(cid);
         model.addObject("category",one);
         model.setViewName("admin/category");
@@ -116,9 +116,19 @@ public class CategoryController {
     @GetMapping("updateCategoryPicture")
     @ResponseBody
     public void updateCategoryPicture(Category category){
-        System.out.println(category.getCid());
-        System.out.println(category.getPicture());
-        categoryService.updatePicture(category);
+        if (category.getCid()==null||category.getCid().equals("")){
+
+            String uuid = UuidUtil.getUuid();
+            category.setCid(uuid);
+            categoryService.insertOne(category);
+
+        }else {
+            System.out.println(category.getCid());
+            System.out.println(category.getPicture());
+            categoryService.updatePicture(category);
+        }
+
+
     }
 
     /*修改分类除了url*/

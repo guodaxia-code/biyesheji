@@ -34,7 +34,7 @@
 /*商品展示*/
 .products-show{
     margin-top:30px;
-    height: 880px;
+    /*height: 880px;*/
     background-color: #f5f5f5;
 }
 .product{
@@ -48,7 +48,7 @@
 }
 .product:hover{
     box-shadow:8px 5px 5px 5px rgba(0,0,0,0.2);
-    height: 400;
+    /*height: 400;*/
 }
 .products-show div:nth-child(4n){
     margin-right: 0px;

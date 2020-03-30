@@ -5,6 +5,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
@@ -84,6 +85,9 @@ public class AdminController {
 //        }
 
 //        model.setViewName("redirect:/admin/index");
+        Subject subject = SecurityUtils.getSubject();
+        User currentuser = (User) subject.getPrincipal();
+        model.addObject("currentuser",currentuser);
 
         model.setViewName("/admin/indexpage");
 
@@ -91,5 +95,9 @@ public class AdminController {
 
 
     }
+
+
+
+
 
 }

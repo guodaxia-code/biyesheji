@@ -37,4 +37,16 @@ public interface OrderService {
         修改订单 包括 状态 和收货人
      */
     void updateOrder(Order order);
+
+    List<Order> findAll();
+
+
+
+    PageBean<Order> findAllByLayuiByPage(Integer page, Integer limit, String pname);
+
+
+    /*
+     删除订单
+     */
+    void updatedelete(String oid);
 }

@@ -83,5 +83,40 @@ public class OrderServiceImpl implements OrderService {
         orderDao.update(order);
     }
 
+    @Override
+    public List<Order> findAll() {
+        return orderDao.findAll();
+    }
+
+
+
+    @Override
+    public PageBean<Order> findAllByLayuiByPage(Integer page, Integer limit, String pname) {
+
+
+            System.out.println(pname);
+
+
+
+            int count = orderDao.findCount();
+            System.out.println(count+"dao");
+            PageBean<Order> pageBean = new PageBean<Order>(page,limit,count);
+
+            List<Order> allByLayuiByPage = orderDao.findAllByLayuiByPage(pageBean.getStart(), pageBean.getPageCount(),pname);
+
+            System.out.println(allByLayuiByPage.toString());
+            pageBean.setList(allByLayuiByPage);
+
+
+            return pageBean;
+
+    }
+
+    @Override
+    public void updatedelete(String oid) {
+        orderItemDao.delete(oid);
+        orderDao.delete(oid);
+    }
+
 
 }

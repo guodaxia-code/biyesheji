@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:shiro="http://xmlns.jcp.org/xml/ns/javaee">
+<html lang="en"  xmlns:th="http://wwww.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro" >
 <head>
     <meta charset="UTF-8">
     <title>文件上传</title>
@@ -18,6 +18,45 @@
     </style>
 </head>
 <body>
+
+
+
+
+
+
+  <div th:each="one:${list}">
+      <span th:text="${one.username}"></span>
+  </div>
+
+  <div th:each="one:${all}">
+      <span th:text="${one.cname}"></span>
+  </div>
+
+
+
+
+
+
+
+
+
+
+----------------------
+
+    <span th:text="${permitted}">falsetrue</span>
+    <span th:text="${one}">1</span>
+
+
+    用户信息:<span shiro:principal="username"></span>
+    <br>
+<!--    有category；add-->
+
+      <button shiro:hasAllRoles="admin" type="button" class="btn  btn-primary" οnclick="add()">
+        <i class="fa fa-plus" aria-hidden="true"></i>管理员
+    </button>
+    <button shiro:hasAllRoles="ordinary" type="button" class="btn  btn-primary" οnclick="add()">
+        <i class="fa fa-plus" aria-hidden="true"></i>普通用户
+    </button>
 
 
     <form id="files" enctype="multipart/form-data">

@@ -17,6 +17,7 @@ import xyz.worldzhile.domain.Category;
 import xyz.worldzhile.domain.LayuiData;
 import xyz.worldzhile.service.CategoryService;
 import xyz.worldzhile.util.PageBean;
+import xyz.worldzhile.util.UuidUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,6 +127,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public void insertOne(Category category) {
+
+        if (category.getCid()==null||category.getCid().equals("")){
+            category.setCid(UuidUtil.getUuid());
+        }
         categoryDao.insert(category);
     }
 

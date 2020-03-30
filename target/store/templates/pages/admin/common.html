@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
+
+
+<!-- 头部内容区 -->
+<div th:fragment="adminhead()" class="layui-header">
+    <!-- 项目标题 -->
+    <div class="layui-logo">
+        至乐购后台管理系统
+    </div>
+
+    <!-- 管理员登录信息 -->
+    <div class="layui-layout-right">
+        <ul class="layui-nav">
+            <!-- 当前管理员信息 一个nav 分耳二级菜单 -->
+            <li class="layui-nav-item">
+                <a href="#">
+                    <img th:src="${currentuser.url}" class="layui-nav-img"  alt="">
+                    							<span th:text="${currentuser.name}">郭健全</span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd>
+                        <a th:href="@{'/user/usermsg?username='+${currentuser.username}}">修改资料</a>
+                    </dd>
+                    <hr/>
+                    <dd>
+                        <a id="exit" th:href="@{/user/exit}">退出登录</a>
+                    </dd>
+
+                </dl>
+
+            </li>
+
+
+
+
+        </ul>
+
+    </div>
+
+
+</div>
+
+
+<!-- 侧边导航栏 -->
+<div th:fragment="slidebar" class="layui-side layui-bg-black">
+    <ul class="layui-nav layui-nav-tree">
+        <li class="layui-nav-item">
+            <a href="javascript:void(0)">
+                <i class="layui-icon layui-icon-home"></i>
+                主页
+            </a>
+        </li>
+
+
+        <li class="layui-nav-item">
+            <a href="#">
+                <i class="layui-icon layui-icon-set"></i>
+                应用
+            </a>
+            <!-- 二级菜单 -->
+            <dl class="layui-nav-child">
+                <p shiro:hasAllRoles="admin"><!-- 角色与判断 -->
+                <dd>
+                    <a href="/store/category/findAllPage">分类管理</a>
+                </dd>
+
+                </p>
+
+                <!--						<p shiro:authenticated="">-->
+
+                <!--							Hello, <span shiro:principal="username"></span>, how are you today?-->
+
+                <!--						</p>-->
+
+
+                <dd>
+                    <a href="/store/product/findAllPage">商品管理</a>
+                </dd>
+                <dd>
+                    <a href="/store/order/findAllPage">订单管理</a>
+                </dd>
+                <!-- 验证当前用户是否属于该角色。 -->
+
+                <!--						<a shiro:hasRole="admin" href="">Administer the system</a>&lt;!&ndash; 拥有该角色 &ndash;&gt;-->
+                <!--						<a shiro:hasRole="ordinary" href="">ordinary the system</a>&lt;!&ndash; 拥有该角色 &ndash;&gt;-->
+
+                <!--                        <p>Hello, <shiro:principal/>, how are you today?</p>-->
+
+            </dl>
+
+        </li>
+
+        <li class="layui-nav-item">
+            <a href="#">
+                <i class="layui-icon layui-icon-user"></i>
+                用户
+            </a>
+            <!-- 二级菜单 -->
+            <dl class="layui-nav-child">
+                <dd>
+                    <a href="/store/user/findAllPage">用户管理</a>
+                </dd>
+                <dd>
+                    <a href="角色管理.html">角色管理</a>
+                </dd>
+                <dd>
+                    <a href="权限管理.html">权限管理</a>
+                </dd>
+            </dl>
+        </li>
+
+
+        <!--				<li class="layui-nav-item">-->
+        <!--					<a href="#">-->
+        <!--						<i class="layui-icon layui-icon-set"></i>-->
+        <!--						系统管理-->
+        <!--					</a>-->
+        <!--					&lt;!&ndash; 二级菜单 &ndash;&gt;-->
+        <!--					<dl class="layui-nav-child">-->
+        <!--						<dd>-->
+        <!--							<a href="用户管理.html">用户管理</a>-->
+        <!--						</dd>-->
+        <!--						<dd>-->
+        <!--							<a href="角色管理.html">角色管理</a>-->
+        <!--						</dd>-->
+        <!--						<dd>-->
+        <!--							<a href="权限管理.html">权限管理</a>-->
+        <!--						</dd>-->
+        <!--					</dl>-->
+
+        <!--				</li>-->
+
+
+        <li class="layui-nav-item">
+            <a href="#">
+                <i class="layui-icon layui-icon-set"></i>
+                我的设置
+            </a>
+            <!-- 二级菜单 -->
+            <dl class="layui-nav-child">
+                <dd>
+                    <a th:href="@{/user/usermsg(username=${currentuser.username})}">基本资料</a>
+                </dd>
+                <dd>
+                    <a href="修改密码.html">修改密码</a>
+                </dd>
+
+            </dl>
+
+        </li>
+    </ul>
+
+
+
+</div>
+
+
+
+
+
+
+</html>

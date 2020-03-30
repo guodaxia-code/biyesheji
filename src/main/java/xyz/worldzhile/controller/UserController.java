@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import xyz.worldzhile.constant.Constant;
 import xyz.worldzhile.domain.Cart;
+import xyz.worldzhile.domain.LayuiData;
 import xyz.worldzhile.domain.User;
 import xyz.worldzhile.service.UserSerice;
+import xyz.worldzhile.util.PageBean;
 import xyz.worldzhile.util.UuidUtil;
 
 import javax.security.auth.Subject;
@@ -125,7 +127,7 @@ public class UserController {
     @GetMapping("exit")
     public ModelAndView exit(ModelAndView model){
         SecurityUtils.getSubject().logout();
-        model.setViewName("redirect:/templates/pages/index.html");
+        model.setViewName("forward:/index");
         return model;
     }
 
@@ -181,6 +183,29 @@ public class UserController {
 
 
 
+
+
+
+
+    @GetMapping("usermsg")
+    public ModelAndView usermsg(@RequestParam("username")String username,ModelAndView model){
+        model.setViewName("usermsg");
+        System.out.println(username+":  -");
+        User current = userService.findByUsername(username);
+        System.out.println(current);
+        model.addObject("user",current);
+
+        return model;
+    }
+
+
+
+
+
+
+
+
+
     @GetMapping("testOrder")
     public ModelAndView aa(HttpServletRequest request,ModelAndView model){
         model.setViewName("testOrder");
@@ -194,6 +219,58 @@ public class UserController {
         return model;
     }
 
+
+    @RequestMapping("updateUserPicture")
+    @ResponseBody
+    public void updateUserPicture(String uid,String url){
+        System.out.println(uid+"--"+url);
+        userService.updateUserPicture(uid,url);
+    }
+    @RequestMapping("updatenameandphone")
+    @ResponseBody
+    public void updatenameandphone(String uid,String name,String phone){
+
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        user.setName(name);
+        System.out.println(uid+"--"+name+"-"+phone);
+        userService.updatenameandphone(uid,name,phone);
+    }
+
+
+
+
+    @GetMapping("findAllPage")
+    public ModelAndView findAllPage(ModelAndView model){
+        //这里必需要要跳转
+        model.setViewName("redirect:/templates/pages/admin/user/userManager.html");
+        return model;
+    }
+    /**
+     * 分页查询   pname 为条件
+     * @param page
+     * @param limit
+     * @param pname
+     * @return
+     */
+    @GetMapping("findAllByLayui")
+    public @ResponseBody
+    LayuiData<User> findAllByLayuiByPage(@RequestParam(value = "page",defaultValue = "1") Integer page,
+                                         @RequestParam(value = "limit",defaultValue = "8") Integer limit,
+                                         @RequestParam(value = "pname",required = false) String pname){
+//        接口地址。默认会自动传递两个参数：?page=1&limit=30（该参数可通过 request 自定义）
+//        page 代表当前页码、limit 代表每页数据量
+        //条件校验
+        if (pname==null||pname.length()==0){
+            pname="";
+        }
+        PageBean<User> allByLayuiByPage = userService.findAllByLayuiByPage(page, limit,pname);
+        LayuiData<User> productLayuiData = new LayuiData<>();
+        productLayuiData.setCode(0);
+        productLayuiData.setData(allByLayuiByPage.getList());
+        productLayuiData.setMsg("");
+        productLayuiData.setCount(allByLayuiByPage.getTotalCount());
+        return productLayuiData;
+    }
 
 
 

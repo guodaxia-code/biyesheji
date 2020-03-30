@@ -11,7 +11,7 @@ public interface PermissionDao {
 
 
 
-    @Select("SELECT permissions.permission\n" +
+    @Select("SELECT DISTINCT permissions.permission\n" +
             "FROM users\n" +
             "LEFT JOIN user_roles \n" +
             "ON users.uid=user_roles.urid_uid\n" +

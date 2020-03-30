@@ -116,6 +116,9 @@
 
 
 
+    <bean id="shiroDialect" class="at.pollux.thymeleaf.shiro.dialect.ShiroDialect"></bean>
+
+
     <bean class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
         <property name="exceptionMappings">
             <props>

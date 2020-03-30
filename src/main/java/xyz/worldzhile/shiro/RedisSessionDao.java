@@ -29,7 +29,7 @@ public class RedisSessionDao extends AbstractSessionDAO {
             byte[] key = getKey(session.getId().toString());
             byte[] value= SerializationUtils.serialize(session);
             jedisUtils.set(key,value);
-            jedisUtils.expire(key,100);
+            jedisUtils.expire(key,60*15);
 
         }
     }

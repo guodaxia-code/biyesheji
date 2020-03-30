@@ -32,7 +32,6 @@ import java.util.*;
 @RequestMapping("order")
 public class OrderController {
 
-
     static String p1_MerId;
     static String keyValue;
     static String responseURL;
@@ -40,12 +39,26 @@ public class OrderController {
     static{
         p1_MerId="10001126856";
         keyValue="69cl522AV6q613Ii4W6u8K6XuW8vM1N6bFgyv769220IuYe9u37N4y7rI4Pl";
-        responseURL="http://www.worldzhile.xyz/store/order/callback";
+        responseURL="http://localhost:8080/store/order/callback";
     }
 
 
     @Autowired
     OrderService orderService;
+
+
+    @RequestMapping("findAll")
+    public ModelAndView findAll(ModelAndView modelAndView){
+
+       List<Order> all= orderService.findAll();
+        modelAndView.setViewName("admin/order/orderList");
+        modelAndView.addObject("all",all);
+
+        return modelAndView;
+
+
+    }
+
 
     /**
      购物车里多选下单
@@ -97,15 +110,36 @@ public class OrderController {
 
 
 
-
-
-
     @GetMapping("seeOneOrder")
     public ModelAndView seeOrder(@RequestParam("oid") String oid, ModelAndView model, HttpServletRequest request) {
         Order nowOrder = orderService.findOrderByOid(oid);
         model.addObject("nowOrder", nowOrder);
         model.setViewName("order");
         return model;
+
+    }
+
+    /*后台修改收货信息*/
+    @GetMapping("xiugaiOneOrder")
+    public ModelAndView xiugaiOneOrder(@RequestParam("oid") String oid, ModelAndView model, HttpServletRequest request) {
+        Order nowOrder = orderService.findOrderByOid(oid);
+        model.addObject("nowOrder", nowOrder);
+        model.setViewName("admin/order/bianjiOrder");
+        return model;
+
+    }
+
+
+    /*后台修改收货信息*/
+    @PostMapping("xiugaiShouhuo")
+    public void xiugaiShouhuo(Order order) {
+        Order nowOrder = orderService.findOrderByOid(order.getOid());
+        nowOrder.setAddress(order.getAddress());
+        nowOrder.setPhone(order.getPhone());
+        nowOrder.setName(order.getName());
+        System.out.println(order);
+
+        orderService.updateOrder(nowOrder);
 
     }
 
@@ -225,7 +259,7 @@ public class OrderController {
     }*/
 
 
-    /*
+ /*
     支付宝支付
      */
 
@@ -235,6 +269,14 @@ public class OrderController {
                                  @RequestParam("address") String address,
                                  @RequestParam("phone") String phone,
                                  ModelAndView model, HttpServletRequest request) {
+
+//        User user = (User) request.getSession().getAttribute(Constant.USER_LOGIN_SESSION);
+//        if (user == null) {
+//            System.out.println("没有登录");
+//            model.setViewName("msg");
+//            model.addObject("user_login_error", "没有登录不可以付款");
+//            return model;
+//        }
 
         User user = (User) SecurityUtils.getSubject().getPrincipal();
 
@@ -250,6 +292,7 @@ public class OrderController {
         orderByOid.setPhone(address);
 
         orderService.updateOrder(orderByOid);
+
 
 
         //
@@ -282,11 +325,11 @@ public class OrderController {
 
         //若想给BizContent增加其他可选请求参数，以增加自定义超时时间参数timeout_express来举例说明
         alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\","
-        		+ "\"total_amount\":\""+ total_amount +"\","
-        		+ "\"subject\":\""+ subject +"\","
-        		+ "\"body\":\""+ body +"\","
-        		+ "\"timeout_express\":\"10m\","
-        		+ "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
+                + "\"total_amount\":\""+ total_amount +"\","
+                + "\"subject\":\""+ subject +"\","
+                + "\"body\":\""+ body +"\","
+                + "\"timeout_express\":\"10m\","
+                + "\"product_code\":\"FAST_INSTANT_TRADE_PAY\"}");
         //请求参数可查阅【电脑网站支付的API文档-alipay.trade.page.pay-请求参数】章节
 
         //请求
@@ -299,11 +342,17 @@ public class OrderController {
 
         System.out.println(result);
 
+
+
+
+
         model.setViewName("qualipay");
-       model.addObject("AliPay",result);
+        model.addObject("AliPay",result);
+
         return model;
 
     }
+
 
 
     /**
@@ -587,4 +636,86 @@ public class OrderController {
         return model;
 
     }
+
+
+
+
+
+
+    @GetMapping("findAllPage")
+    public ModelAndView findAllPage(ModelAndView model){
+        //这里必需要要跳转
+        model.setViewName("redirect:/templates/pages/admin/order/orderManager.html");
+        return model;
+    }
+
+    /**
+     * 分页查询   pname 为条件
+     * @param page
+     * @param limit
+     * @param pname
+     * @return
+     */
+    @GetMapping("findAllByLayui")
+    public @ResponseBody
+    LayuiData<Order> findAllByLayuiByPage(@RequestParam(value = "page",defaultValue = "1") Integer page,
+                                            @RequestParam(value = "limit",defaultValue = "8") Integer limit,
+                                            @RequestParam(value = "pname",required = false) String pname){
+//        接口地址。默认会自动传递两个参数：?page=1&limit=30（该参数可通过 request 自定义）
+//        page 代表当前页码、limit 代表每页数据量
+        //条件校验
+        if (pname==null||pname.length()==0){
+            pname="";
+        }
+        PageBean<Order> allByLayuiByPage = orderService.findAllByLayuiByPage(page, limit,pname);
+        LayuiData<Order> orderLayuiData = new LayuiData<>();
+        orderLayuiData.setCode(0);
+        orderLayuiData.setData(allByLayuiByPage.getList());
+        orderLayuiData.setMsg("");
+        orderLayuiData.setCount(allByLayuiByPage.getTotalCount());
+        return orderLayuiData;
+    }
+
+
+    //发货
+    @RequestMapping("fahuo/{oid}")
+    public void Fahuo(@PathVariable("oid") String oid){
+        Order orderByOid = orderService.findOrderByOid(oid);
+        orderByOid.setStates(Constant.IS_FAHUO);
+        orderService.updateOrder(orderByOid);
+
+    }
+
+    //删除订单
+    @RequestMapping("del/{oid}")
+    public void del(@PathVariable("oid") String oid){
+
+        orderService.updatedelete(oid);
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

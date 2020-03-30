@@ -6,7 +6,23 @@
     <!--    引入公共的base.css-->
     <link rel="stylesheet" href="/store/static/mystore/css/base.css"/>
     <link rel="stylesheet" href="/store/static/mystore/css/product_list.css"></link>
+    <style>
+        /*清楚浮动*/
 
+        .clearfix:after {
+            content: "";
+            display: block;
+            clear: both;
+            height: 0;
+            line-height: 0;
+            visibility: hidden;
+        }
+
+        .clearfix {
+            zoom: 1;
+        }
+
+    </style>
 </head>
 <body>
 
@@ -20,21 +36,28 @@
  </div>
  <div class="category middle">
      <ul class="searchFilter">
-         <li>分类：</li>
+         <li> &nbsp;&nbsp;&nbsp; 分类：</li>
          <li th:text="${cname}">手机<</li>
      </ul>
 
 
  </div>
 
- <div class="middle products-show" >
+ <div class="middle products-show clearfix" >
     <!-- 产品 -->
-    <div class="product" th:each="product:${pageBean.list}">
-        <img th:src="${product.ppicture}" alt="">
-        <a th:href="'/store/product/getProductByPid?pid='+${product.pid}" class="product-name" th:text="${product.pname}">小米cc9 Pro</a>
-        <p class="product-desc" th:text="${product.pdesc}">商品描述</p>
-        <p class="product-price"><text th:text="${product.rel_price}+'元'">2552元 </text> <del th:text="${product.store_price}+'元'">3000元 </del></p>
-    </div>
+     <tH:block th:if="${pageBean.list.size()==0}">
+         该分类下还没有添加产品哦,去后台添加吧-.-
+
+     </tH:block>
+     <th:blick th:if="${pageBean.list.size()>0}">
+         <div class="product" th:each="product:${pageBean.list}">
+             <a th:href="'/store/product/getProductByPid?pid='+${product.pid}"><img th:src="${product.ppicture}" alt=""></a>
+             <a th:href="'/store/product/getProductByPid?pid='+${product.pid}" class="product-name" th:text="${product.pname}">小米cc9 Pro</a>
+             <p class="product-desc" th:text="${product.pdesc}">商品描述</p>
+             <p class="product-price"><text th:text="${product.rel_price}+'元'">2552元 </text> <del th:text="${product.store_price}+'元'">3000元 </del></p>
+         </div>
+     </th:blick>
+
   </div>
  <div class="page middle">
     <th:block th:if="${pageBean.currentPage}==1">

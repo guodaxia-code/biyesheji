@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http:www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http:www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
     <title>分类管理</title>
@@ -132,12 +132,12 @@
                 cols:[[
                     {type : "checkbox",width:100},
                     {title:'序号',type:'numbers',width:100,align:'center'},
-                    ,{field: 'cname',  title: '分类名称',width:220}
+                    {field: 'cname',  title: '分类名称', align:'center',width:300}
                     ,{field: 'picture', title: '分类导图',width:350, align:"center",templet: function(d){
                             return '<div οnclick="show_img(this)" ><img src="'+d.picture+'" onclick="show_img(this)" alt="" height="100%" width="40%"></a></div>';
                         }}
                     ,{field: 'hot', title: '热度', width:150,sort: true,align:"center"},
-                    { fixed: 'right', title: '操作', align:'center', toolbar: '#bar'  },
+                    { fixed: 'right', title: '操作', align:'center', toolbar: '#bar'  }
                 ]],
                 done:function (res) {
                      exportData = res.data;
@@ -185,7 +185,7 @@
                         layer.close(index);
                         //向服务端发送删除指令
                         $.get("/store/category/del/"+data.cid,
-                            function (data) {
+                            function () {
                                 console.log("sucess")
                             }
                         );

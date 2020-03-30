@@ -33,7 +33,7 @@
                 </ul>
                 <ul class="fr first-nav">
                     <!--	有无登录				-->
-                    <li th:if="${user}"><a href="#"   th:text="'你好,'+${user.name}"></a></li>
+                    <li th:if="${user}"><a th:href="'/store/user/usermsg?username='+${user.username}"   th:text="'你好,'+${user.name}"></a></li>
                     <li th:unless="${user}"><a href="/store/user/login"  >你好,请登录</a></li>
                     <li class="span"></li>
 
@@ -43,7 +43,7 @@
                     <li class="span"></li>
                     <li><a href="/store/user/exit">退出登录</a></li>
                     <li class="span"></li>
-                    <li><a href="#">我的商城</a><i></i></li>
+                    <li><a href="/store/index">我的商城</a><i></i></li>
                     <li class="span"></li>
                     <li><a href="#">客户服务</a><i></i></li>
                     <li class="span"></li>

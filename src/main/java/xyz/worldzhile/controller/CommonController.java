@@ -81,6 +81,8 @@ public class CommonController {
              cartSubCount = cart.getCartSubCount();
         }
         request.setAttribute("user",user);
+
+        System.out.println(user+"headlide");
         request.setAttribute("cartSubCount",cartSubCount);
         System.out.println(cartSubCount);
         model.setViewName("head");

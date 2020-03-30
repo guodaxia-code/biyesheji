@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,6 +67,10 @@ public class CartController {
     public ModelAndView seeCart(HttpServletRequest request,ModelAndView model){
         //权限校验
         Cart hasCart = (Cart)SecurityUtils.getSubject().getSession().getAttribute(Constant.USER_CART_SESSION);
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        model.addObject("user",user);
+
+
         model.setViewName("cart");
         return model;
     }
