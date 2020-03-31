@@ -254,7 +254,7 @@
 <div class="middle" style="height: 550px; border: 2px solid #fff;">
     <div class="detCon">
         <div class="proDet wrapper">
-            <div class="proCon localhost:8080">
+            <div class="proCon www.worldzhile.xyz">
 
 
 
@@ -296,7 +296,7 @@
                         </div>
                     </div>
                     <div class="btns clearfix">
-                        <a href="#2"><p class="buy fl">立即购买</p></a>
+                        <a id="lijigou" th:href="@{/order/lijigou(pid=${product.pid},pcount='')}"><p class="buy fl">立即购买</p></a>
                         <a id="addCart" href="#2" th:href="@{/cart/addToCart(pid=${product.pid},pcount=1)}"><p class="cart fr">加入购物车</p></a>
                     </div>
                 </div>
@@ -395,6 +395,16 @@
         }
 
     </script>
+
+<!--立即购买-->
+<script>
+
+    $("#lijigou").click(function () {
+
+        this.href=this.href+ $("#number").val();
+    })
+
+</script>
 
 </body>
 </html>

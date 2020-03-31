@@ -2,28 +2,46 @@
 <html lang="en" xmlns:th="http:www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:text="${title}">成功</title>
+    <title th:text="${title}">注册成功</title>
+    <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/proList.css" />
+    <link rel="stylesheet" href="/store/static/layui/css/layui.css">
+    <style>
+        .middle { /*版心*/
+            width: 1190px;
+            margin: 0 auto;
+        }
+    </style>
 </head>
 <body>
-    <div id="headpage">head</div>
-    <h1  th:text="${user_messageg_success}">恭喜你，成功注册了,请登录邮箱进行账号激活</h1>
-    <span id="time">5</span>s后调转到登录页面
+
+<div id="headpage">head</div>
+    <div class="order mt cart middle">
+        <div class="site">
+            <p class="wrapper clearfix">
+                <span class="fl"  style="margin: auto 20px; " th:text="${user_messageg_success}">注册成功</span>
+            </p>
+        </div>
+        <p class="ok">注册成功！剩余<span id="time">5</span>秒<a id="dianji"  th:href="@{/user/login}">返回登录页面</a></p>
+    </div>
+
     <div id="footerpage">footerpage</div>
 
     <script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
     <script src="/store/static/mystore/js/myjs/head.js"></script>
+
     <script>
 
         /* 注册成功后5s倒计时去登录页面*/
-        function daojishi() {
-            var time = document.getElementById("time");
-            if (time.innerText==='1'){
-                window.location.href="http://localhost:8080/store/user/login";
-            }else {
-                time.innerText=time.innerText-1+'';
-            }
-        }
-       setInterval(daojishi,1000);
+       //  function daojishi() {
+       //      var time = document.getElementById("time");
+       //      if (time.innerText==='1'){
+       //          window.location.href="http://www.worldzhile.xyz/store/user/login";
+       //      }else {
+       //          time.innerText=time.innerText-1+'';
+       //      }
+       //  }
+       // setInterval(daojishi,1000);
+
 
         $(function () {
             load_headpage_and_footerpage()
@@ -33,8 +51,26 @@
 
 
 
+        var seconds = $(".ok span").text();
+        function time(){
+            seconds--;
+            $(".ok span").text(seconds);
+            if(seconds==0){
+                location.href= $("#dianji")[0].href;
+            }
+        }
+        setInterval(time,1000);
+
+        </script>
 
 
-    </script>
+
+
+
+
+
+
+
+
 </body>
 </html>

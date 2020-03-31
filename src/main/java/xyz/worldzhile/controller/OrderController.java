@@ -39,7 +39,7 @@ public class OrderController {
     static{
         p1_MerId="10001126856";
         keyValue="69cl522AV6q613Ii4W6u8K6XuW8vM1N6bFgyv769220IuYe9u37N4y7rI4Pl";
-        responseURL="http://localhost:8080/store/order/callback";
+        responseURL="http://www.worldzhile.xyz/store/order/callback";
     }
 
 
@@ -157,7 +157,6 @@ public class OrderController {
     }
 
     @GetMapping("seeMyOrdersByPage")
-    @ResponseBody
     public ModelAndView getProductsByPage(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage, @RequestParam(value = "pageCount", defaultValue = "4") Integer pageCount, ModelAndView model, HttpServletRequest request) {
 
         User user = (User) SecurityUtils.getSubject().getPrincipal();
@@ -681,16 +680,41 @@ public class OrderController {
     @RequestMapping("fahuo/{oid}")
     public void Fahuo(@PathVariable("oid") String oid){
         Order orderByOid = orderService.findOrderByOid(oid);
-        orderByOid.setStates(Constant.IS_FAHUO);
-        orderService.updateOrder(orderByOid);
+        Integer states = orderByOid.getStates();
+        if (states==Constant.IS_PAYE) {
+            orderByOid.setStates(Constant.IS_FAHUO);
+            orderService.updateOrder(orderByOid);
+        }
+
 
     }
 
-    //删除订单
+    //删除订单们
     @RequestMapping("del/{oid}")
-    public void del(@PathVariable("oid") String oid){
+    public void del(@PathVariable("oid") String[] oid){
+        System.out.println(Arrays.toString(oid));
+        for (String one : oid) {
+            orderService.updatedelete(one);
+        }
 
-        orderService.updatedelete(oid);
+    }
+
+
+
+
+    /**
+     * 立即购买不走购物车 一个商品的多个数量
+     */
+
+    @RequestMapping("lijigou")
+    public ModelAndView lijigou(@RequestParam("pid") String pid ,@RequestParam("pcount") Integer pcount ,ModelAndView model){
+
+        String oid=orderService.saveOrderOneProduct(pid,pcount);
+        Order nowOrder = orderService.findOrderByOid(oid);
+        model.addObject("nowOrder", nowOrder);
+        model.setViewName("order");
+        return model;
+
 
     }
 
@@ -700,8 +724,20 @@ public class OrderController {
 
 
 
+    //用户确认收货 2 -3
+    @RequestMapping("shouhuo")
+    public ModelAndView shouhuo(@RequestParam("oid") String oid,ModelAndView model){
+        Order orderByOid = orderService.findOrderByOid(oid);
+        Integer states = orderByOid.getStates();
+        if (states==Constant.IS_FAHUO) {
+            orderByOid.setStates(Constant.IS_OK);
+            orderService.updateOrder(orderByOid);
+        }
 
+        model.setViewName("redirect:/order/seeMyOrdersByPage");
+        return model;
 
+    }
 
 
 

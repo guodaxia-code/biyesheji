@@ -1,6 +1,7 @@
 package xyz.worldzhile.dao;
 
 import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.mapping.FetchType;
 import org.springframework.stereotype.Repository;
 import xyz.worldzhile.domain.Product;
 import xyz.worldzhile.domain.User;
@@ -18,6 +19,7 @@ public interface UserDao {
             @Result(id = true,property = "uid",column = "uid"),
             @Result(property = "qqEmail",column = "qq_email"),
             @Result(property = "url",column = "url"),
+            @Result(property = "roles" ,column="uid",many = @Many(select = "xyz.worldzhile.dao.RoleDao.findAllByUid",fetchType = FetchType.EAGER))
     })
 
     User findUserByUsername(String username);
@@ -26,6 +28,7 @@ public interface UserDao {
     User findUserByCode(String code);
 
     @Select("select uid,username,password,qq_email,name,birthday,phone,code,states,url from users where uid=#{uid}")
+    @ResultMap("UserMap")
     User findUserByUid(String uid);
 
     @Update("update users set states=1 where code=#{code}")
@@ -39,21 +42,23 @@ public interface UserDao {
 
 
     @Select("<script>"+"SELECT count(uid) FROM users  where 1=1 "
-//            +" and pname like CONCAT('%',#{panme},'%') "
+            +" and username like CONCAT('%',#{username},'%') "
             +"</script>"
     )
-    int findCount();
+    int findCount(@Param("username")String username);
 
     /*layui 分页查询  weitiaojiao */
     @Select("<script>"+"SELECT * FROM users  where 1=1 "
-//            +"<if test='pname!=null'> and pname like CONCAT('%',#{pname},'%')</if>"
+            +"<if test='username!=null'> and username like CONCAT('%',#{username},'%')</if>"
             +"limit #{start},#{pageCount}"
             +"</script>"
     )
     @ResultMap("UserMap")
-    List<User> findAllByLayuiByPage(@Param("start") int start, @Param("pageCount") Integer pageCount, @Param("pname") String pname);
+    List<User> findAllByLayuiByPage(@Param("start") int start, @Param("pageCount") Integer pageCount, @Param("username") String username);
 
 
+    @Delete("delete from users where uid=#{uid}")
+    void delete(String uid);
 
 
 

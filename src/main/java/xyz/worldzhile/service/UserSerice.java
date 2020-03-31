@@ -49,6 +49,8 @@ public interface UserSerice {
 
 
 
-    PageBean<User> findAllByLayuiByPage(Integer page, Integer limit, String pname);
+    PageBean<User> findAllByLayuiByPage(Integer page, Integer limit, String username);
+
+    void delete(String uid);
 }
 

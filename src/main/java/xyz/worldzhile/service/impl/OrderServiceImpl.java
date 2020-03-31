@@ -1,11 +1,13 @@
 package xyz.worldzhile.service.impl;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sun.security.x509.OIDMap;
 import xyz.worldzhile.constant.Constant;
 import xyz.worldzhile.dao.OrderDao;
 import xyz.worldzhile.dao.OrderItemDao;
+import xyz.worldzhile.dao.ProductDao;
 import xyz.worldzhile.dao.UserDao;
 import xyz.worldzhile.domain.Order;
 import xyz.worldzhile.domain.OrderItem;
@@ -30,6 +32,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderItemDao orderItemDao;
+
+    @Autowired
+    ProductDao productDao;
 
     @Override
     public String   saveOrder(String uid, List<OrderItem> orderItems,Double totalMany) {
@@ -116,6 +121,33 @@ public class OrderServiceImpl implements OrderService {
     public void updatedelete(String oid) {
         orderItemDao.delete(oid);
         orderDao.delete(oid);
+    }
+
+    @Override
+    public String saveOrderOneProduct(String pid, Integer pcount) {
+
+        String oid = UuidUtil.getUuid();
+
+        String oiid=UuidUtil.getUuid();
+        Float rel_price = productDao.findByPid(pid).getRel_price();
+        OrderItem orderItem = new OrderItem();
+        orderItem.setOiid(oiid);
+        orderItem.setPid(pid);
+        orderItem.setOid(oid);
+        orderItem.setNumber(pcount);
+        orderItem.setMoney((double) (pcount*rel_price));
+
+
+        Order order = new Order();
+        order.setStates(Constant.NO_PAY);
+        order.setOid(oid);
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        order.setUid(user.getUid());
+        order.setTotalMoney(rel_price*pcount);
+        order.setTime(new Date());
+        orderDao.add(order);
+        orderItemDao.add(orderItem);
+        return oid;
     }
 
 

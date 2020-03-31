@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http:www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品分页展示</title>
+    <!--    引入公共的base.css-->
+    <link rel="stylesheet" href="/store/static/mystore/css/base.css"/>
+    <link rel="stylesheet" href="/store/static/mystore/css/product_list.css"></link>
+    <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/public.css" />
+    <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/proList.css" />
+    <style>
+        /*清楚浮动*/
+
+        .clearfix:after {
+            content: "";
+            display: block;
+            clear: both;
+            height: 0;
+            line-height: 0;
+            visibility: hidden;
+        }
+
+        .clearfix {
+            zoom: 1;
+        }
+
+    </style>
+</head>
+<body>
+
+ <div id="headpage">head</div>
+
+<!--search 信息-->
+ <div class="schBox">
+     <ul class="wrapper sch">
+         <li>
+             <h4>商品类型：</h4>
+             <a href="#">电脑</a>
+         </li>
+         <li>
+             <h4>价格范围：</h4>
+             <a href="#">800-2000</a>
+         </li>
+         <li>
+             <h4>上架上架：</h4>
+             <a href="#">2020-2-3</a>
+         </li>
+     </ul>
+ </div>
+
+
+ <div class="current">
+     <div class="wrapper clearfix">
+         <a href="/store/index">首页</a>
+         <span>></span>
+         <a href="">全部结果</a>
+         <span>></span>
+         <span th:text="${condition}">搜索内容</span>
+         <div class="fr choice">
+<!--             <p class="default">排序方式</p>-->
+<!--             <ul class="select">-->
+<!--                 <li>新品上市</li>-->
+<!--                 <li>价格从高到低</li>-->
+<!--                 <li>价格从低到高</li>-->
+
+
+                    <a  href="" id="sheng">价格升序</a>
+                     <a  href="" id="jiang">价格降序 </a>
+
+         </div>
+     </div>
+ </div>
+
+<!-- <hr style="background-color:red;">-->
+
+    <!-- <div class="search-row middle">-->
+    <!--     <a href="/store/index">首页</a>-->
+    <!--     <span>></span>-->
+    <!--     <a href="">全部结果</a>-->
+    <!--     <span>></span>-->
+    <!--     <span th:text="${condition}">搜索内容</span>-->
+    <!-- </div>-->
+<!--     <div class="category middle">-->
+<!--         <ul class="searchFilter">-->
+<!--    &lt;!&ndash;         <li> &nbsp;&nbsp;&nbsp; 分类：</li>&ndash;&gt;-->
+<!--             <li th:text="${cname}">手机<</li>-->
+<!--         </ul>-->
+<!--    -->
+
+<!--     </div>-->
+
+ <div class="middle products-show clearfix" >
+    <!-- 产品 -->
+     <tH:block th:if="${pageBean.list.size()==0}">
+         不好意思未搜索到您需要的商品
+
+     </tH:block>
+     <th:blick th:if="${pageBean.list.size()>0}">
+         <div class="product" th:each="product:${pageBean.list}">
+             <a th:href="'/store/product/getProductByPid?pid='+${product.pid}"><img th:src="${product.ppicture}" alt=""></a>
+             <a th:href="'/store/product/getProductByPid?pid='+${product.pid}" class="product-name" th:text="${product.pname}">小米cc9 Pro</a>
+             <p class="product-desc" th:text="${product.pdesc}">商品描述</p>
+             <p class="product-price"><text th:text="${product.rel_price}+'元'">2552元 </text> <del th:text="${product.store_price}+'元'">3000元 </del></p>
+         </div>
+     </th:blick>
+
+  </div>
+ <div class="page middle">
+    <th:block th:if="${pageBean.currentPage}==1">
+<!--        <a th:href="@{/product/getSearchProductsByPage(cid=${param.cid},currentPage=1,pageCount=8,pricesort=${param.pricesort})}" class="shangxiapage no-use">&lt;上一页</a>-->
+    </th:block>
+
+    <th:block th:if="${pageBean.currentPage}!=1">
+        <a th:href="@{/product/getSearchProductsByPage(pname=${param.pname},currentPage=${pageBean.currentPage-1},pageCount=8,pricesort=${param.pricesort})}" th:class="shangxiapage">&lt;上一页</a>
+    </th:block>
+    <th:block th:each="i:${#numbers.sequence(pageBean.StartPage,pageBean.EndPage)}">
+        <th:block th:if="${pageBean.currentPage}==${i}">
+            <a th:href="@{/product/getSearchProductsByPage(pname=${param.pname},currentPage=${i},pageCount=8,pricesort=${param.pricesort})}" class="currentPage yepage" th:text="${i}"></a>
+        </th:block>
+        <th:block th:if="${pageBean.currentPage}!=${i}">
+            <a th:href="@{/product/getSearchProductsByPage(pname=${param.pname},currentPage=${i},pageCount=8,pricesort=${param.pricesort})}" th:class="yepage" th:text="${i}"></a>
+        </th:block>
+    </th:block>
+
+    <th:block th:if="${pageBean.currentPage}==${pageBean.totalPage}">
+<!--        <a th:href="@{/product/getSearchProductsByPage(pname=${param.pname},currentPage=${pageBean.currentPage+1},pageCount=8,pricesort=${param.pricesort})}" class="shangxiapage no-use">下一页&gt;</a>-->
+    </th:block>
+    <th:block th:if="${pageBean.currentPage}!=${pageBean.totalPage} and ${pageBean.totalPage}!=0">
+        <a th:href="@{/product/getSearchProductsByPage(pname=${param.pname},currentPage=${pageBean.currentPage+1},pageCount=8,pricesort=${param.pricesort})}" class="shangxiapage">下一页&gt;</a>
+    </th:block>
+<!--    总共 <span th:text="${pageBean.totalPage}"></span>页-->
+
+ </div>
+
+ <div id="footerpage">footerpage</div>
+ <script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
+ <script src="/store/static/mystore/js/myjs/head.js"></script>
+ <script>
+
+     $(function () {
+         load_headpage_and_footerpage();
+         getCategoryTenNumber();
+
+
+         //只能这样放慢加载速度
+         setTimeout(funcName,200);
+         function funcName() {
+             $("#pname").val(getUrlParam("pname"));
+         }
+
+         $("#sheng").click(function () {
+             var pname = $("#pname").val();
+             this.href="/store/product/getSearchProductsByPage?pname="+pname+"&pricesort=asc";
+              // return false;
+         })
+
+         $("#jiang").click(function () {
+             var pname = $("#pname").val();
+             this.href="/store/product/getSearchProductsByPage?pname="+pname+"&pricesort=desc";
+             // return false;
+         })
+
+
+     })
+ </script>
+
+
+
+
+
+</body>
+</html>

@@ -27,11 +27,23 @@ public interface ProductService {
      */
      PageBean<Product> findPageBean(String cid,Integer currentPage,Integer pageCount);
 
+
+
+
+
     List<Product> findAll();
 
 
-
+    /*
+       按照商品名搜素
+     */
     PageBean<Product> findAllByLayuiByPage(Integer page, Integer limit, String pname);
+
+    /*
+      按照商品名搜素
+      价格排序
+    */
+    PageBean<Product> findAllByLayuiByPageOrderByPrice(Integer page, Integer limit, String pname,String pricesort);
 
 
     void updatePicture(Product product);

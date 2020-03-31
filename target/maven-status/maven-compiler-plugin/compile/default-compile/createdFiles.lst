@@ -20,8 +20,10 @@ xyz\worldzhile\realm\MyRealm.class
 xyz\worldzhile\yeepay\Configuration.class
 xyz\worldzhile\domain\Product.class
 xyz\worldzhile\util\MailUtils.class
+xyz\worldzhile\domain\UserRoles.class
 xyz\worldzhile\service\impl\OrderServiceImpl.class
 xyz\worldzhile\util\FileUtil.class
+xyz\worldzhile\controller\RoleController.class
 xyz\worldzhile\controller\IndexController.class
 xyz\worldzhile\service\UserSerice.class
 xyz\worldzhile\filter\LoginFilter.class

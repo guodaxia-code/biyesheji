@@ -116,4 +116,18 @@ public interface ProductDao {
 
     @Delete("delete from product where pid=#{pid}")
     void del(String pid);
+
+
+    /**
+     *
+            商品查询 按名称 和价格排序
+     */
+    @Select("<script>"+"SELECT * FROM product  where 1=1 "
+            +"<if test='pname!=null'> and pname like CONCAT('%',#{pname},'%')</if>"
+            +"  order by rel_price ${pricesort} "
+            +" limit #{start},#{pageCount} "
+            +"</script>"
+    )
+    @ResultMap("productMap")
+    List<Product> findAllByLayuiByPageOrderByPrice(@Param("start") int start, @Param("pageCount") Integer pageCount, @Param("pname") String pname,@Param("pricesort") String pricesort);
 }

@@ -20,6 +20,16 @@ public class User implements Serializable {
     private String url;
 
 
+    List<Role> roles;
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -50,6 +60,23 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "uid='" + uid + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", qqEmail='" + qqEmail + '\'' +
+                ", name='" + name + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", phone='" + phone + '\'' +
+                ", code='" + code + '\'' +
+                ", states=" + states +
+                ", url='" + url + '\'' +
+                ", roles=" + roles +
+                '}';
     }
 
     public String getQqEmail() {

@@ -3,72 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <title>商品已成功加入购物车</title>
-    <link rel="stylesheet" href="/store/static/mystore/css/base.css">
+
+
+    <style>
+        .middle{
+            width: 1190px;
+            
+        }
+        .middle succeed *{
+            float: left;
+
+        }
+        #succeed{
+            border: 3px solid #fff;
+        }
+        #succeed .success1 b{float:left;background:url(/store/static/mystore/images/7.png) ;width: 336px;height: 61px;line-height:150px;overflow:hidden;}
+        #succeed .btn-pay1{float:right;width:155px;height:42px;margin-right: 10px;}
+        #succeed .btn-continue1{float:right;background-position:0 -24px;width:126px;height:41px;margin-right: 60px;}
+        #succeed .success1{padding:22px 10px 16px 50px;zoom:1;overflow:hidden;}
+        /*#succeed .success1 a{margin-top: 9px;}*/
+        .zi{
+            line-height: 61px;
+        }
+
+    </style>
+
 </head>
 <body>
 
 
 
 
-<!--    <div class="success-wrap">-->
-<!--        <div class="w" id="result">-->
-<!--            <div class="m succeed-box">-->
-<!--                <div class="mc success-cont">-->
-<!--                    <div class="success-lcol">-->
-<!--                        <div class="success-top">-->
-<!--                            <b class="succ-icon"></b>-->
-<!--                            <h3 class="ftx-02">商品已成功加入购物车！</h3>-->
-<!--                        </div>-->
-<!--                        <div class="p-item">-->
-<!--                            <div class="p-img">-->
-<!--                                <a href="//item.jd.com/100007382204.html" target="_blank"><img src="//img10.360buyimg.com/cms/s60x60_jfs/t1/42135/19/13707/141062/5d6c7eceE05ae82cf/4825e43f093d6024.jpg" clstag="pageclick|keycount|201601152|11" /></a>-->
-<!--                            </div>-->
-<!--                            <div class="p-info">-->
-<!--                                <div class="p-name">-->
-<!--                                    <a href="//item.jd.com/100007382204.html" target="_blank" clstag="pageclick|keycount|201601152|2" title="GILLE T69 儿童头盔 男女童春秋冬季半盔 可爱卡通安全帽电动摩托车头盔 均码 黄色【48-52cm】">GILLE T69 儿童头盔 男女童春秋冬季半盔 可爱卡通安全帽电动摩托车头盔 均码 黄色【48-52cm】</a>-->
-<!--                                </div>-->
-<!--                                <div class="p-extra">-->
-<!--                                    <span class="txt" title="黄色">颜色：黄色</span>-->
-<!--                                    <span class="txt">/ 数量：1</span>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                            <div class="clr"></div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                    <div class="success-btns success-btns-new">-->
-<!--                        <div class="success-ad">-->
-<!--                            <a href="#none"></a>-->
-<!--                        </div>-->
-<!--                        <div class="clr"></div>-->
-<!--                        <div>-->
-<!--                            <a class="btn-tobback" href="//item.jd.com/100007382204.html" target="_blank" clstag="pageclick|keycount|201601152|3">查看商品详情</a>-->
-<!--                            <a class="btn-addtocart" href="//cart.jd.com/cart.action?r=0.6095148756920712" id="GotoShoppingCart" clstag="pageclick|keycount|201601152|4"><b></b>去购物车结算</a>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
+
+
+<div id="headpage">head</div>
 
 
 
-
-    <div class="middle">
-        <h4>商品已成功加入购物车</h4>
-        <tr>
-            <td><img th:src="${cartItem.product.ppicture}" alt=""></td>
-            <td><img th:src="${cartItem.product.pname}" alt=""></td>
-            <td th:text="${cartItem.count}">2</td>
-        </tr>
-        <div>
+        <div class="middle" style="position: relative" id="succeed">
 
 
+            <div class="success1">
+
+                <b>商品已成功加入购物车！</b><span style="" id="initCart_next_go">
+                <a th:href="@{/product/getProductByPid(pid=${cartItem.product.pid})}"><img style="margin-left: 30px;" width="61px" height="61px" th:src="${cartItem.product.ppicture}" alt="查看商品详情"></a>
+                <a th:href="@{/product/getProductByPid(pid=${cartItem.product.pid})}" style="line-height: 0px;color: #333;" th:text="${cartItem.product.pname}" ></a>
+                <strong style="position: absolute;left: 500px;top: 40px; color: #333;" th:text="'*'+${cartItem.count}">2</strong>
+                <!--                    <a style="left: 900px;top: 50px;" th:href="@{/product/getProductByPid(pid=${cartItem.product.pid})}">查看商品详情</a>-->
+                      <a class="btn-continue1" href="/store/cart/seeCart" id="GotoShoppingCart"><img src="/store/static/mystore/images/settle.png"></a>
+                      <a class="btn-pay1" href="/store/index"><img src="/store/static/mystore/images/shopping.png"></a>
+                      </span>
+            </div>
         </div>
-        <a th:href="@{/product/getProductByPid(pid=${cartItem.product.pid})}">查看商品详情</a>
-        <br>
-        <a href="/store/cart/seeCart">去购物车结算</a>
-    </div>
+
+    <div  class="" style="background-color:#fff;height: 100px"></div>
 
 
+   
+
+
+<div id="footerpage">footerpage</div>
+
+<script src="/store/static/layui/layui.js"></script>
+<script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
+<script src="/store/static/mystore/js/myjs/head.js"></script>
+<script>
+    $(function () {
+        load_headpage_and_footerpage();
+        getCategoryTenNumber();
+        search();
+    })
+</script>
 </body>
 </html>

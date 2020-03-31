@@ -877,7 +877,7 @@ p.ok a{
 /****************search********************/
 div.schBox{
 	border-bottom: 1px solid #dbdbdb;
-	margin-top:110px;
+	/*margin-top:110px;*/
 }
 ul.sch{
 	border:1px solid #DBDBDB;

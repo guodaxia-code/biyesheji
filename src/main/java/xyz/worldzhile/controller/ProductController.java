@@ -145,7 +145,7 @@ public class ProductController {
         Product one = productService.findOneByPid(pid);
         model.addAttribute("product",one);
         System.out.println(one);
-    //http://localhost:8080/store/product/updateOneProduct?pid=90e9372366ef400f8589b74f1cfb9123
+    //http://www.worldzhile.xyz/store/product/updateOneProduct?pid=90e9372366ef400f8589b74f1cfb9123
         System.out.println(all);
         System.out.println(one.getCategory().getCname());
         return "admin/product/bianjiProduct";
@@ -201,6 +201,44 @@ public class ProductController {
         System.out.println("删除分类");
         productService.del(pid);
         System.out.println("删除分类成功");
+    }
+
+
+
+
+
+
+    /*
+     * 分类下的商品无条件分页查询
+     * 铵价格查询 price asc desc no
+     * */
+
+    @ApiImplicitParams(
+            value = { @ApiImplicitParam(paramType = "query",name="pname",value = "搜素的商品名",required = false),
+                    @ApiImplicitParam(paramType = "query",name="pricesort",value = "价格排序",required = false,defaultValue = "no"),
+                    @ApiImplicitParam(paramType = "query",name="currentPage",value = "查询的页码",dataType = "int",defaultValue = "1",required = true),
+                    @ApiImplicitParam(paramType = "query",name="pageCount",value = "每页的商品数据量",dataType = "int", defaultValue = "8",required = true)
+            })
+    @GetMapping("getSearchProductsByPage")
+    public ModelAndView getSearchProductsByPage(@RequestParam(value = "currentPage",defaultValue = "1") Integer currentPage,@RequestParam(value = "pageCount",defaultValue = "8") Integer pageCount,@RequestParam("pname") String pname,
+                                                @RequestParam(value = "pricesort",defaultValue = "no") String pricesort,    ModelAndView model){
+
+        System.out.println(pricesort+"---------------------------------------------------------------");
+        if (pricesort==null||"".equals(pricesort)){
+            pricesort="no";
+        }
+
+        System.out.println(pricesort+"-------------------------------------------------------------------------------------------");
+
+
+        System.out.println("查询条件------------------------------------"+pname);
+        PageBean<Product> pageBean = productService.findAllByLayuiByPageOrderByPrice(currentPage, pageCount,pname,pricesort);
+        model.addObject("pageBean",pageBean);
+        model.addObject("condition",pname);
+        model.setViewName("searchproduct_list");
+
+        return model;
+
     }
 
 

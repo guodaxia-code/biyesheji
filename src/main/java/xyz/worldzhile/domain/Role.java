@@ -1,5 +1,7 @@
 package xyz.worldzhile.domain;
 
+import java.util.Date;
+
 public class Role {
 
 
@@ -8,15 +10,36 @@ public class Role {
      * role_name : role1
      */
 
-    private String username;
+
+    private  String rid;
     private String role_name;
 
-    public String getUsername() {
-        return username;
+    private Date createtime;
+
+    private String desc;
+
+    public String getRid() {
+        return rid;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setRid(String rid) {
+        this.rid = rid;
+    }
+
+    public Date getCreatetime() {
+        return createtime;
+    }
+
+    public void setCreatetime(Date createtime) {
+        this.createtime = createtime;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public String getRole_name() {
@@ -25,5 +48,15 @@ public class Role {
 
     public void setRole_name(String role_name) {
         this.role_name = role_name;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "rid='" + rid + '\'' +
+                ", role_name='" + role_name + '\'' +
+                ", createtime=" + createtime +
+                ", desc='" + desc + '\'' +
+                '}';
     }
 }

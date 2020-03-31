@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>商品管理</title>
     <link rel="stylesheet" href="/store/static/layui/css/layui.css">
-
     <style>
         table,th ,td ,tr{
             border: 1px solid #ccc;
@@ -31,15 +30,8 @@
 
 
     </style>
-
-
-
 </head>
 <body>
-
-
-
-
 
 
 
@@ -77,10 +69,10 @@
             <!--    表格-->
             <div class="layui-card-body ">
                 <div style="padding-bottom: 10px;">
-                    <button class="layui-btn layuiadmin-btn-admin" data-type="batchdel">删除</button>
-
-
-                    <button class="layui-btn layuiadmin-btn-admin" data-type="add" id="add"  lay-event="add"><i class="layui-icon">&#xe654;</i>添加</button>
+                    <div class="layui-btn-group categoryTable">
+                        <button class="layui-btn layuiadmin-btn-admin" data-type="getCheckData" id="delduo">删除</button>
+                        <button class="layui-btn layuiadmin-btn-admin" data-type="add" id="add"  lay-event="add"><i class="layui-icon">&#xe654;</i>添加</button>
+                    </div>
                 </div>
                 <table id="category" class="layui-table" layui-filter="category" lay-filter="category"></table>
             </div>
@@ -173,15 +165,11 @@
                 }
             })
 
-
             //jianting fuxuankuang
             //监听表格复选框选择
-            layui.table.on('checkbox(category)', function (obj) {
-                console.log(obj)
-            });
-
-
-
+            // layui.table.on('checkbox(category)', function (obj) {
+            //     console.log(obj)
+            // });
 
             //监听工具条
             layui.table.on('tool(category)', function(obj){ //注：tool 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
@@ -217,7 +205,7 @@
                                 {"oid":oid,
                                     "phone":phone,
                                     "name":name,
-                                   "address":address}
+                                    "address":address}
                                 ,function (data) {
 
                                 })
@@ -253,7 +241,7 @@
                 } else if(layEvent === 'edit'){ //编辑
                     //do something
 
-                    fahuo(data.oid);
+                    fahuo(data.oid,data.states);
 
 
 
@@ -315,24 +303,85 @@
                 } else if(layEvent === 'LAYTABLE_TIPS'){
                     layer.alert('Hi，头部工具栏扩展的右侧图标。');
                 }else if(layEvent==="add"){
-                    layer.open({
-                        type: 2,
-                        title: "添加分类页面",
-                        area: ['38%', '90%'],
-                        fix: false,
-                        maxmin: true,
-                        shadeClose: true,
-                        shade: 0.4,
-                        skin: 'layui-layer-rim',
-                        content: ["/store/category/updateOneCategory?cid="+guid(), "no"],
-                    });
+                    // layer.open({
+                    //     type: 2,
+                    //     title: "添加分类页面",
+                    //     area: ['38%', '90%'],
+                    //     fix: false,
+                    //     maxmin: true,
+                    //     shadeClose: true,
+                    //     shade: 0.4,
+                    //     skin: 'layui-layer-rim',
+                    //     content: ["/store/category/updateOneCategory?cid="+guid(), "no"],
+                    // });
 
                 }
             });
 
+            //多个删除
+            var $ = layui.$, active = {
+                getCheckData: function(){ //获取选中数据
+                    var checkStatus = layui.table.checkStatus('category')
+                        ,data = checkStatus.data;
+                    var oid=[];
+                    var zifu="";
+
+                    if (data.length==0){
+                        layer.msg("没有选",{time:800})
+                        return;
+                    }
+                    for (var i = 0; i <data.length ; i++) {
+                        var od = data[i].oid;
+                        oid.push(od);
+                        zifu+="-----"+od;
+
+                    }
+                    layer.confirm("你确定要删除订单:"+zifu, function f(index) {
+                        layer.close(index);
+
+                        $.get("/store/order/del/"+oid,
+                            function () {
+
+                            }
+                        );
+
+                        layer.msg("success",{time:1000})
+                        table.reload();
+
+                    });
+
+
+
+
+                }
+                ,getCheckLength: function(){ //获取选中数目
+                    var checkStatus = table.checkStatus('idTest')
+                        ,data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                }
+                ,isAll: function(){ //验证是否全选
+                    var checkStatus = table.checkStatus('idTest');
+                    layer.msg(checkStatus.isAll ? '全选': '未全选')
+                }
+            };
+            $('.categoryTable .layui-btn').on('click', function(){
+
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+
+
+
+
+
+
 
 
         })
+
+
+
+
 
         /*添加*/
         // $("#add").click(function () {
@@ -416,9 +465,17 @@
 
 
 
-        function fahuo(oid) {
+        function fahuo(oid,states) {
+
+            if (states!=1){
+                layer.msg("单前订单不是未付款状态不可以发货-.-",{time:1000})
+                return;
+            }
             layer.confirm('你确定要发货吗', function(index){
                 // obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+
+
+                alert(states)
                 layer.close(index);
                 //向服务端发送删除指令
 

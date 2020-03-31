@@ -68,6 +68,7 @@ public class ShiroConfiguration {
         urls.put("/order/payOrder","authc");
         urls.put("/order/seeMyOrdersByPage","authc");
         urls.put("order/seeMyOrders","authc");
+        urls.put("order/lijigou","authc");
         urls.put("/order/seeOneOrder","authc");
         urls.put("/order/addOrder","authc");
 

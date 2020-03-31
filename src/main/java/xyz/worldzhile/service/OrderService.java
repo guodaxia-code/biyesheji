@@ -49,4 +49,7 @@ public interface OrderService {
      删除订单
      */
     void updatedelete(String oid);
+
+    /*立即购买商品不经过购物车 返回oid*/
+    String saveOrderOneProduct(String pid, Integer pcount);
 }

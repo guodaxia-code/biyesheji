@@ -12,6 +12,7 @@ D:\IdeaProjects\store\src\main\java\xyz\worldzhile\dao\PermissionDao.java
 D:\IdeaProjects\store\src\main\java\xyz\worldzhile\domain\Role.java
 D:\IdeaProjects\store\src\main\java\xyz\worldzhile\util\Md5Util.java
 D:\IdeaProjects\store\src\main\java\xyz\worldzhile\yeepay\DigestUtil.java
+D:\IdeaProjects\store\src\main\java\xyz\worldzhile\controller\RoleController.java
 D:\IdeaProjects\store\src\main\java\xyz\worldzhile\dao\ProductDao.java
 D:\IdeaProjects\store\src\main\java\xyz\worldzhile\domain\Cart.java
 D:\IdeaProjects\store\src\main\java\xyz\worldzhile\controller\CommonController.java
@@ -42,6 +43,7 @@ D:\IdeaProjects\store\src\main\java\xyz\worldzhile\dao\UserDao.java
 D:\IdeaProjects\store\src\main\java\xyz\worldzhile\service\impl\ProductServiceImpl.java
 D:\IdeaProjects\store\src\main\java\xyz\worldzhile\yeepay\HttpUtils.java
 D:\IdeaProjects\store\src\main\java\xyz\worldzhile\domain\OrderItem.java
+D:\IdeaProjects\store\src\main\java\xyz\worldzhile\domain\UserRoles.java
 D:\IdeaProjects\store\src\main\java\xyz\worldzhile\shiro\RedisSessionDao.java
 D:\IdeaProjects\store\src\main\java\xyz\worldzhile\dao\OrderItemDao.java
 D:\IdeaProjects\store\src\main\java\xyz\worldzhile\service\OrderService.java

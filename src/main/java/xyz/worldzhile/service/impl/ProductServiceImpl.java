@@ -43,6 +43,8 @@ public class ProductServiceImpl implements ProductService {
         return productPageBean;
     }
 
+
+
     @Override
     public List<Product> findAll() {
         return productDao.findAll();
@@ -51,10 +53,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PageBean<Product> findAllByLayuiByPage(Integer page, Integer limit, String pname) {
         System.out.println(pname);
-
-
-
-
 
         int count = productDao.findCountByCname(pname);
         System.out.println(count+"dao");
@@ -69,6 +67,29 @@ public class ProductServiceImpl implements ProductService {
         return pageBean;
     }
 
+    @Override
+    public PageBean<Product> findAllByLayuiByPageOrderByPrice(Integer page, Integer limit, String pname, String pricesort) {
+        System.out.println(pname);
+
+        System.out.println(pricesort+"排序方式--------------------------------------------------------------");
+
+        int count = productDao.findCountByCname(pname);
+        System.out.println(count+"dao");
+        PageBean<Product> pageBean = new PageBean<Product>(page,limit,count);
+        List<Product> allByLayuiByPage=null;
+            if (pricesort.equals("no")){
+                allByLayuiByPage=productDao.findAllByLayuiByPage(pageBean.getStart(), pageBean.getPageCount(),pname);
+            }else {
+                allByLayuiByPage = productDao.findAllByLayuiByPageOrderByPrice(pageBean.getStart(), pageBean.getPageCount(),pname,pricesort);
+            }
+
+
+        System.out.println(allByLayuiByPage.toString());
+        pageBean.setList(allByLayuiByPage);
+
+
+        return pageBean;
+    }
 
 
     @Override

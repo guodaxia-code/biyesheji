@@ -71,10 +71,10 @@
             <!--    表格-->
             <div class="layui-card-body ">
                 <div style="padding-bottom: 10px;">
-                    <button class="layui-btn layuiadmin-btn-admin" data-type="batchdel">删除</button>
-
-
-                    <button class="layui-btn layuiadmin-btn-admin" data-type="add" id="add"  lay-event="add"><i class="layui-icon">&#xe654;</i>添加</button>
+                    <div class="layui-btn-group categoryTable">
+                        <button class="layui-btn layuiadmin-btn-admin"  data-type="getCheckData">删除</button>
+                        <button class="layui-btn layuiadmin-btn-admin" data-type="add" id="add"  lay-event="add"><i class="layui-icon">&#xe654;</i>添加</button>
+                    </div>
                 </div>
                 <table id="category" class="layui-table" layui-filter="category" lay-filter="category"></table>
             </div>
@@ -151,6 +151,29 @@
             layui.table.on('checkbox(category)', function (obj) {
                 console.log(obj)
             });
+
+            //监听删除
+            var $ = layui.$, active = {
+                getCheckData: function(){ //获取选中数据
+                    var checkStatus = layui.table.checkStatus('category')
+                        ,data = checkStatus.data;
+                    layui.layer.alert(JSON.stringify(data));
+                }
+                ,getCheckLength: function(){ //获取选中数目
+                    var checkStatus = table.checkStatus('idTest')
+                        ,data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                }
+                ,isAll: function(){ //验证是否全选
+                    var checkStatus = table.checkStatus('idTest');
+                    layer.msg(checkStatus.isAll ? '全选': '未全选')
+                }
+            };
+            $('.categoryTable .layui-btn').on('click', function(){
+                var type = $(this).data('type');
+                active[type] ? active[type].call(this) : '';
+            });
+
 
 
 

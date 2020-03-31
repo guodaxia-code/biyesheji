@@ -249,27 +249,37 @@ public class UserController {
      * 分页查询   pname 为条件
      * @param page
      * @param limit
-     * @param pname
+     * @param username
      * @return
      */
     @GetMapping("findAllByLayui")
     public @ResponseBody
     LayuiData<User> findAllByLayuiByPage(@RequestParam(value = "page",defaultValue = "1") Integer page,
                                          @RequestParam(value = "limit",defaultValue = "8") Integer limit,
-                                         @RequestParam(value = "pname",required = false) String pname){
+                                         @RequestParam(value = "username",required = false) String username){
 //        接口地址。默认会自动传递两个参数：?page=1&limit=30（该参数可通过 request 自定义）
 //        page 代表当前页码、limit 代表每页数据量
         //条件校验
-        if (pname==null||pname.length()==0){
-            pname="";
+        if (username==null||username.length()==0){
+            username="";
         }
-        PageBean<User> allByLayuiByPage = userService.findAllByLayuiByPage(page, limit,pname);
+        PageBean<User> allByLayuiByPage = userService.findAllByLayuiByPage(page, limit,username);
         LayuiData<User> productLayuiData = new LayuiData<>();
         productLayuiData.setCode(0);
         productLayuiData.setData(allByLayuiByPage.getList());
         productLayuiData.setMsg("");
         productLayuiData.setCount(allByLayuiByPage.getTotalCount());
         return productLayuiData;
+    }
+
+
+    @RequestMapping("del/{uids}")
+    public void deluids(@PathVariable("uids") String[] uids){
+        for (String uid : uids) {
+
+            userService.delete(uid);
+        }
+
     }
 
 
