@@ -65,12 +65,13 @@ public class ShiroConfiguration {
         urls.put("/msg","anon");
         urls.put("/user/login","anon");
 
-        urls.put("/order/payOrder","authc");
-        urls.put("/order/seeMyOrdersByPage","authc");
-        urls.put("order/seeMyOrders","authc");
-        urls.put("order/lijigou","authc");
-        urls.put("/order/seeOneOrder","authc");
-        urls.put("/order/addOrder","authc");
+//        urls.put("/order/payOrder","authc");
+//        urls.put("/order/seeMyOrdersByPage","authc");
+//        urls.put("order/seeMyOrders","authc");
+//        urls.put("order/lijigou","authc");
+//        urls.put("/order/seeOneOrder","authc");
+//        urls.put("/order/addOrder","authc");
+        urls.put("/order/**","authc");
 
         urls.put("/cart/**","authc");
 

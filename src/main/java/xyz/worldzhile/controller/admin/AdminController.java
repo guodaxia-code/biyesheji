@@ -17,12 +17,18 @@ import org.springframework.web.servlet.ModelAndView;
 import xyz.worldzhile.constant.Constant;
 import xyz.worldzhile.domain.Cart;
 import xyz.worldzhile.domain.User;
+import xyz.worldzhile.service.CategoryService;
+import xyz.worldzhile.service.OrderService;
+import xyz.worldzhile.service.ProductService;
 import xyz.worldzhile.service.UserSerice;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 @RequestMapping("admin")
@@ -30,6 +36,15 @@ public class AdminController {
 
     @Autowired
     UserSerice userSerice;
+
+    @Autowired
+    CategoryService categoryService;
+
+    @Autowired
+    ProductService productService;
+
+    @Autowired
+    OrderService orderService;
 
     @GetMapping("login")
     public ModelAndView adminlogin(HttpServletRequest request, ModelAndView model){
@@ -90,10 +105,56 @@ public class AdminController {
         model.addObject("currentuser",currentuser);
 
         model.setViewName("/admin/indexpage");
+//        model.setViewName("redirect:/templates/pages/admin/indexpage.html");
+
 
         return model;
 
 
+    }
+
+
+
+
+    //重定向主页
+    @GetMapping("indexone")
+    public ModelAndView findAllPage(ModelAndView model){
+        //这里必需要要跳转
+
+//        商品数
+//        用户数
+//订单数
+//        分类数
+
+        ArrayList<String> strings = new ArrayList<>();
+        strings.add("admin");
+        strings.add("role1");
+        strings.add("role2");
+        boolean[] booleans = SecurityUtils.getSubject().hasRoles(strings);
+        System.out.println(Arrays.toString(booleans)+"----------------------------------------------------------------------------------");
+
+
+        Integer categorySum = categoryService.findSum();
+        Integer productSum = productService.findSum();
+        Integer orderSum = orderService.findSum();
+        Integer userSum = userSerice.findSum();
+        Integer newOrderSum=orderService.findNewOrderSum();
+        Integer newUserSum=userSerice.findnewUserSum();
+
+        model.addObject("categorySum",categorySum);
+        model.addObject("productSum",productSum);
+        model.addObject("orderSum",orderSum);
+        model.addObject("userSum",userSum);
+        model.addObject("newOrderSum",newOrderSum);
+        model.addObject("newUserSum",newUserSum);
+
+
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        model.addObject("user",user);
+
+        model.setViewName("/admin/indexone");
+
+        return model;
     }
 
 

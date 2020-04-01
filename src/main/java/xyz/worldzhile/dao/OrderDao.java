@@ -7,6 +7,7 @@ import xyz.worldzhile.domain.Order;
 import xyz.worldzhile.domain.Product;
 import xyz.worldzhile.domain.User;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -85,4 +86,22 @@ public interface OrderDao {
      */
     @Delete("delete from orders where oid=#{oid}")
     void delete(String oid);
+
+
+    /*
+     查询用户的订单分页
+     */
+    @Select("select * from orders where user_uid=#{uid} and states=#{states} ORDER BY time desc  limit #{start}, #{pageCount}  " )
+    @ResultMap("OrderMap")
+    List<Order> findPageListWithStates(@Param("uid")String uid, @Param("start")int start,  @Param("pageCount")Integer pageCount, @Param("states") Integer states);
+
+
+    @Select("select count(oid) from orders where user_uid=#{uid} and states=#{states}")
+    Integer findTotalCountWithStates(@Param("uid") String uid, @Param("states") Integer states);
+
+
+    /*某一时间之前的数量*/
+    @Select("select count(oid) from orders where time<  #{parse} ")
+    Integer findCountBeforeTime (String parse);
+
 }

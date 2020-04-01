@@ -130,4 +130,8 @@ public interface ProductDao {
     )
     @ResultMap("productMap")
     List<Product> findAllByLayuiByPageOrderByPrice(@Param("start") int start, @Param("pageCount") Integer pageCount, @Param("pname") String pname,@Param("pricesort") String pricesort);
+
+
+    @Select("select count(pid) from product")
+    Integer findSum();
 }

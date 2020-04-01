@@ -4,6 +4,7 @@
 
 /*顶部搜索*/
 .top-nav {
+
 	height: 60px;
 	width: 100%;
 	background-color: pink;
@@ -13,6 +14,23 @@
 	top:0;
 	left: 0;
 }
+.top-nav span{
+	text-align: center;
+	line-height: 30px;
+	display: block;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	background-color: #fff;
+
+}
+
+
+
+
 
 /*轮播图*/
 .grid {
@@ -114,4 +132,89 @@
 }
 .arrow-l{
 	left: 227px;
+}
+
+
+
+
+/*********************gotop********************/
+
+body {
+	position: relative;
+}
+
+.gotop {
+	position: fixed;
+	right: 150px;
+	top: 400px;
+	z-index: 20;
+}
+
+.gotop a {
+	display: block;
+	width: 48px;
+	height: 48px;
+	line-height: 38px;
+	background: #f4f4f4;
+	margin-bottom: 10px;
+	border: 1px solid #d6d6d6;
+	cursor: pointer;
+}
+
+.gotop dl dt {
+	margin: 0 auto;
+	width: 20px;
+	padding-top: 10px;
+}
+
+.gotop dl.goCart {
+	position: relative;
+}
+
+.gotop dl.goCart span {
+	position: absolute;
+	top: -9px;
+	right: -8px;
+	width: 16px;
+	height: 16px;
+	border-radius: 8px;
+	background: #c10000;
+	color: #fff;
+	text-align: center;
+	line-height: 16px;
+}
+
+.gotop dl dd {
+	display: none;
+	background: #a10000;
+	height: 41px;
+	width: 41px;
+	color: #fff;
+	padding: 8px 0 0 10px;
+	line-height: 15px;
+}
+
+.gotop p {
+	border: 1px solid #A10000;
+	padding: 10px;
+	position: absolute;
+	background: #f4f4f4;
+	top: 180px;
+	left: -130px;
+	display: none;
+}
+
+.gotop p:before {
+	position: absolute;
+	top: 50%;
+	right: -6px;
+	width: 0;
+	margin-top: -5px;
+	height: 0;
+	margin-left: -5px;
+	vertical-align: middle;
+	content: " ";
+	border-bottom: 5px solid transparent;
+	border-left: 5px solid #a10000;
+	border-top: 5px solid transparent;
 }

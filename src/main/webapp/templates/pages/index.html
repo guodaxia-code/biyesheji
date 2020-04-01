@@ -17,11 +17,14 @@
     <!--    引入自己的index.css-->
     <link rel="stylesheet" href="/store/static/mystore/css/index.css"/>
 
-    <link rel="stylesheet" href="/store/static/layui/css/layui.css" media="all">
+
     <link rel="stylesheet" href="/store/static/layui/css/admin.css" media="all">
 
 
+
     <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/style.css">
+
+<!--    <link rel="stylesheet" href="/store/static/layui/css/layui.css" media="all">-->
 </head>
 <body>
 
@@ -30,9 +33,13 @@
 <div id="headpage">head</div>
 
 <!-- 隐藏的顶部搜索栏 -->
-<div class="top-nav"></div>
+<div class="top-nav" id="top-nav">
+    <img src="/store/static/mystore/images/topguangao.jpg" width="100%" height="61px;" alt="">
+<!--    <span class="layui-icon" id="cancel"><i class="layui-icon">&#x1006;</i></span>-->
+    <span class="" id="cancel">×</span>
+</div>
 <!-- index自己的导航栏10个+轮播图 -->
-<div  class="middle  ">
+<div  class="middle " >
     <div class="grid-clo1">
         <ul>
             <li><a href="#123">运动户外</a></li>
@@ -61,6 +68,8 @@
             <!--                 <div><a href="" class="grid-clo2" ><img  class="product-picture" src="" alt=""></a></div>-->
             <!--                   <div><img src="/store/upload/e5314e39a8af4277a80ca22678710051_timg (3).jpg" alt="Redmi Note1" class="product-picture" ></div>-->
         </div>
+
+
     </div>
 
 
@@ -75,6 +84,8 @@
     <!--       </ul>-->
     <!--       -->
 
+
+
 </div>
 
 
@@ -84,7 +95,7 @@
 
 
 
-    <div  class="middle" style="height: 760px;width: 1190px" >
+    <div  class="middle" id="hot" style="height: 760px;width: 1190px" >
         <div class="danpin center">
 
             <div class="biaoti center">最新产品</div>
@@ -148,7 +159,7 @@
     </div>
 
 
-    <div  class="middle" style="height: 760px;width: 1190px" >
+    <div  class="middle" id="new" style="height: 760px;width: 1190px" >
     <div class="danpin center">
 
         <div class="biaoti center">热门产品</div>
@@ -186,25 +197,47 @@
 </div>
 
 
+<div style="margin-left: 30px;">
+    <div class="gotop">
+        <a href="/store/cart/seeCart">
+            <dl>
+                <dt style="display: block;"><img src="/store/static/mystore/images/gt1.png"></dt>
+                <dd style="display: none;">去购<br>物车</dd>
+            </dl>
+        </a>
+        <a  id="tohot">
+            <dl>
+                <dt style="display: block;"><img width="20px" src="/store/static/mystore/images/hot.png"></dt>
+                <dd style="display: none;">热门<br>商品</dd>
+            </dl>
+        </a> <a id="tonew">
+        <dl>
+            <dt style="display: block;"><img width="20px" src="/store/static/mystore/images/new.png"></dt>
+            <dd style="display: none;">最新<br>商品</dd>
+        </dl>
+    </a>
 
-
-
-
-
-
-<!--<div style="height: 1000px; background-color:pink;">-->
-
-<!--    <div th:each="one,oneStat:${hotList}">-->
-<!--        <a style="display: block" th:href="'/store/product/getProductByPid?pid='+${one.pid}"><img th:src="${one.ppicture}" width="200px" height="200px"></img></a>-->
-<!--        <h5 th:text="${one.ppicture}"></h5>-->
-<!--        <h5 th:text="${one.pname}"></h5>-->
-<!--        <h5 th:text="${one.rel_price}"></h5>-->
-
-<!--    </div>-->
-
-
-
-<!--</div>-->
+        <a href="#" class="dh">
+            <dl>
+                <dt style="display: block;"><img src="/store/static/mystore/images/gt2.png"></dt>
+                <dd style="display: none;">联系<br>客服</dd>
+            </dl>
+        </a>
+        <!--        <a href="mygxin.html">
+                    <dl>
+                        <dt style="display: block;"><img src="/store/static/mystore/images/gt3.png"></dt>
+                        <dd style="display: none;">个人<br>中心</dd>
+                    </dl>
+                </a>-->
+        <a href="#" class="toptop" style="display: none;">
+            <dl>
+                <dt style="display: block;"><img src="/store/static/mystore/images/gt4.png"></dt>
+                <dd style="display: none;">返回<br>顶部</dd>
+            </dl>
+        </a>
+        <p style="left: -130px; display: none;">400-800-1234</p>
+    </div>
+</div>
 
 
 
@@ -231,10 +264,11 @@
     })
 </script>
 <script src="/store/static/mystore/js/myjs/index.js"></script>
+<!--头部广告-->
 <script>
     window.onload=function(){
         <!-- 顶部导航栏 -->
-        window.onscroll=function(){
+        function guangaotop() {
             console.log("aaatop");
             var top=document.documentElement.scrollTop;
             var top_nav=document.getElementsByClassName("top-nav")[0];
@@ -244,8 +278,62 @@
                 top_nav.style.display="none";
             }
         }
+        window.onscroll=guangaotop;
+
+        $("#cancel").click(function () {
+            $("#top-nav")[0].style.display="none";
+            window.onscroll=null;
+        });
 
     }
+</script>
+
+
+
+<!--gotop-->
+<script>
+
+    //  回到顶部
+    $(".gotop a").hover(function(){
+        var aa=$(this).hasClass("dh");
+        if(aa==true){
+            $(this).find("dt").hide().siblings("dd").fadeIn().parents("a").siblings("p").show().animate({left:"-110px"});
+        }else{
+            $(this).find("dt").hide().siblings("dd").fadeIn().parents("a").siblings("p").hide().animate({left:"-130px"});
+        }
+    },function(){
+        // 移除联系
+        $(this).find("dt").fadeIn().siblings("dd").hide().parents("a").siblings("p").hide();
+    });
+
+
+
+    $(window).scroll(function(){
+        var wh=$(window).scrollTop();
+        if(wh>400){
+            $(".toptop").fadeIn();
+        }else{
+            $(".toptop").fadeOut();
+        }
+
+    });
+    $(".toptop").click(function(){
+        $('body,html').animate({scrollTop:0},600);
+        return false;
+
+    });
+    $("#tohot").click(function(){
+        $('body,html').animate({scrollTop:1450},600);
+        return false;
+
+    });
+    $("#tonew").click(function(){
+        $('body,html').animate({scrollTop:680},600);
+        return false;
+
+    });
+
+
 </script>
 
 

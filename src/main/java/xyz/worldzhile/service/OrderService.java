@@ -28,9 +28,9 @@ public interface OrderService {
 
     /**
      *
-        我的订单分页查询
+        我的订单分页查询 states为订单状态
      */
-    PageBean<Order> findPageBean(String uid, Integer currentPage, Integer pageCount);
+    PageBean<Order> findPageBean(String uid, Integer currentPage, Integer pageCount,Integer states);
 
 
     /*
@@ -52,4 +52,13 @@ public interface OrderService {
 
     /*立即购买商品不经过购物车 返回oid*/
     String saveOrderOneProduct(String pid, Integer pcount);
+
+
+    Integer findSum();
+
+
+//    今日新增订单数
+    Integer findNewOrderSum();
+
+
 }

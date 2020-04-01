@@ -48,13 +48,19 @@
 
 
     // 头部简单搜索
-
-
-
         $("#search").click(function () {
             // alert($("#pname").val()+"---");
-            location.href="http://www.worldzhile.xyz/store/product/getSearchProductsByPage?pname="+$("#pname").val()+"&pricesort=no";
+            location.href="http://localhost:8080/store/product/getSearchProductsByPage?pname="+$("#pname").val()+"&pricesort=no";
         })
+    // 执行搜索 enter，
+    document.onkeydown=function (e) {
+        e=e||window.event;
+        if (e.keyCode===13){
+            $("#search").click();
+        }
+    }
+
+
 
 
 
@@ -65,7 +71,6 @@
     //     var r = window.location.search.substr(1).match(reg);  //匹配目标参数
     //     if (r!=null) return unescape(r[2]); return null; //返回参数值
     // }
-
     function getUrlParam(name){
         // 用该属性获取页面 URL 地址从问号 (?) 开始的 URL（查询部分）
         var url = window.location.search;

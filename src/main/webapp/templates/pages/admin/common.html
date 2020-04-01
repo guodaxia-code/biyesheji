@@ -50,6 +50,14 @@
                 <i class="layui-icon layui-icon-home"></i>
                 主页
             </a>
+            <!-- 二级菜单 -->
+            <dl class="layui-nav-child">
+                <p shiro:hasAllRoles="admin"><!-- 角色与判断 -->
+                    <dd>
+                        <a href="/store/admin/indexone">主页一</a>
+                    </dd>
+                </p>
+            </dl>
         </li>
 
 

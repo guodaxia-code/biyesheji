@@ -106,6 +106,11 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    public Integer findSum() {
+        return categoryDao.findCount();
+    }
+
+    @Override
     public Category findOne(String cid) {
         return categoryDao.findOneByCid(cid);
     }

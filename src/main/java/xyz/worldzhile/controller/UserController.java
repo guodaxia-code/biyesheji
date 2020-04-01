@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ModelAndView;
 import xyz.worldzhile.constant.Constant;
 import xyz.worldzhile.domain.Cart;
 import xyz.worldzhile.domain.LayuiData;
+import xyz.worldzhile.domain.ResultList;
 import xyz.worldzhile.domain.User;
 import xyz.worldzhile.service.UserSerice;
 import xyz.worldzhile.util.PageBean;
@@ -24,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+
 @Api(tags = "用户接口")
 @Controller
 @RequestMapping("user")
@@ -280,6 +283,19 @@ public class UserController {
             userService.delete(uid);
         }
 
+    }
+
+
+//    获取最近一周每日新增数量统计
+    @GetMapping("weekPlan")
+    @ResponseBody
+    public ResultList test3(){
+
+        ResultList resultList= userService.findResultList();
+
+
+
+        return  resultList;
     }
 
 

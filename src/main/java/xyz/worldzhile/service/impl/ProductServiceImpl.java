@@ -125,5 +125,10 @@ public class ProductServiceImpl implements ProductService {
         productDao.del(pid);
     }
 
+    @Override
+    public Integer findSum() {
+        return productDao.findSum();
+    }
+
 
 }

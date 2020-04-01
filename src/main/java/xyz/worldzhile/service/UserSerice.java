@@ -1,6 +1,7 @@
 package xyz.worldzhile.service;
 
 import org.springframework.stereotype.Service;
+import xyz.worldzhile.domain.ResultList;
 import xyz.worldzhile.domain.User;
 import xyz.worldzhile.util.PageBean;
 
@@ -52,5 +53,13 @@ public interface UserSerice {
     PageBean<User> findAllByLayuiByPage(Integer page, Integer limit, String username);
 
     void delete(String uid);
+
+    Integer findSum();
+
+
+    Integer findnewUserSum();
+
+//    weekplan
+    ResultList findResultList();
 }
 

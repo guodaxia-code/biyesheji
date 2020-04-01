@@ -11,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xyz.worldzhile.dao.UserDao;
 import xyz.worldzhile.domain.Product;
+import xyz.worldzhile.domain.ResultList;
 import xyz.worldzhile.domain.User;
 import xyz.worldzhile.service.UserSerice;
 import xyz.worldzhile.util.MailUtils;
 import xyz.worldzhile.util.PageBean;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserSerice {
@@ -40,13 +42,14 @@ public class UserServiceImpl implements UserSerice {
 
 
 
-        boolean isSendSuccess = MailUtils.sendMail("2561587813@qq.com", "<h1>欢迎您成为至乐购商城的一员</h1><h2>来自至乐购商城网站的激活邮件,激活请点击以下链接：</h2><br/><h3><a href='http://www.worldzhile.xyz/store/user/active?code=" + user.getCode() + "'>激活</a></h3>", "至乐购用户注册");
+        boolean isSendSuccess = MailUtils.sendMail("2561587813@qq.com", "<h1>欢迎您成为至乐购商城的一员</h1><h2>来自至乐购商城网站的激活邮件,激活请点击以下链接：</h2><br/><h3><a href='http://localhost:8080/store/user/active?code=" + user.getCode() + "'>激活</a></h3>", "至乐购用户注册");
         if (isSendSuccess) {
             String username = user.getUsername();
             String password = user.getPassword();
             Md5Hash md5Hash = new Md5Hash(password, username);
             //加密
            user.setPassword(md5Hash.toString());
+           user.setCreateTime(new Date());
             userDao.insert(user);
             return true;
         }
@@ -146,6 +149,82 @@ public class UserServiceImpl implements UserSerice {
     @Override
     public void delete(String uid) {
         userDao.delete(uid);
+    }
+
+    @Override
+    public Integer findSum() {
+        return userDao.findSum();
+    }
+
+    @Override
+    public Integer findnewUserSum() {
+        int sum = userDao.findSum();
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd ");
+        String  format2= simpleDateFormat2.format(new Date());
+        format2+=" 0:0:0  ";
+        Integer countBeforeTime = userDao.findCountBeforeTime(format2);
+        return sum-countBeforeTime;
+
+    }
+
+    @Override
+    public ResultList findResultList() {
+        ResultList resultList = new ResultList();
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<Integer> values = new ArrayList<>();
+
+        HashMap<Integer,String> source=new HashMap<>();
+        source.put(0,"星期日");
+        source.put(1,"星期一");
+        source.put(2,"星期二");
+        source.put(3,"星期三");
+        source.put(4,"星期四");
+        source.put(5,"星期五");
+        source.put(6,"星期六");
+        int flag;
+
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+
+
+        Date date = new Date();
+
+        int sum = userDao.findSum();
+
+        date.setHours(0);
+        date.setMinutes(0);
+        date.setSeconds(0);
+
+        String  format2= simpleDateFormat2.format(date);
+
+        Integer countBeforeTime = userDao.findCountBeforeTime(format2);
+        flag=date.getDay();
+        names.add(source.get(flag));
+        values.add(sum-countBeforeTime);
+
+        String end;
+        String start=format2;
+
+        for (int i = 1; i <=6 ; i++) {
+            end=start;
+            date.setDate(date.getDate()-1);
+           start=simpleDateFormat2.format(date);
+            flag=date.getDay();
+            int count=userDao.findCountBetWin(start,end);
+
+           names.add(source.get(flag));
+           values.add(count);
+        }
+
+
+//        倒叙
+        Collections.reverse(values);
+        Collections.reverse(names);
+
+        resultList.setValues(values);
+        resultList.setNames(names);
+
+        return resultList;
     }
 
 

@@ -13,6 +13,17 @@
         tbale,td,th{
             border: 1px solid #eee;
         }
+        #page{
+            overflow: hidden;
+            width: 940px;
+            border: 2px solid #fff;
+            margin: 0 auto;
+            margin-left: 0px;
+            /*padding: 10px 10px;*/
+        }
+        hr{
+            background-color: black;
+        }
     </style>
 </head>
 <body>
@@ -25,9 +36,9 @@
                 </div>
                 <div class="dlist clearfix">
                     <ul class="fl clearfix" id="wa">
-                        <li class="on"><a href="#2">全部有效订单</a></li>
-                        <li><a href="#2">待支付</a></li>
-                        <li><a href="#2l">待收货</a></li>
+                        <li class="on"><a th:href="@{/order/seeMyOrdersByPage}">全部有效订单</a></li>
+                        <li><a  th:href="@{/order/seeMyOrdersByPage(states='0')}">待支付</a></li>
+                        <li><a   th:href="@{/order/seeMyOrdersByPage(states='2')}">待收货</a></li>
                     </ul>
                     <form action="#" method="get" class="fr clearfix">
                         <input type="text" name="" id="" value="" placeholder="请输入商品名称、订单号">
@@ -63,7 +74,8 @@
                                     <a href="#" class="fl"><img th:src="${orderItem.product.ppicture}"></a>
                                     <p class="fl"><a href="#" th:text="${orderItem.product.pname}">家用创意菜盘子圆盘 釉下彩复古</a><a href="#" th:text="'¥'+${orderItem.product.rel_price}+'*'+${orderItem.number}" >¥99.00×1</a></p>
                                     <!--                                <p th:text="${orderItem.money}">小计</p>-->
-                                    <hr>
+<!--                                    <hr />-->
+                                    <div style=" margin-top:80px;width: 100%;height: 1px;background:rgba(75,75,75,0.3); "></div>
                                 </div>
                             </th:block>
                             <th:block th:if="${statesindex.last}">
@@ -170,6 +182,31 @@
 <!--                    <a href="#"><img src="img/you.jpg"></a>-->
 <!--                </div>-->
             </div>
+
+            <div class="page " id="page">
+                <th:block th:if="${pageBean.currentPage}==1">
+                </th:block>
+
+                <th:block th:if="${pageBean.currentPage}!=1">
+                    <a th:href="@{/order/seeMyOrdersByPage(currentPage=${pageBean.currentPage-1},pageCount=4,states=${param.states})}" th:class="shangxiapage">&lt;上一页</a>
+                </th:block>
+                <th:block th:each="i:${#numbers.sequence(pageBean.StartPage,pageBean.EndPage)}">
+                    <th:block th:if="${pageBean.currentPage}==${i}">
+                        <a th:href="@{/order/seeMyOrdersByPage(currentPage=${i},pageCount=4,states=${param.states})}" class="currentPage yepage" th:text="${i}"></a>
+                    </th:block>
+                    <th:block th:if="${pageBean.currentPage}!=${i}">
+                        <a th:href="@{/order/seeMyOrdersByPage(currentPage=${i},pageCount=4,states=${param.states})}" th:class="yepage" th:text="${i}"></a>
+                    </th:block>
+                </th:block>
+
+                <th:block th:if="${pageBean.currentPage}==${pageBean.totalPage}">
+                </th:block>
+                <th:block th:if="${pageBean.currentPage}!=${pageBean.totalPage} and ${pageBean.totalPage}!=0">
+                    <a th:href="@{/order/seeMyOrdersByPage(currentPage=${pageBean.currentPage+1},pageCount=4,states=${param.states})}" class="shangxiapage">下一页&gt;</a>
+                </th:block>
+                <!--    总共 <span th:text="${pageBean.totalPage}"></span>页-->
+
+            </div>
         </div>
     </div>
 
@@ -229,30 +266,33 @@
 
 <!--        </th:block>-->
 <!--    </table>-->
-    <div class="page middle">
-        <th:block th:if="${pageBean.currentPage}==1">
-        </th:block>
 
-        <th:block th:if="${pageBean.currentPage}!=1">
-            <a th:href="@{/order/seeMyOrdersByPage(currentPage=${pageBean.currentPage-1},pageCount=4)}" th:class="shangxiapage">&lt;上一页</a>
-        </th:block>
-        <th:block th:each="i:${#numbers.sequence(pageBean.StartPage,pageBean.EndPage)}">
-            <th:block th:if="${pageBean.currentPage}==${i}">
-                <a th:href="@{/order/seeMyOrdersByPage(currentPage=${i},pageCount=4)}" class="currentPage yepage" th:text="${i}"></a>
-            </th:block>
-            <th:block th:if="${pageBean.currentPage}!=${i}">
-                <a th:href="@{/order/seeMyOrdersByPage(currentPage=${i},pageCount=4)}" th:class="yepage" th:text="${i}"></a>
-            </th:block>
-        </th:block>
 
-        <th:block th:if="${pageBean.currentPage}==${pageBean.totalPage}">
-        </th:block>
-        <th:block th:if="${pageBean.currentPage}!=${pageBean.totalPage} and ${pageBean.totalPage}!=0">
-            <a th:href="@{/order/seeMyOrdersByPage(currentPage=${pageBean.currentPage+1},pageCount=4)}" class="shangxiapage">下一页&gt;</a>
-        </th:block>
-        <!--    总共 <span th:text="${pageBean.totalPage}"></span>页-->
+<!--    <div class="page " id="page">-->
+<!--        <th:block th:if="${pageBean.currentPage}==1">-->
+<!--        </th:block>-->
 
-    </div>
+<!--        <th:block th:if="${pageBean.currentPage}!=1">-->
+<!--            <a th:href="@{/order/seeMyOrdersByPage(currentPage=${pageBean.currentPage-1},pageCount=4)}" th:class="shangxiapage">&lt;上一页</a>-->
+<!--        </th:block>-->
+<!--        <th:block th:each="i:${#numbers.sequence(pageBean.StartPage,pageBean.EndPage)}">-->
+<!--            <th:block th:if="${pageBean.currentPage}==${i}">-->
+<!--                <a th:href="@{/order/seeMyOrdersByPage(currentPage=${i},pageCount=4)}" class="currentPage yepage" th:text="${i}"></a>-->
+<!--            </th:block>-->
+<!--            <th:block th:if="${pageBean.currentPage}!=${i}">-->
+<!--                <a th:href="@{/order/seeMyOrdersByPage(currentPage=${i},pageCount=4)}" th:class="yepage" th:text="${i}"></a>-->
+<!--            </th:block>-->
+<!--        </th:block>-->
+
+<!--        <th:block th:if="${pageBean.currentPage}==${pageBean.totalPage}">-->
+<!--        </th:block>-->
+<!--        <th:block th:if="${pageBean.currentPage}!=${pageBean.totalPage} and ${pageBean.totalPage}!=0">-->
+<!--            <a th:href="@{/order/seeMyOrdersByPage(currentPage=${pageBean.currentPage+1},pageCount=4)}" class="shangxiapage">下一页&gt;</a>-->
+<!--        </th:block>-->
+<!--        &lt;!&ndash;    总共 <span th:text="${pageBean.totalPage}"></span>页&ndash;&gt;-->
+
+<!--    </div>-->
+
 <div id="footerpage">footerpage</div>
 
 

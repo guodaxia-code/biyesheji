@@ -39,7 +39,7 @@ public class OrderController {
     static{
         p1_MerId="10001126856";
         keyValue="69cl522AV6q613Ii4W6u8K6XuW8vM1N6bFgyv769220IuYe9u37N4y7rI4Pl";
-        responseURL="http://www.worldzhile.xyz/store/order/callback";
+        responseURL="http://localhost:8080/store/order/callback";
     }
 
 
@@ -156,17 +156,25 @@ public class OrderController {
 
     }
 
+
+    //用户所有订单  待支付订单 待收货订单
     @GetMapping("seeMyOrdersByPage")
-    public ModelAndView getProductsByPage(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage, @RequestParam(value = "pageCount", defaultValue = "4") Integer pageCount, ModelAndView model, HttpServletRequest request) {
+    public ModelAndView getProductsByPage(@RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage, @RequestParam(value = "pageCount", defaultValue = "4") Integer pageCount,
+                                          @RequestParam(value = "states", defaultValue = "-1") Integer states,ModelAndView model, HttpServletRequest request) {
+
+
 
         User user = (User) SecurityUtils.getSubject().getPrincipal();
-        PageBean<Order> pageBean = orderService.findPageBean(user.getUid(), currentPage, pageCount);
+        System.out.println(user.getUid()+"------------------------------------------------------------------------------");
+        PageBean<Order> pageBean = orderService.findPageBean(user.getUid(), currentPage, pageCount,states);
         model.addObject("pageBean", pageBean);
         model.setViewName("orderxx");
 
         return model;
 
     }
+
+
 
 
     /*
@@ -738,6 +746,8 @@ public class OrderController {
         return model;
 
     }
+
+
 
 
 

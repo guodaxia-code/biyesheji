@@ -145,7 +145,7 @@ public class ProductController {
         Product one = productService.findOneByPid(pid);
         model.addAttribute("product",one);
         System.out.println(one);
-    //http://www.worldzhile.xyz/store/product/updateOneProduct?pid=90e9372366ef400f8589b74f1cfb9123
+    //http://localhost:8080/store/product/updateOneProduct?pid=90e9372366ef400f8589b74f1cfb9123
         System.out.println(all);
         System.out.println(one.getCategory().getCname());
         return "admin/product/bianjiProduct";

@@ -18,6 +18,8 @@ import xyz.worldzhile.util.DateUtil;
 import xyz.worldzhile.util.PageBean;
 import xyz.worldzhile.util.UuidUtil;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -74,11 +76,31 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public PageBean<Order> findPageBean(String uid, Integer currentPage, Integer pageCount) {
+    public PageBean<Order> findPageBean(String uid, Integer currentPage, Integer pageCount,Integer states) {
 
-        Integer totalCount = orderDao.findTotalCount(uid);
-        PageBean<Order> orderPageBean = new PageBean<>(currentPage, pageCount, totalCount);
-        List<Order> pageList = orderDao.findPageList(uid,orderPageBean.getStart(),orderPageBean.getPageCount());
+       if (states<-1||states>3)
+           return null;
+
+
+        Integer totalCount = 0;
+
+        PageBean<Order> orderPageBean = null;
+
+        List<Order> pageList=null;
+        System.out.println(states+"-----------------------------------------------------------------------------------------------------");
+        if (states==-1){
+            totalCount= orderDao.findTotalCount(uid);
+            orderPageBean = new PageBean<>(currentPage, pageCount, totalCount);
+             pageList = orderDao.findPageList(uid,orderPageBean.getStart(),orderPageBean.getPageCount());
+        }else if (states!=-1){
+            totalCount= orderDao.findTotalCountWithStates(uid,states);
+            orderPageBean = new PageBean<>(currentPage, pageCount, totalCount);
+            pageList = orderDao.findPageListWithStates(uid,orderPageBean.getStart(),orderPageBean.getPageCount(),states);
+        }
+
+
+        System.out.println(pageList+"*******************");
+
         orderPageBean.setList(pageList);
         return orderPageBean;
     }
@@ -148,6 +170,34 @@ public class OrderServiceImpl implements OrderService {
         orderDao.add(order);
         orderItemDao.add(orderItem);
         return oid;
+    }
+
+    @Override
+    public Integer findSum() {
+        return orderDao.findCount();
+    }
+
+    @Override
+    public Integer findNewOrderSum() {
+        int sum = orderDao.findCount();
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd ");
+        String  format2= simpleDateFormat2.format(new Date());
+        format2+=" 0:0:0  ";
+        Integer countBeforeTime = orderDao.findCountBeforeTime(format2);
+         return sum-countBeforeTime;
+
+    }
+
+    public static void main(String[] args) {
+        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd ");
+        String format1 = simpleDateFormat1.format(new Date());
+        String format2 = simpleDateFormat2.format(new Date());
+        System.out.println(format1);
+
+        format2+=" 0:0:0";
+        System.out.println(format2);
+
     }
 
 

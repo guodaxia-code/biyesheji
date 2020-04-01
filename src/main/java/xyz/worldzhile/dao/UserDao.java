@@ -11,7 +11,7 @@ import java.util.List;
 @Repository
 public interface UserDao {
 
-    @Insert("insert into users (uid,username,password,qq_email,name,birthday,phone,code,states) values (#{uid},#{username},#{password},#{qqEmail},#{name},#{birthday},#{phone},#{code},#{states}) ")
+    @Insert("insert into users (uid,username,password,qq_email,name,birthday,phone,code,states,createTime) values (#{uid},#{username},#{password},#{qqEmail},#{name},#{birthday},#{phone},#{code},#{states},#{createTime}) ")
     void insert (User user);
 
     @Select("select uid,username,password,qq_email,name,birthday,phone,code,states,url from users where username=#{username}")
@@ -62,4 +62,15 @@ public interface UserDao {
 
 
 
+    @Select("select count(uid) from users")
+    Integer findSum();
+
+
+    /*某一时间之前的数量*/
+    @Select("select count(uid) from users where createTime<  #{parse} ")
+    Integer findCountBeforeTime(String format2);
+
+    /*某一时间之前的数量*/
+    @Select("select count(uid) from users where createTime<  #{end} and createTime > #{start} ")
+    int findCountBetWin(@Param("start") String start, @Param("end")String end);
 }

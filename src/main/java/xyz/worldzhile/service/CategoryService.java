@@ -68,4 +68,8 @@ public interface CategoryService {
 
     /*layui分页 cname 为条件*/
     PageBean<Category> findAllByLayuiByPage(Integer page, Integer limit, String cname);
+
+//    查询数量
+
+    Integer findSum();
 }

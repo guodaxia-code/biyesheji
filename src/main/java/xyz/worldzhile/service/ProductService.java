@@ -57,4 +57,7 @@ public interface ProductService {
     void add(Product product);
 
     void del(String pid);
+
+//    数量
+    Integer findSum();
 }

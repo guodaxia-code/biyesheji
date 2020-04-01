@@ -36,7 +36,7 @@ ul {
 }
 a {
     text-decoration: none;
-    color: #999; 
+    color: #999;
 }
 .e3 {
     color: #e33333 !important;
@@ -73,6 +73,8 @@ a:hover {
     color: #999;
     font-size: 12px;
     border-bottom: 1px solid #ddd;
+
+
 
 }
 .shortcut i {
@@ -227,6 +229,7 @@ a:hover {
     height: 540px;
     background-color: #f4f4f4;
 
+
 }
 .footer-top {
    
@@ -371,10 +374,12 @@ a:hover {
     width: 57px;
     height: 57px;
     
-    background:  skyblue url(/store/static/mystore/images/small-logo.png) no-repeat 0 0;
-    
+    /*background:  skyblue url(/store/static/mystore/images/small-logo.png) no-repeat 0 0;*/
+    background:  skyblue url(/store/static/mystore/images/canva.png) no-repeat 0 0;
+    background-color: pink;
     margin-right: 10px;
     margin-bottom: 30px;
+
 }
 .sites  a {
    font-size: 12px;

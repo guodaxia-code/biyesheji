@@ -3,6 +3,7 @@ package xyz.worldzhile.domain;
 import io.swagger.annotations.ApiModel;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 public class User implements Serializable {
@@ -16,6 +17,15 @@ public class User implements Serializable {
     private String code;
     private Integer states;
 
+    private Date createTime;
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
 
     private String url;
 
