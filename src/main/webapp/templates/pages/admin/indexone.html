@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>主页一</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="stylesheet" href="/store/static/X-admin/css/font.css">
+    <link rel="stylesheet" href="/store/static/X-admin/css/xadmin.css">
+    <script src="/store/static/X-admin/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/store/static/X-admin/js/xadmin.js"></script>
+    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+
+
+
+
+
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body ">
+                    <blockquote class="layui-elem-quote">欢迎管理员：
+                        <span class="x-red" th:text="${user.username}">test</span>！
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">数据统计</div>
+                <div class="layui-card-body ">
+                    <ul class="layui-row layui-col-space10 layui-this x-admin-carousel x-admin-backlog">
+                        <li class="layui-col-md3 layui-col-xs9">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>分类数</h3>
+                                <p>
+
+                                    <cite th:text="${categorySum}">66</cite></p>
+                            </a>
+                        </li>
+
+                        <li class="layui-col-md3 layui-col-xs9">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>商品数</h3>
+                                <p>
+                                    <cite th:text="${productSum}">12</cite></p>
+                            </a>
+                        </li>
+
+                        <li class="layui-col-md3 layui-col-xs9">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>订单数</h3>
+                                <p>
+                                    <cite th:text="${orderSum}">99</cite></p>
+                            </a>
+                        </li>
+                        <li class="layui-col-md3 layui-col-xs9">
+                            <a href="javascript:;" class="x-admin-backlog-body">
+                                <h3>用户</h3>
+                                <p>
+                                    <cite th:text="${userSum}">67</cite></p>
+                            </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-col-sm12 layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">新增订单
+                    <span class="layui-badge layui-bg-cyan layuiadmin-badge">日</span></div>
+                <div class="layui-card-body  ">
+                    <p class="layuiadmin-big-font" th:text="${newOrderSum}">33,555</p>
+                    <p>新订单
+                        <span class="layuiadmin-span-color">
+                                    <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-sm12 layui-col-md6">
+            <div class="layui-card">
+                <div class="layui-card-header">新增用户
+                    <span class="layui-badge layui-bg-cyan layuiadmin-badge">日</span></div>
+                <div class="layui-card-body  ">
+                    <p class="layuiadmin-big-font" th:text="${newUserSum}">33,555</p>
+                    <p>新用户
+                        <span class="layuiadmin-span-color">
+                                    <i class="layui-inline layui-icon layui-icon-face-smile-b"></i></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+
+<!--图标-->
+        <div class="layui-col-sm24 layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">最新一周新增用户</div>
+                <div class="layui-card-body" style="min-height: 280px;">
+                    <div id="main1" class="layui-col-sm12" style="height: 300px; -webkit-tap-highlight-color: transparent; user-select: none; position: relative;" _echarts_instance_="ec_1585732270422"><div style="position: relative; overflow: hidden; width: 1887px; height: 300px; padding: 0px; margin: 0px; border-width: 0px; cursor: default;"><canvas data-zr-dom-id="zr_0" width="1887" height="300" style="position: absolute; left: 0px; top: 0px; width: 1887px; height: 300px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div><div style="position: absolute; display: none; border-style: solid; white-space: nowrap; z-index: 9999999; transition: left 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s, top 0.4s cubic-bezier(0.23, 1, 0.32, 1) 0s; background-color: rgba(50, 50, 50, 0.7); border-width: 0px; border-color: rgb(51, 51, 51); border-radius: 4px; color: rgb(255, 255, 255); font: 14px / 21px &quot;Microsoft YaHei&quot;; padding: 5px; left: 720px; top: 167px; pointer-events: none;">周三<br><span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:#c23531;"></span>用户量: 901</div></div>
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+
+
+
+
+</div>
+<script src="/store/static/X-admin/js/jquery.min.js"></script>
+<!--图表js-->
+<script src="/store/static/X-admin/js/echarts.min.js"></script>
+
+<script type="text/javascript">
+
+        $.ajax({
+            url:"/store/user/weekPlan",
+            success:function (data) {
+                // 基于准备好的dom，初始化echarts实例
+                var myChart = echarts.init(document.getElementById('main1'));
+                // 指定图表的配置项和数据
+                var option = {
+                    grid: {
+                        top: '5%',
+                        right: '1%',
+                        left: '1%',
+                        bottom: '10%',
+                        containLabel: true
+                    },
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    xAxis: {
+                        type:'category',
+                        data: data.names
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [{
+                        name:'用户量',
+                        data: data.values,
+                        type: 'line',
+                        smooth: true
+
+                    }]
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(option);
+
+            },
+            error:function () {
+               console.log("error echart")
+            },
+            data:{}
+        })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
