@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Controller;
@@ -98,6 +99,7 @@ public class ProductController {
 
 
 
+    @RequiresRoles("admin")
     @GetMapping("findAllPage")
     public ModelAndView findAllPage(ModelAndView model){
         //这里必需要要跳转
@@ -202,7 +204,16 @@ public class ProductController {
         productService.del(pid);
         System.out.println("删除分类成功");
     }
-
+    /*dels*/
+    @GetMapping("dels/{pid}")
+    @ResponseBody
+    public void dels(@PathVariable("pid")String[] pid){
+        System.out.println("删除分类");
+        for (String one : pid) {
+            productService.del(one);
+        }
+        System.out.println("删除分类成功");
+    }
 
 
 
@@ -233,6 +244,7 @@ public class ProductController {
 
         System.out.println("查询条件------------------------------------"+pname);
         PageBean<Product> pageBean = productService.findAllByLayuiByPageOrderByPrice(currentPage, pageCount,pname,pricesort);
+        model.addObject("pricesort",pricesort);
         model.addObject("pageBean",pageBean);
         model.addObject("condition",pname);
         model.setViewName("searchproduct_list");

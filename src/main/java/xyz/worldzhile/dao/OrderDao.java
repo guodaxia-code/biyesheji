@@ -62,22 +62,50 @@ public interface OrderDao {
     @ResultMap("OrderMap")
     List<Order> findAll();
 
+
+
+
+
     /*
     查询所有的订单数量
     */
-    @Select("select count(oid) from orders ")
+
+    @Select("<script>"+"SELECT count(oid) FROM orders  where 1=1 "
+            +"</script>"
+    )
     int findCount();
 
+    @Select("<script>"+"SELECT count(*) FROM  orders Left join users  On users.uid=orders.user_uid   where 1=1  "
+            +"<if test='username!=null'> and username like CONCAT('%',#{username},'%')</if>"
+            +"<if test='oid!=null'> and oid like CONCAT('%',#{oid},'%')</if>"
+            +"</script>"
+    )
+    int findCountSearch( @Param("username") String username,@Param("oid") String oid);
 
+    /*
+
+
+
+//    /*layui 分页查询  weitiaojiao */
+//    @Select("<script>"+"SELECT * FROM orders  where 1=1 "
+////            +"<if test='username!=null'> and username like CONCAT('%',#{username},'%')</if>"
+//            +"<if test='oid!=null'> and oid like CONCAT('%',#{oid},'%')</if>"
+//            +"limit #{start},#{pageCount}"
+//            +"</script>"
+//    )
 
     /*layui 分页查询  weitiaojiao */
-    @Select("<script>"+"SELECT * FROM orders  where 1=1 "
-//            +"<if test='pname!=null'> and pname like CONCAT('%',#{pname},'%')</if>"
+    @Select("<script>"+"SELECT orders.*,users.uid,users.username FROM  orders Left join users  On users.uid=orders.user_uid   where 1=1  "
+            +"<if test='username!=null'> and username like CONCAT('%',#{username},'%')</if>"
+            +"<if test='oid!=null'> and oid like CONCAT('%',#{oid},'%')</if>"
             +"limit #{start},#{pageCount}"
             +"</script>"
     )
     @ResultMap("OrderMap")
-    List<Order> findAllByLayuiByPage(@Param("start") int start, @Param("pageCount") Integer pageCount, @Param("pname") String pname);
+    List<Order> findAllByLayuiByPage(@Param("start") int start, @Param("pageCount") Integer pageCount, @Param("username") String username,@Param("oid") String oid);
+
+
+
 
 
     /**
@@ -103,5 +131,10 @@ public interface OrderDao {
     /*某一时间之前的数量*/
     @Select("select count(oid) from orders where time<  #{parse} ")
     Integer findCountBeforeTime (String parse);
+
+
+    /*某一时间之前的数量*/
+    @Select("select count(oid) from orders where time<  #{end} and time > #{start} ")
+    int findCountBetWin(@Param("start") String start, @Param("end")String end);
 
 }

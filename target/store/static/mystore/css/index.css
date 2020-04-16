@@ -1,0 +1,220 @@
+/**
+  index页面样式
+ */
+
+/*顶部搜索*/
+.top-nav {
+
+	height: 60px;
+	width: 100%;
+	background-color: pink;
+	position: fixed;
+	z-index: 10;
+	display: none;
+	top:0;
+	left: 0;
+}
+.top-nav span{
+	text-align: center;
+	line-height: 30px;
+	display: block;
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	position: absolute;
+	right: 10px;
+	top: 10px;
+	background-color: #fff;
+
+}
+
+
+
+
+
+/*轮播图*/
+.grid {
+	height: 460px;
+	position: relative !important;
+}
+
+.grid img{
+	width: 1190px;
+	height: 460px;
+	/*vertical-align: top;*/
+	position: absolute;	z-index: 1;
+	
+}
+
+
+.grid-clo1 {
+	width: 227px;
+	height: 460px;
+	background: rgba(0,0,0,0.6);
+	z-index: 2;
+	position: absolute;
+
+	
+}
+.grid-clo1 ul {
+	padding: 20px 0;
+	height: 460px;
+	box-sizing: border-box;	
+
+}
+.grid a {
+	display: inline;
+}
+.grid-clo1 li {
+	padding-left: 30px;
+}
+.grid-clo1 li:hover {
+	background-color: orange;
+}
+.grid-clo1 a{
+ line-height: 42px;
+ color: #fff;
+ font-size: 14px;
+}
+.grid-clo1 a:hover{
+ color: red;
+}
+.grid-clo2 {
+	width: 1190px;
+	height: 460px;
+	background-color: yellow;
+	position: absolute;
+
+}
+
+/**/
+.lunbocircle {
+	width: 110px;
+	height: 21px;
+	background:rgba(0,0,0,0.2);
+	position: absolute;
+	z-index: 3;
+	left:  50%;
+	transform: translateX(-50%);
+	border-radius: 10px;
+	padding: 0 8px;
+	bottom: 40px;
+}
+.lunbocircle li {
+	float: left;
+	width: 16px;
+	height: 16px;
+	border-radius: 50%;
+	background: rgba(255,255,255,.6);
+	margin: 4px 3px 1px 3px;
+}
+.lunbocircle li:hover{
+	background: red;
+}
+.lunbocircle .current-lunbo-picture{
+	background: red;
+}
+/*箭头*/
+.arrow-l,
+.arrow-r {
+	position: absolute;
+	width: 30px;
+	height: 60px;
+	background: rgba(0,0,0,0.3);
+	right: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 4;
+	text-align: center;
+	color: rgba(255,255,255,0.6);
+	line-height: 60px;
+	font-size: 22px;
+}
+.arrow-l{
+	left: 227px;
+}
+
+
+
+
+/*********************gotop********************/
+
+body {
+	position: relative;
+}
+
+.gotop {
+	position: fixed;
+	right: 150px;
+	top: 400px;
+	z-index: 20;
+}
+
+.gotop a {
+	display: block;
+	width: 48px;
+	height: 48px;
+	line-height: 38px;
+	background: #f4f4f4;
+	margin-bottom: 10px;
+	border: 1px solid #d6d6d6;
+	cursor: pointer;
+}
+
+.gotop dl dt {
+	margin: 0 auto;
+	width: 20px;
+	padding-top: 10px;
+}
+
+.gotop dl.goCart {
+	position: relative;
+}
+
+.gotop dl.goCart span {
+	position: absolute;
+	top: -9px;
+	right: -8px;
+	width: 16px;
+	height: 16px;
+	border-radius: 8px;
+	background: #c10000;
+	color: #fff;
+	text-align: center;
+	line-height: 16px;
+}
+
+.gotop dl dd {
+	display: none;
+	background: #a10000;
+	height: 41px;
+	width: 41px;
+	color: #fff;
+	padding: 8px 0 0 10px;
+	line-height: 15px;
+}
+
+.gotop p {
+	border: 1px solid #A10000;
+	padding: 10px;
+	position: absolute;
+	background: #f4f4f4;
+	top: 180px;
+	left: -130px;
+	display: none;
+}
+
+.gotop p:before {
+	position: absolute;
+	top: 50%;
+	right: -6px;
+	width: 0;
+	margin-top: -5px;
+	height: 0;
+	margin-left: -5px;
+	vertical-align: middle;
+	content: " ";
+	border-bottom: 5px solid transparent;
+	border-left: 5px solid #a10000;
+	border-top: 5px solid transparent;
+}

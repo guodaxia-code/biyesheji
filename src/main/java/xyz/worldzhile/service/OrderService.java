@@ -3,6 +3,7 @@ package xyz.worldzhile.service;
 import org.springframework.stereotype.Service;
 import xyz.worldzhile.domain.Order;
 import xyz.worldzhile.domain.OrderItem;
+import xyz.worldzhile.domain.ResultList;
 import xyz.worldzhile.util.PageBean;
 
 import java.util.List;
@@ -10,10 +11,12 @@ import java.util.List;
 
 public interface OrderService {
 
+     ResultList findResultList();
+
     /*
-        下单
-        返回订单的oid
-     */
+            下单
+            返回订单的oid
+         */
     String saveOrder(String uid, List<OrderItem> orderItems,Double totalMany);
 
     /**
@@ -42,7 +45,7 @@ public interface OrderService {
 
 
 
-    PageBean<Order> findAllByLayuiByPage(Integer page, Integer limit, String pname);
+    PageBean<Order> findAllByLayuiByPage(Integer page, Integer limit, String username,String oid);
 
 
     /*

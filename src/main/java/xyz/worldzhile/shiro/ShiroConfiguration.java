@@ -2,7 +2,10 @@ package xyz.worldzhile.shiro;
 
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import org.apache.ibatis.cache.Cache;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
+import org.apache.shiro.cache.CacheManager;
+import org.apache.shiro.cache.ehcache.EhCacheManager;
 import org.apache.shiro.session.SessionListener;
 import org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO;
 import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
@@ -60,21 +63,13 @@ public class ShiroConfiguration {
         //未认证的跳转页面  没有对应的的角色 不会跳配置了error page 500
         shiroFilterFactoryBean.setUnauthorizedUrl("/msg");
 
+
         //有序拦截
         HashMap<String, String> urls = new LinkedHashMap<>();
         urls.put("/msg","anon");
         urls.put("/user/login","anon");
-
-//        urls.put("/order/payOrder","authc");
-//        urls.put("/order/seeMyOrdersByPage","authc");
-//        urls.put("order/seeMyOrders","authc");
-//        urls.put("order/lijigou","authc");
-//        urls.put("/order/seeOneOrder","authc");
-//        urls.put("/order/addOrder","authc");
         urls.put("/order/**","authc");
-
         urls.put("/cart/**","authc");
-
         urls.put("/admin/index","authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(urls);
         return shiroFilterFactoryBean;
@@ -91,8 +86,7 @@ public class ShiroConfiguration {
         DefaultWebSecurityManager defaultWebSecurityManager = new DefaultWebSecurityManager();
         defaultWebSecurityManager.setRealm(myRealm);
         //还可以 redis 缓存sessionManager
-        // defaultWebSecurityManager.setSessionManager(defaultWebSessionManager);
-
+         defaultWebSecurityManager.setSessionManager(defaultWebSessionManager);
         return defaultWebSecurityManager;
 
     }
@@ -100,63 +94,74 @@ public class ShiroConfiguration {
 
     /*session*/
     @Bean("sessionManager")
-    public DefaultWebSessionManager getSessionManager(@Qualifier("sessiondao") RedisSessionDao redisSessionDao,@Qualifier("sessionIdCookie") SimpleCookie simpleCookie,
-                                                      @Qualifier("sessionListener") ShiroSessionListener shiroSessionListener,@Qualifier("sessionDAO") SessionDAO sessionDAO
+    public DefaultWebSessionManager getSessionManager(@Qualifier("sessiondao") RedisSessionDao redisSessionDao
+                                                    , @Qualifier("mySessionDao") SessionDAO mySessionDao
+                                                    , @Qualifier("listener") SessionListener listener
+                                                    , @Qualifier("SessionIdCookie") SimpleCookie sessionIdCookie
+//            ,@Qualifier("CacheManager") CacheManager CacheManager
                                                       ){
         DefaultWebSessionManager defaultWebSessionManager = new DefaultWebSessionManager();
         //redis sessiondao
 //        defaultWebSessionManager.setSessionDAO(redisSessionDao);
-        //自定义cookie
-        defaultWebSessionManager.setSessionIdCookie(simpleCookie);
+        ArrayList<SessionListener> listeners=new ArrayList<>();
+        listeners.add(listener);
+        defaultWebSessionManager.setSessionListeners(listeners);
+//        defaultWebSessionManager.setCacheManager(CacheManager);
+
+        defaultWebSessionManager.setSessionIdCookie(sessionIdCookie);
 
 
-        //加上在线人数监听器
-        ArrayList<SessionListener> listeners = new ArrayList<>();
-        listeners.add(shiroSessionListener);  //监听器的加
-
-        defaultWebSessionManager.setSessionDAO(sessionDAO);
-
-//        defaultWebSessionManager.setCacheManager(cacheManager());
+        defaultWebSessionManager.setSessionDAO(mySessionDao);
 
         return defaultWebSessionManager;
 
+    }
 
+
+    @Bean("SessionIdCookie")
+    public SimpleCookie getSessionIdCookie(){
+        SimpleCookie simpleCookie = new SimpleCookie();
+        simpleCookie.setName("shiro.session");
+
+        return simpleCookie;
+    }
+
+//  @Bean("CacheManager")
+//  CacheManager getCacheManager(){
+//      EhCacheManager ehCacheManager = new EhCacheManager();
+//      return  ehCacheManager;
+//  }
+
+    @Bean("listener")
+    public SessionListener getSessionListener(){
+        ShiroSessionListener shiroSessionListener = new ShiroSessionListener();
+        return shiroSessionListener;
     }
 
 
 
-    /*
-      自定义cookie
-     */
-    @Bean("sessionIdCookie")
-    public SimpleCookie sessionIdCookie() {
-        SimpleCookie cookie = new SimpleCookie("shiroCookie");
-        cookie.setHttpOnly(true);//默认是false，设为true后，只允许http访问，不允许JavaScript访问
-        cookie.setMaxAge(-1);//表示浏览器关闭，cookie失效
-        return cookie;
-    }
 
 
-    /**
-     *  普通 sessiondao
-     */
-    @Bean("sessionDAO")
-    public SessionDAO sessionDAO(@Qualifier("sessionIdGenerator") SessionIdGenerator sessionIdGenerator) {
-        EnterpriseCacheSessionDAO sessionDAO = new EnterpriseCacheSessionDAO();
-        sessionDAO.setSessionIdGenerator(sessionIdGenerator);
-//        sessionDAO.setCacheManager(cacheManager());
-        sessionDAO.setActiveSessionsCacheName("myShiroCacheManager");
-        return sessionDAO;
+
+
+    @Bean("mySessionDao")
+    public SessionDAO getEnterpriseCacheSessionDAO(@Qualifier("sessionIdGenerator")SessionIdGenerator sessionIdGenerator){
+
+        MySessionDao mySessionDao = new MySessionDao();
+        mySessionDao.setActiveSessionsCacheName("activeSession");
+        mySessionDao.setSessionIdGenerator(sessionIdGenerator);
+
+        return mySessionDao;
+
     }
+
     @Bean("sessionIdGenerator")
-    public SessionIdGenerator sessionIdGenerator() {
-        return new JavaUuidSessionIdGenerator();
-    }
+  public SessionIdGenerator getSessionIdGenerator(){
+      SessionIdGenerator sessionIdGenerator = new JavaUuidSessionIdGenerator();
+      return  sessionIdGenerator;
+  }
 
-//    @Bean("CcacheManager")
-//    public CacheManager cacheManager() {
-//        return new EhCacheManager();
-//    }
+
 
 
 
@@ -186,11 +191,6 @@ public class ShiroConfiguration {
     }
 
 
-//    /*shiro标签*/
-//    @Bean(name = "shiroDialect")
-//    public ShiroDialect shiroDialect(){
-//        return new ShiroDialect();
-//    }
 
 
 

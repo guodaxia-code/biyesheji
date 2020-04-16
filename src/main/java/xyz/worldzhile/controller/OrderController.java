@@ -8,6 +8,7 @@ import com.alipay.api.request.AlipayTradePagePayRequest;
 import io.swagger.annotations.Api;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Role;
@@ -168,6 +169,7 @@ public class OrderController {
         System.out.println(user.getUid()+"------------------------------------------------------------------------------");
         PageBean<Order> pageBean = orderService.findPageBean(user.getUid(), currentPage, pageCount,states);
         model.addObject("pageBean", pageBean);
+        model.addObject("states", states);
         model.setViewName("orderxx");
 
         return model;
@@ -648,7 +650,7 @@ public class OrderController {
 
 
 
-
+    @RequiresRoles("admin")
     @GetMapping("findAllPage")
     public ModelAndView findAllPage(ModelAndView model){
         //这里必需要要跳转
@@ -657,24 +659,24 @@ public class OrderController {
     }
 
     /**
-     * 分页查询   pname 为条件
+     * 分页查询
      * @param page
      * @param limit
-     * @param pname
      * @return
      */
     @GetMapping("findAllByLayui")
     public @ResponseBody
     LayuiData<Order> findAllByLayuiByPage(@RequestParam(value = "page",defaultValue = "1") Integer page,
                                             @RequestParam(value = "limit",defaultValue = "8") Integer limit,
-                                            @RequestParam(value = "pname",required = false) String pname){
+                                            @RequestParam(value = "oid",required = false,defaultValue="") String oid,
+                                          @RequestParam(value = "username",required = false,defaultValue="") String username){
 //        接口地址。默认会自动传递两个参数：?page=1&limit=30（该参数可通过 request 自定义）
 //        page 代表当前页码、limit 代表每页数据量
         //条件校验
-        if (pname==null||pname.length()==0){
-            pname="";
+        if (username==null||username.length()==0){
+            username="";
         }
-        PageBean<Order> allByLayuiByPage = orderService.findAllByLayuiByPage(page, limit,pname);
+        PageBean<Order> allByLayuiByPage = orderService.findAllByLayuiByPage(page, limit,username,oid);
         LayuiData<Order> orderLayuiData = new LayuiData<>();
         orderLayuiData.setCode(0);
         orderLayuiData.setData(allByLayuiByPage.getList());
@@ -684,6 +686,7 @@ public class OrderController {
     }
 
 
+    @RequiresRoles("admin")
     //发货
     @RequestMapping("fahuo/{oid}")
     public void Fahuo(@PathVariable("oid") String oid){
@@ -697,6 +700,7 @@ public class OrderController {
 
     }
 
+    @RequiresRoles("admin")
     //删除订单们
     @RequestMapping("del/{oid}")
     public void del(@PathVariable("oid") String[] oid){
@@ -747,6 +751,15 @@ public class OrderController {
 
     }
 
+
+    @RequiresUser
+//    获取最近一周每日新增数量统计
+    @GetMapping("weekPlan")
+    @ResponseBody
+    public ResultList test3(){
+        ResultList resultList= orderService.findResultList();
+        return  resultList;
+    }
 
 
 

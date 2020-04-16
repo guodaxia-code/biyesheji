@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://wwww.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>至乐购后台管理系统</title>
+    <link rel="stylesheet" href="/store/static/layui/css/layui.css">
+    <style>
+        table{
+            margin: 0 auto;
+        }
+        th,td{
+            border :1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+
+<table>
+
+    <tr>
+        <th>订单号</th>
+        <th>收货地址</th>
+        <th>收货人手机</th>
+        <th>下单时间</th>
+        <th>订单状态</th>
+        <th>订单总金额</th>
+        <th>下单人</th>
+
+    </tr>
+
+
+    <!--    private User user;-->
+
+    <!--    private List<OrderItem> orderItems;-->
+
+    <tr th:each="order:${all}">
+        <td th:text="${order.oid}"></td>
+        <!--                  <td th:text="${product.pdesc}"></td>-->
+        <td th:text="${order.address}"></td>
+        <td th:text="${order.phone}"></td>
+
+        <td th:text="${order.time}"></td>
+
+        <th:block th:switch="${order.states}">
+            <td th:case="1">已付款</td>
+            <td th:case="0">未付款</td>
+            <td th:case="3">已发货</td>
+            <td th:case="4">已收货</td>
+        </th:block>
+
+        <td th:text="${order.totalMoney}"></td>
+
+        <td th:text="${order.user.username}"></td>
+
+    </tr>
+
+</table>
+
+
+
+
+</body>
+</html>

@@ -46,7 +46,7 @@ public interface UserSerice {
 
     void updateUserPicture(String uid,String url);
 
-    void updatenameandphone(String uid, String name, String phone);
+    void updatenameandphone(String uid, String name, String phone,String birthday);
 
 
 

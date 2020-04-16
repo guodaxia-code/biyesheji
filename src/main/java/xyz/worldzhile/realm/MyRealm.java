@@ -45,6 +45,7 @@ public class MyRealm extends AuthorizingRealm {
         SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
         simpleAuthorizationInfo.setRoles(roles);
         simpleAuthorizationInfo.setStringPermissions(permissions);
+        System.out.println(permissions+"-------------------");
         return simpleAuthorizationInfo;
     }
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http:www.thymeleaf.org" xmlns:shiro="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<span th:text="${permitted}">falsetrue</span>
+<span th:text="${two}">2</span>
+
+
+<p shiro:lacksRole="admin"> 没有admin角色 </p>
+
+
+用户信息:<shiro:principal></shiro:principal>
+<br>
+有category；add
+
+<button shiro:hasPermission="category:addcategoty" type="button" class="btn  btn-primary" οnclick="add()">
+    <i class="fa fa-plus" aria-hidden="true"></i>添加
+</button>
+
+</body>
+</html>

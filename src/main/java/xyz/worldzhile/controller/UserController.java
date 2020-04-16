@@ -5,7 +5,12 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.web.util.SavedRequest;
+import org.apache.shiro.web.util.WebUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -130,7 +135,9 @@ public class UserController {
     @GetMapping("exit")
     public ModelAndView exit(ModelAndView model){
         SecurityUtils.getSubject().logout();
-        model.setViewName("forward:/index");
+//
+//        model.setViewName("forward:/index");
+           model.setViewName("redirect:/index");
         return model;
     }
 
@@ -138,7 +145,14 @@ public class UserController {
     @PostMapping("login")
     public ModelAndView login(ModelAndView model, User user, HttpServletRequest request, HttpServletResponse response){
 
-        String loginUsername=user.getUsername();
+        System.out.println(user+"----------------------------");
+
+        try {
+            request.setCharacterEncoding("utf-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        String loginUsername=request.getParameter("username");
         if (userService.isUnique(loginUsername)){
             request.setAttribute(Constant.USER_MESSAGEG_ERROR,"用户名不存在");
             model.setViewName("login");
@@ -160,6 +174,20 @@ public class UserController {
             System.out.println("-------------登录成功--------------");
             Cart cart = new Cart();
             session.setAttribute(Constant.USER_CART_SESSION,cart);
+            SavedRequest savedRequest = WebUtils.getSavedRequest(request);
+            System.out.println(savedRequest+"---------------------------------------------------");
+            //这里让他放回被拦截的shiro页面
+            if (savedRequest!=null){
+                String requestUrl = savedRequest.getRequestUrl();
+                System.out.println(requestUrl+"----------------------------------------------------------------------------");
+                requestUrl=  requestUrl.replaceFirst("/store","");
+                System.out.println(requestUrl+"----------------------------------------------------------------------------");
+                model.setViewName("redirect:"+requestUrl);
+                return model;
+            }
+
+
+
         }else {
             request.setAttribute(Constant.USER_MESSAGEG_ERROR,"登陆失败");
             model.setViewName("login");
@@ -169,7 +197,7 @@ public class UserController {
         //是否勾选了记住用户名
         if(Constant.SAVE_USERNAME.equals(request.getParameter("rememberUsername"))){
             try {
-                Cookie cookie = new Cookie("rememberUsername", URLEncoder.encode(user.getUsername(),"utf-8"));
+                Cookie cookie = new Cookie("rememberUsername", URLEncoder.encode(loginUsername,"utf-8"));
                 cookie.setMaxAge(Integer.MAX_VALUE);
                 cookie.setPath(request.getContextPath()+"/");
                 response.addCookie(cookie);
@@ -207,37 +235,27 @@ public class UserController {
 
 
 
-
-
-    @GetMapping("testOrder")
-    public ModelAndView aa(HttpServletRequest request,ModelAndView model){
-        model.setViewName("testOrder");
-        Session session = SecurityUtils.getSubject().getSession();
-        String shiro = (String) session.getAttribute("shirosession");
-
-        System.out.println(shiro+"-----------------------");
-//        ShiroUser user = SecurityUtils.getSubject().getPrincipal();
-        String loginAccount = SecurityUtils.getSubject().getPrincipal().toString();
-        System.out.println(loginAccount);
-        return model;
-    }
-
-
+    @RequiresUser
     @RequestMapping("updateUserPicture")
     @ResponseBody
     public void updateUserPicture(String uid,String url){
         System.out.println(uid+"--"+url);
         userService.updateUserPicture(uid,url);
     }
+
+
+    @RequiresUser
     @RequestMapping("updatenameandphone")
     @ResponseBody
-    public void updatenameandphone(String uid,String name,String phone){
+    public void updatenameandphone(String uid,String name,String phone,String birthday){
 
         User user = (User) SecurityUtils.getSubject().getPrincipal();
         user.setName(name);
-        System.out.println(uid+"--"+name+"-"+phone);
-        userService.updatenameandphone(uid,name,phone);
+        System.out.println(uid+"--"+name+"-"+phone+"--"+birthday);
+        userService.updatenameandphone(uid,name,phone,birthday);
     }
+
+
 
 
 
@@ -248,6 +266,7 @@ public class UserController {
         model.setViewName("redirect:/templates/pages/admin/user/userManager.html");
         return model;
     }
+
     /**
      * 分页查询   pname 为条件
      * @param page
@@ -276,6 +295,7 @@ public class UserController {
     }
 
 
+     @RequiresPermissions("user:del")
     @RequestMapping("del/{uids}")
     public void deluids(@PathVariable("uids") String[] uids){
         for (String uid : uids) {
@@ -286,15 +306,14 @@ public class UserController {
     }
 
 
+
+
+    @RequiresUser
 //    获取最近一周每日新增数量统计
     @GetMapping("weekPlan")
     @ResponseBody
     public ResultList test3(){
-
         ResultList resultList= userService.findResultList();
-
-
-
         return  resultList;
     }
 

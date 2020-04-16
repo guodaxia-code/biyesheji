@@ -59,8 +59,6 @@ public class FileController {
                 }
             }
 
-
-
         }
                 return listImagePath;
 

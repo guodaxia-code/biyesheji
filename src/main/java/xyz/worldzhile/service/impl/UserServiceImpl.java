@@ -27,7 +27,9 @@ public class UserServiceImpl implements UserSerice {
 
     @Override
     public boolean isUnique(String username) {
+        System.out.println(username);
         User userInMysql = userDao.findUserByUsername(username);
+        System.out.println(userInMysql);
         return userInMysql==null;
     }
 
@@ -42,7 +44,7 @@ public class UserServiceImpl implements UserSerice {
 
 
 
-        boolean isSendSuccess = MailUtils.sendMail("2561587813@qq.com", "<h1>欢迎您成为至乐购商城的一员</h1><h2>来自至乐购商城网站的激活邮件,激活请点击以下链接：</h2><br/><h3><a href='http://localhost:8080/store/user/active?code=" + user.getCode() + "'>激活</a></h3>", "至乐购用户注册");
+        boolean isSendSuccess = MailUtils.sendMail(user.getQqEmail(), "<h1>欢迎您成为至乐购商城的一员</h1><h2>来自至乐购商城网站的激活邮件,激活请点击以下链接：</h2><br/><h3><a href='http://localhost:8080/store/user/active?code=" + user.getCode() + "'>激活</a></h3>", "至乐购用户注册");
         if (isSendSuccess) {
             String username = user.getUsername();
             String password = user.getPassword();
@@ -123,10 +125,12 @@ public class UserServiceImpl implements UserSerice {
     }
 
     @Override
-    public void updatenameandphone(String uid, String name, String phone) {
+    public void updatenameandphone(String uid, String name, String phone,String birthday) {
         User userByUid = userDao.findUserByUid(uid);
         userByUid.setName(name);
         userByUid.setPhone(phone);
+        userByUid.setBirthday(birthday);
+        System.out.println(userByUid+birthday+"--------------------------------");
         userDao.update(userByUid);
     }
 

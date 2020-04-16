@@ -11,7 +11,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * 监听器
  */
-@Component("sessionListener")
+
 public class ShiroSessionListener implements SessionListener {
 
     //CAS原理的乐观锁（自旋锁）  compare and swap

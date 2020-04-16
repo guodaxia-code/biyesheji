@@ -126,12 +126,6 @@ public class AdminController {
 //订单数
 //        分类数
 
-        ArrayList<String> strings = new ArrayList<>();
-        strings.add("admin");
-        strings.add("role1");
-        strings.add("role2");
-        boolean[] booleans = SecurityUtils.getSubject().hasRoles(strings);
-        System.out.println(Arrays.toString(booleans)+"----------------------------------------------------------------------------------");
 
 
         Integer categorySum = categoryService.findSum();

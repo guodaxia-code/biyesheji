@@ -13,6 +13,7 @@ import xyz.worldzhile.service.CategoryService;
 import xyz.worldzhile.util.PageBean;
 import xyz.worldzhile.util.UuidUtil;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Api(tags = "Category接口")
@@ -82,7 +83,6 @@ public class CategoryController {
     }
 
 
-    @RequiresPermissions("category:updatecategoty")
     @GetMapping("updateOneCategory")
     public ModelAndView update(String cid,ModelAndView model){
         Category one = categoryService.findOne(cid);
@@ -93,7 +93,7 @@ public class CategoryController {
 
 
     /*添加分类*/
-    @RequiresPermissions("category:addcategoty")
+
     @GetMapping("addCategory")
     public ModelAndView addCategory(ModelAndView model){
         model.setViewName("admin/addCategory");
@@ -102,7 +102,6 @@ public class CategoryController {
 
 
     /*添加分类*/
-    @RequiresPermissions("category:addcategoty")
     @GetMapping("addCategoryMsg")
     @ResponseBody
     public void addCategoryMsg(Category category){
@@ -112,7 +111,6 @@ public class CategoryController {
 
 
     /*修改分类url*/
-    @RequiresPermissions("category:updatecategoty")
     @GetMapping("updateCategoryPicture")
     @ResponseBody
     public void updateCategoryPicture(Category category){
@@ -132,20 +130,36 @@ public class CategoryController {
     }
 
     /*修改分类除了url*/
-    @RequiresPermissions("category:updatecategoty")
     @GetMapping("updateCategory")
     @ResponseBody
     public void updateCategory(Category category){
         categoryService.updateCategory(category);
     }
 
-    @RequiresPermissions("category:deletecategoty")
     @GetMapping("del/{cid}")
     @ResponseBody
     public void del(@PathVariable("cid")String cid){
         System.out.println("删除分类");
-        categoryService.update(cid);
+        try {
+            categoryService.update(cid);
+        }catch (Exception e){
+            System.out.println(e);
+        }
         System.out.println("删除分类成功");
+    }
+
+    //删除分类们
+    @RequestMapping("dels/{cid}")
+    public void del(@PathVariable("cid") String[] cid){
+        System.out.println(Arrays.toString(cid));
+        for (String one : cid) {
+            try {
+                categoryService.update(one);
+            }catch (Exception e){
+                System.out.println(e);
+            }
+        }
+
     }
 
 
