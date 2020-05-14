@@ -74,6 +74,7 @@ public class ProductController {
             model.setViewName("msg");
             return model;
         }
+
         PageBean<Product> pageBean = productService.findPageBean(cid, currentPage, pageCount);
         model.addObject("pageBean",pageBean);
         model.setViewName("product_list");

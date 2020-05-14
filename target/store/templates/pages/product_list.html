@@ -6,6 +6,10 @@
     <!--    引入公共的base.css-->
     <link rel="stylesheet" href="/store/static/mystore/css/base.css"/>
     <link rel="stylesheet" href="/store/static/mystore/css/product_list.css"></link>
+    <!--    css 动画-->
+    <link rel="stylesheet" type="text/css"  href="/store/static/mystore/css/animate.css">
+    <!--  网站图标  -->
+    <link rel="shortcut icon" href="/store/static/mystore/favicon.ico">
     <style>
         /*清楚浮动*/
 
@@ -43,10 +47,12 @@
 
  </div>
 
- <div class="middle products-show clearfix" >
+ <div class="middle products-show clearfix animated fadeInUpBig" >
     <!-- 产品 -->
      <tH:block th:if="${pageBean.list.size()==0}">
-         该分类下还没有添加产品哦,去后台添加吧-.-
+         <div style="margin: 20px auto;width: 350px;color: #FFB800;" class="">
+             该分类下还没有添加产品哦,去后台添加吧-.-
+         </div>
 
      </tH:block>
      <th:blick th:if="${pageBean.list.size()>0}">
@@ -59,7 +65,7 @@
      </th:blick>
 
   </div>
- <div class="page middle">
+ <div class="page middle animated fadeInUpBig" th:unless="${pageBean.list.size()==0}">
     <th:block th:if="${pageBean.currentPage}==1">
 <!--        <a th:href="@{/product/getProductsByPage(cid=${param.cid},currentPage=1,pageCount=8)}" class="shangxiapage no-use">&lt;上一页</a>-->
     </th:block>
@@ -86,17 +92,65 @@
 
  </div>
 
+<!-- 隐藏标题-->
+ <input type="hidden" id="category_title" th:value="${cname}">
+
  <div id="footerpage"></div>
  <script src="/store/static/mystore/js/jquery-3.3.1.js"></script>
  <script src="/store/static/mystore/js/myjs/head.js"></script>
  <script>
-     // $(function () {
+
          load_headpage_and_footerpage();
-         getCategoryTenNumber();
-     // })
+
+         setTimeout(function () {
+             //加载标题
+             getCategoryTenNumber();
+         },20)
+
+
+
+
+
+     //分类标记
+     $(function () {
+         //为了那比拿到category-nav-ten 让他等200
+         setTimeout(function () {
+
+             //标题标记
+             var title = $("#category_title").val();
+             //category-nav-ten
+             var ul = document.getElementById("category-nav-ten");
+             var lis = ul.getElementsByTagName("li");
+             console.log(lis.length);
+             console.log(lis);
+             for (var i = 0; i <lis.length ; i++) {
+                 if (lis[i].children[0].innerText===title){
+                         lis[i].children[0].style="border-bottom: 2px solid #e2231a; color:#e2231a";
+                         break;
+                 }
+             }
+
+         },100)
+
+     })
+
+
  </script>
 
-
+ <script>
+     (function(a,h,g,f,e,d,c,b){b=function(){d=h.createElement(g);c=h.getElementsByTagName(g)[0];d.src=e;d.charset="utf-8";d.async=1;c.parentNode.insertBefore(d,c)};a["SeniverseWeatherWidgetObject"]=f;a[f]||(a[f]=function(){(a[f].q=a[f].q||[]).push(arguments)});a[f].l=+new Date();if(a.attachEvent){a.attachEvent("onload",b)}else{a.addEventListener("load",b,false)}}(window,document,"script","SeniverseWeatherWidget","//cdn.sencdn.com/widget2/static/js/bundle.js?t="+parseInt((new Date().getTime() / 100000000).toString(),10)));
+     window.SeniverseWeatherWidget('show', {
+         flavor: "slim",
+         location: "WT7W3R63DQMH",
+         geolocation: true,
+         language: "zh-Hans",
+         unit: "c",
+         theme: "auto",
+         token: "9e1bbe56-e1e0-4bd6-9e8e-bc21994ab146",
+         hover: "disabled",
+         container: "tp-weather-widget"
+     })
+ </script>
 
 
 

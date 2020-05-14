@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>商品已成功加入购物车</title>
+    <!--  网站图标  -->
+    <link rel="shortcut icon" href="/store/static/mystore/favicon.ico">
 
 
     <style>
@@ -70,7 +72,10 @@
 <script>
     // $(function () {
         load_headpage_and_footerpage();
-        getCategoryTenNumber();
+        setTimeout(function () {
+             //加载标题
+             getCategoryTenNumber();
+         },20)
         search();
     // })
 </script>

@@ -103,12 +103,12 @@
 /*.sub_banner .datu a img:hover{opacity:1;}*/
 /*danpin*/
 .biaoti{width: 1190px;height: 58px;line-height: 58px;font-size:
-22px;font-weight: bold;margin-top: 20px;
+22px;font-weight: bold;margin-top: 28px;
 	/*color: red; background-color: yellow;*/
 
 }
 .danpin .main{width: 1190px;height: 340px;}
-.danpin .main .mingxing{width: 220px;height: 339px;background: rgb(250,250,250);}
+.danpin .main .mingxing{width: 220px;height: 339px;background: rgb(255,255,255);}
 .danpin .main .mingxing:nth-of-type(1){border-top: 1px solid orange;margin-right:13px;}
 .danpin .main .mingxing:nth-of-type(2){border-top: 1px solid green;margin-right:13px;}
 .danpin .main .mingxing:nth-of-type(3){border-top: 1px solid blue;margin-right:13px;}

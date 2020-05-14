@@ -3,6 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <title>商品详情页</title>
+    <!--    css 动画-->
+    <link rel="stylesheet" type="text/css"  href="/store/static/mystore/css/animate.css">
+    <!--  网站图标  -->
+    <link rel="shortcut icon" href="/store/static/mystore/favicon.ico">
     <style>
         a{
             text-decoration: none;
@@ -119,12 +123,20 @@
             line-height:27px;
             display: none;
         }
-        .btns p,.changeBtn p{
+        .btns p{
             width:170px;
             height:40px;
             line-height:40px;
             text-align: center;
             cursor:pointer;
+        }
+        .changeBtn p{
+            width:170px;
+            height:40px;
+            line-height:40px;
+            text-align: center;
+            cursor:pointer;
+            background-color: green;
         }
         .btns p.buy,.changeBtn p.buy{
             background: #C10000;
@@ -180,6 +192,25 @@
             padding:0 30px;
         }
 
+        /*flash*/
+        #addCart{
+            background-color: #fff;
+        }
+        #addCart:hover {
+            background-color: #e2231a;
+        }
+        .addCart{
+            background-color: #fff;
+        }
+        .addCart:hover {
+            background-color: #e2231a;
+        }
+        .flash{
+            background-color: #fff;
+        }
+        .flash :hover {
+            background-color: #e2231a;
+        }
 
 
     </style>
@@ -231,12 +262,14 @@
 
 
     </style>
+    <link rel="stylesheet" href="/store/static/layui/css/layui.css" media="all">
     <!--    引入公共的base.css-->
 <!--    <link rel="stylesheet" href="/store/static/mystore/css/base.css"/>-->
 <!--    <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/public.css"/>-->
 <!--    <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/proList.css"/>-->
 </head>
 <body>
+
 
 <div id="headpage">head</div>
 
@@ -251,7 +284,10 @@
 <!--        </div>-->
 <!--</div>-->
 
-<div class="middle" style="height: 550px; border: 2px solid #fff;">
+<div style="height: 30px;background-color: #eee">
+
+</div>
+<div class="middle animated fadeInLeft" style="height: 600px; border: 2px solid #fff; background-color: #fff">
     <div class="detCon">
         <div class="proDet wrapper">
             <div class="proCon localhost:8080">
@@ -263,23 +299,28 @@
 
                 <div class="proImg fl" >
 <!--                    <img class="det" th:src="${product.ppicture}" style="width: 450px; height: 450px;">-->
-                    <div class="box" id="box">
+                    <div class="box" id="box" style="border: 1px solid #ccc">
                         <div class="small" id="small">
                             <img class="det" th:src="${product.ppicture}" style="width: 300px; height: 300px;">
                             <div class="mask" id="mask"></div>
                         </div>
-                        <div class="big" id="big">
+                        <div class="big" id="big" style="border: 1px solid #ccc">
                             <img class="det" id="bigImg" th:src="${product.ppicture}" width="500px" height="500px">
                         </div>
 
                     </div>
                 </div>
-                <div class="fr intro">
+                <div class="fr intro " >
                     <div class="title">
                         <h3><span th:text="${product.category.cname}"></span></h3>
                             <h4 th:text="${product.pname}" >【最家】非洲菊仿真花干花</h4>
-                        <p th:text="${product.pdesc}">【破损补寄】【适合放室内、卧室、书房、餐桌、办公室、客厅、电视柜等地方】【无理由退换货】【包邮】【白色现代简约花瓶】</p>
-                        <span th:text="￥+${product.rel_price}">￥59.90</span>
+                        <p th:text="${product.pdesc}" style="padding: 0 50px 0 0;">【破损补寄】【适合放室内、卧室、书房、餐桌、办公室、客厅、电视柜等地方】【无理由退换货】【包邮】【白色现代简约花瓶】</p>
+                        <div style="background-color: #eee; margin: 0 50px 0 0; padding: 20px 0px 20px 10px; box-sizing: border-box">
+                            价&nbsp;&nbsp;&nbsp;格 &nbsp;&nbsp;&nbsp;￥<del th:text="${product.store_price}" >￥59.90</del><br>
+                            促销价&nbsp;&nbsp;&nbsp;<span th:text="￥+${product.rel_price}" >￥59.90</span>
+
+                        </div>
+
                     </div>
                     <div class="proIntro">
                         <p>颜色分类</p>
@@ -292,12 +333,13 @@
 <!--                            <span class="fl" contenteditable="true">1</span>-->
 <!--                            <img class="fl add" src="img/temp/add.jpg">-->
 <!--                            <p class="please fl">请选择商品属性!</p>-->
-                            购买数量: <input id="number" style="color: black;font-size:  26px;width: 62px; " min="1" max="200" type="number" name="pcount" value="1">
+                            购买数量: <input id="number" style="color: black; border:1px solid #aaa;font-size:  26px;width: 62px; " min="1" max="200" type="number" name="pcount" value="1">
                         </div>
                     </div>
                     <div class="btns clearfix">
                         <a id="lijigou" th:href="@{/order/lijigou(pid=${product.pid},pcount='')}"><p class="buy fl">立即购买</p></a>
-                        <a id="addCart" href="#2" th:href="@{/cart/addToCart(pid=${product.pid},pcount=1)}"><p class="cart fr">加入购物车</p></a>
+<!--                            <a id="addCart"  href="#2" th:href="@{/cart/addToCart(pid=${product.pid},pcount=1)}"><p class="cart fr flash;" ><i class="layui-icon layui-icon-cart-simple"></i> 加入购物车</p></a>-->
+                            <a id="addCart"   href="#2" th:href="@{/cart/addToCart(pid=${product.pid},pcount=1)}"><p class="cart fr flash;"style="background-color: #ffeded;" ><i class="layui-icon layui-icon-cart-simple" style="color: red"></i> 加入购物车</p></a>
                     </div>
                 </div>
             </div>
@@ -317,7 +359,11 @@
 <script>
     // $(function () {
         load_headpage_and_footerpage();
-        getCategoryTenNumber();
+
+        setTimeout(function () {
+             //加载标题
+             getCategoryTenNumber();
+         },10)
     // })
 </script>
 
@@ -406,5 +452,20 @@
 
 </script>
 
+<!--    tianqi-->
+<script>
+    (function(a,h,g,f,e,d,c,b){b=function(){d=h.createElement(g);c=h.getElementsByTagName(g)[0];d.src=e;d.charset="utf-8";d.async=1;c.parentNode.insertBefore(d,c)};a["SeniverseWeatherWidgetObject"]=f;a[f]||(a[f]=function(){(a[f].q=a[f].q||[]).push(arguments)});a[f].l=+new Date();if(a.attachEvent){a.attachEvent("onload",b)}else{a.addEventListener("load",b,false)}}(window,document,"script","SeniverseWeatherWidget","//cdn.sencdn.com/widget2/static/js/bundle.js?t="+parseInt((new Date().getTime() / 100000000).toString(),10)));
+    window.SeniverseWeatherWidget('show', {
+        flavor: "slim",
+        location: "WT7W3R63DQMH",
+        geolocation: true,
+        language: "zh-Hans",
+        unit: "c",
+        theme: "auto",
+        token: "9e1bbe56-e1e0-4bd6-9e8e-bc21994ab146",
+        hover: "disabled",
+        container: "tp-weather-widget"
+    })
+</script>
 </body>
 </html>

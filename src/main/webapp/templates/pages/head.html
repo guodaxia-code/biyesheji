@@ -12,12 +12,22 @@
     <link rel="stylesheet" href="/store/static/mystore/css/normalize.css">
     <!--     引入base公共css   -->
     <link rel="stylesheet" href="/store/static/mystore/css/base.css">
+    <!--    layui css-->
+<!--    <link rel="stylesheet" href="/store/static/layui/css/layui.css" media="all">-->
+    <!--    css 动画-->
+    <link rel="stylesheet" type="text/css"  href="/store/static/mystore/css/animate.css">
+
 
 
 </head>
 <body>
+
+
+
+<!--天气-->
+<!--<div id="tp-weather-widget"></div>-->
     <!-- 头部 -->
-    <header>
+    <header class="animated fadeIn">
         <!--  顶部广告栏  -->
         <div class="header ">
             <div class="middle">
@@ -28,8 +38,10 @@
         </div>
         <div class="shortcut">
             <div class="middle">
-                <ul class="fl city">
-                    <li><i class="e3"></i><a href="#">安徽</a></li>
+                <ul class="fl city" style="position: relative">
+<!--                    <li><i class="e3" style="float: r"></i><a href="#" >安徽</a></li>-->
+                    <li><i class="e3"></i><a href="#" >安徽</a></li>
+                    <li><div id="tp-weather-widget" style="position: absolute;left: 60px;top: -1px;"></div></li>
                 </ul>
                 <ul class="fr first-nav">
                     <!--	有无登录				-->
@@ -66,16 +78,17 @@
                 </div>
                 <!-- 搜索栏 -->
                 <div class="search">
-                    <input type="text" id="pname" value="" placeholder="九阳豆浆机">
+                    <!--                    placeholder="九阳豆浆机"-->
+                    <input type="text" id="pname" value="" >
                     <button id="search"><i></i></button>
                 </div>
                 <!-- 购物车 -->
                 <div class="shop-car">
                     <i></i>
                     <a href="/store/cart/seeCart">我的购物车</a>
-<!--                <td th:text="${emp.gender}==0?'女':'男'"></td>-->
+                    <!--                <td th:text="${emp.gender}==0?'女':'男'"></td>-->
                     <th:block>
-<!--                        <span th:if="${session.user_login_session}" th:text="${session.user_cart_list.cartSubCount}">5</span>-->
+                        <!--                        <span th:if="${session.user_login_session}" th:text="${session.user_cart_list.cartSubCount}">5</span>-->
                         <span th:text="${cartSubCount}">0</span>
                     </th:block>
                 </div>
@@ -87,6 +100,13 @@
                         <li><a href="#" class="e3">秒杀</a></li>
                     </ul>
                 </div>
+<!--                <div class="two-nav">-->
+<!--                    <ul id="category-nav-ten" class="layui-nav">-->
+<!--                        <li class="layui-nav-item"><a href="#" class="e3">秒杀</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+
+
 
 
 
@@ -96,12 +116,27 @@
 
     </header>
 
-
-
     <script src="/store/static/mystore/js/jquery-3.3.1.js" ></script>
     <!-- 引入head.js   -->
     <script src="/store/static/mystore/js/myjs/head.js"></script>
+<!--layui js-->
+<!--    <script src="/store/static/layui/layui.all.js"></script>-->
 
+    <!--心知天气-->
+    <script>
 
+        (function(a,h,g,f,e,d,c,b){b=function(){d=h.createElement(g);c=h.getElementsByTagName(g)[0];d.src=e;d.charset="utf-8";d.async=1;c.parentNode.insertBefore(d,c)};a["SeniverseWeatherWidgetObject"]=f;a[f]||(a[f]=function(){(a[f].q=a[f].q||[]).push(arguments)});a[f].l=+new Date();if(a.attachEvent){a.attachEvent("onload",b)}else{a.addEventListener("load",b,false)}}(window,document,"script","SeniverseWeatherWidget","//cdn.sencdn.com/widget2/static/js/bundle.js?t="+parseInt((new Date().getTime() / 100000000).toString(),10)));
+        window.SeniverseWeatherWidget('show', {
+            flavor: "slim",
+            location: "WT7W3R63DQMH",
+            geolocation: true,
+            language: "zh-Hans",
+            unit: "c",
+            theme: "auto",
+            token: "9e1bbe56-e1e0-4bd6-9e8e-bc21994ab146",
+            hover: "disabled",
+            container: "tp-weather-widget"
+        })
+    </script>
 </body>
 </html>

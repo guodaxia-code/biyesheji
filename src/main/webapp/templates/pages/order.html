@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>确定订单</title>
+    <!--  网站图标  -->
+    <link rel="shortcut icon" href="/store/static/mystore/favicon.ico">
 
     <style>
         html,
@@ -190,13 +192,13 @@
                                <div class="layui-form-item">
                                    <label class="layui-form-label">联系电话</label>
                                    <div class="layui-input-inline">
-                                       <input type="text" th:value="${nowOrder.phone}"  name="phone"  th:disabled="${nowOrder.states==0}?'false' :'disabled'"   placeholder="请输入收货人姓名" autocomplete="off"  class="layui-input ">
+                                       <input type="text" th:value="${nowOrder.phone}"  name="phone"  th:disabled="${nowOrder.states==0}?'false' :'disabled'"   placeholder="请输入收货人联系方式" autocomplete="off"  class="layui-input ">
                                    </div>
                                </div>
                                <div class="layui-form-item">
                                    <label class="layui-form-label">收货地址</label>
                                    <div class="layui-input-inline">
-                                       <input type="text" th:value="${nowOrder.address}" name="address"  th:disabled="${nowOrder.states==0}?'false' :'disabled'"   placeholder="请输入收货人姓名" autocomplete="off" class="layui-input">
+                                       <input type="text" th:value="${nowOrder.address}" name="address"  th:disabled="${nowOrder.states==0}?'false' :'disabled'"   placeholder="请输入收货人地址" autocomplete="off" class="layui-input">
                                    </div>
                                </div>
 
@@ -232,9 +234,28 @@
        <script>
            // $(function () {
                load_headpage_and_footerpage();
-               getCategoryTenNumber();
+               setTimeout(function () {
+             //加载标题
+             getCategoryTenNumber();
+         },20)
            // })
        </script>
+
+        <!--    tianqi-->
+        <script>
+            (function(a,h,g,f,e,d,c,b){b=function(){d=h.createElement(g);c=h.getElementsByTagName(g)[0];d.src=e;d.charset="utf-8";d.async=1;c.parentNode.insertBefore(d,c)};a["SeniverseWeatherWidgetObject"]=f;a[f]||(a[f]=function(){(a[f].q=a[f].q||[]).push(arguments)});a[f].l=+new Date();if(a.attachEvent){a.attachEvent("onload",b)}else{a.addEventListener("load",b,false)}}(window,document,"script","SeniverseWeatherWidget","//cdn.sencdn.com/widget2/static/js/bundle.js?t="+parseInt((new Date().getTime() / 100000000).toString(),10)));
+            window.SeniverseWeatherWidget('show', {
+                flavor: "slim",
+                location: "WT7W3R63DQMH",
+                geolocation: true,
+                language: "zh-Hans",
+                unit: "c",
+                theme: "auto",
+                token: "9e1bbe56-e1e0-4bd6-9e8e-bc21994ab146",
+                hover: "disabled",
+                container: "tp-weather-widget"
+            })
+        </script>
 
 </body>
 </html>

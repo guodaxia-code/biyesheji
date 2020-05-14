@@ -1,0 +1,8 @@
+/*鼠标悬浮移动样式图片*/
+body {
+    cursor: url("/store/static/mystore/images/nomal.png"), auto;
+}
+a:hover {
+    cursor: url("/store/static/mystore/images/hover.png"), auto;
+/*    /store/static/mystore/images/canva.png*/
+}

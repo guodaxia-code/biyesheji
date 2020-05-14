@@ -9,6 +9,10 @@
     <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/public.css" />
     <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/proList.css" />
     <link rel="stylesheet" href="/store/static/layui/css/layui.css">
+    <!--    css 动画-->
+    <link rel="stylesheet" type="text/css"  href="/store/static/mystore/css/animate.css">
+    <!--  网站图标  -->
+    <link rel="shortcut icon" href="/store/static/mystore/favicon.ico">
 
     <style>
         /*清楚浮动*/
@@ -128,9 +132,9 @@
 
 <!--     </div>-->
 
- <div class="middle products-show clearfix" >
+ <div class="middle products-show clearfix "  >
     <!-- 产品 -->
-     <tH:block th:if="${pageBean.list.size()==0}">
+     <tH:block th:if="${pageBean.list.size()==0}" >
          不好意思未搜索到您需要的商品
 
      </tH:block>
@@ -144,7 +148,7 @@
      </th:blick>
 
   </div>
- <div class="page middle">
+ <div class="page middle" th:unless="${pageBean.list.size()==0}">
     <th:block th:if="${pageBean.currentPage}==1">
 <!--        <a th:href="@{/product/getSearchProductsByPage(cid=${param.cid},currentPage=1,pageCount=8,pricesort=${param.pricesort})}" class="shangxiapage no-use">&lt;上一页</a>-->
     </th:block>
@@ -179,7 +183,10 @@
 
  <script>
      load_headpage_and_footerpage();
-     getCategoryTenNumber();
+     setTimeout(function () {
+             //加载标题
+             getCategoryTenNumber();
+         },20)
  </script>
  <script>
 
@@ -188,7 +195,7 @@
 
 
          //只能这样放慢加载速度
-         setTimeout(funcName,20);
+         setTimeout(funcName,80);
          function funcName() {
              $("#pname").val(getUrlParam("pname"));
 

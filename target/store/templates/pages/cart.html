@@ -10,13 +10,21 @@
     <!--    引入公共的base.css-->
 
     <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/proList.css" />
+<!--    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap-grid.css" rel="stylesheet">-->
+<!--    <link rel="stylesheet" href="/store/static/layui/css/layui.css" media="all">-->
+    <!--    css 动画-->
+<!--    <link rel="stylesheet" type="text/css"  href="/store/static/mystore/css/animate.css">-->
+    <!--  网站图标  -->
+    <link rel="shortcut icon" href="/store/static/mystore/favicon.ico">
+
 </head>
 <body>
 
     <div class="shortcut">
         <div class="middle">
-            <ul class="fl city">
+            <ul class="fl city" style="position: relative">
                 <li><i class="e3"></i><a href="#">安徽</a></li>
+                <li><div id="tp-weather-widget" style="position: absolute;left: 60px;top: -1px;"></div></li>
             </ul>
             <ul class="fr first-nav">
                 <!--	有无登录				-->
@@ -47,7 +55,7 @@
 
 
 
-    <div class="middle">
+    <div class="middle ">
             <div class="cart mt">
                 <!-- 		<div class="logo">
                             <h1 class="wrapper clearfix">
@@ -83,25 +91,25 @@
                                         <dt class="fl"><img th:src="${cartItem.product.ppicture}" width="120px" height="120px"></dt>
                                         <dd class="fl">
                                             <p th:text="${cartItem.product.pname}">创意现代简约干花花瓶摆件</p>
-                                            <p>颜色分类:</p>
-                                            <p>白色瓷瓶+白色串枚</p>
+<!--                                            <p>颜色分类:</p>-->
+<!--                                            <p>白色瓷瓶+白色串枚</p>-->
                                         </dd>
                                     </dl>
                                 </a>
                             </div>
-                            <div class="price" th:text="'￥'+${cartItem.product.rel_price}" >￥20.00</div>
+                            <div class="price" th:text="'￥'+${cartItem.product.rel_price}"  style="margin-left: 50px;">￥20.00</div>
                             <div class="number">
-                                <p class="num clearfix">
+                                <p class="num clearfix" style="margin-left: 60px;">
                                     <img class="fl sub" src="/store/static/mystore/images/sub.jpg">
                                     <input type="text" hidden="hidden" th:value="${cartItem.product.pid}">
                                     <span class="fl" th:text="${cartItem.count}">1</span>
                                     <img class="fl add" src="/store/static/mystore/images/add.jpg">
                                 </p>
                             </div>
-                            <div class="price sAll" th:text="'￥'+${cartItem.subtotal}">￥20.00</div>
+                            <div class="price sAll" th:text="'￥'+${cartItem.subtotal}" style="margin-right:  -50px;">￥20.00</div>
                             <!--                        onclick="return removeProductFromCart('你忍心将商品移除购物车吗？');"-->
                             <!--                        th:href="@{/cart/removeProductFromCart(pid=${cartItem.product.pid})}"-->
-                            <div class="price"><a class="del"  >删除</a></div>
+                            <div class="price"><a class="del layui-btn " role="button"  style="display: block;margin: 0 56px;width: 40px; padding: 0px 10px; " >删除</a></div>
                         </div>
                     </th:block>
 
@@ -151,7 +159,10 @@
     <script>
 
         load_headpage_and_footerpage();
-        getCategoryTenNumber();
+        setTimeout(function () {
+             //加载标题
+             getCategoryTenNumber();
+         },20)
 
     </script>
 
@@ -205,6 +216,20 @@
         }
 
     </script>
-
+<!--    tianqi-->
+    <script>
+        (function(a,h,g,f,e,d,c,b){b=function(){d=h.createElement(g);c=h.getElementsByTagName(g)[0];d.src=e;d.charset="utf-8";d.async=1;c.parentNode.insertBefore(d,c)};a["SeniverseWeatherWidgetObject"]=f;a[f]||(a[f]=function(){(a[f].q=a[f].q||[]).push(arguments)});a[f].l=+new Date();if(a.attachEvent){a.attachEvent("onload",b)}else{a.addEventListener("load",b,false)}}(window,document,"script","SeniverseWeatherWidget","//cdn.sencdn.com/widget2/static/js/bundle.js?t="+parseInt((new Date().getTime() / 100000000).toString(),10)));
+        window.SeniverseWeatherWidget('show', {
+            flavor: "slim",
+            location: "WT7W3R63DQMH",
+            geolocation: true,
+            language: "zh-Hans",
+            unit: "c",
+            theme: "auto",
+            token: "9e1bbe56-e1e0-4bd6-9e8e-bc21994ab146",
+            hover: "disabled",
+            container: "tp-weather-widget"
+        })
+    </script>
 </body>
 </html>

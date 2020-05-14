@@ -5,6 +5,8 @@
     <title>付款成功</title>
     <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/proList.css" />
     <link rel="stylesheet" href="/store/static/layui/css/layui.css">
+    <!--  网站图标  -->
+    <link rel="shortcut icon" href="/store/static/mystore/favicon.ico">
     <style>
         .middle { /*版心*/
             width: 1190px;
@@ -47,7 +49,10 @@
     <script>
         // $(function () {
             load_headpage_and_footerpage();
-            getCategoryTenNumber();
+            setTimeout(function () {
+             //加载标题
+             getCategoryTenNumber();
+         },20)
         // })
     </script>
 </body>

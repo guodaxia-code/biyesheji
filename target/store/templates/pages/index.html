@@ -21,6 +21,15 @@
     <link rel="stylesheet" href="/store/static/layui/css/layui.css" media="all">
     <link rel="stylesheet" href="/store/static/layui/css/admin.css" media="all">
     <link rel="stylesheet" type="text/css" href="/store/static/mystore/css/style.css">
+    <!--    css 动画-->
+    <link rel="stylesheet" type="text/css"  href="/store/static/mystore/css/animate.css">
+<!--    mouse-->
+    <link rel="stylesheet" type="text/css"  href="/store/static/mystore/css/mouse.css" >
+<!--    ico-->
+<!--    <link rel="icon"  href="/store/static/mystore/images/favicon.ico">-->
+
+
+
 
 </head>
 <body>
@@ -36,19 +45,19 @@
     <span class="" id="cancel">×</span>
 </div>
 <!-- index自己的导航栏10个+轮播图 -->
-<div  class="middle " >
+<div  class="middle  animated fadeInLeft" >
     <div class="grid-clo1">
         <ul>
             <li><a href="#123">运动户外</a></li>
             <li><a href="#">运动户外</a></li>
-            <li><a href="#">运动户外</a></li>
-            <li><a href="#">运动户外</a></li>
-            <li><a href="#">运动户外</a></li>
-            <li><a href="#">运动户外</a></li>
-            <li><a href="#">运动户外</a></li>
-            <li><a href="#">运动户外</a></li>
-            <li><a href="#">运动户外</a></li>
-            <li><a href="#">运动户外</a></li>
+<!--            <li><a href="#">运动户外</a></li>-->
+<!--            <li><a href="#">运动户外</a></li>-->
+<!--            <li><a href="#">运动户外</a></li>-->
+<!--            <li><a href="#">运动户外</a></li>-->
+<!--            <li><a href="#">运动户外</a></li>-->
+<!--            <li><a href="#">运动户外</a></li>-->
+<!--            <li><a href="#">运动户外</a></li>-->
+<!--            <li><a href="#">运动户外</a></li>-->
         </ul>
     </div>
 
@@ -87,11 +96,11 @@
 
 
 
-
-<div  class="middle" id="hot" style="height: 760px;width: 1190px" >
+<!--height: 760px;-->
+<div  class="middle animated fadeInUp" id="hot"  style=" width: 1190px" >
     <div class="danpin center">
 
-        <div class="biaoti center">最新产品</div>
+        <div class="biaoti center" style="">最新产品</div>
         <div class="main center">
 
             <!--                <div th:each="one,oneStat:${hotList}">-->
@@ -112,9 +121,9 @@
             <th:block   th:each="one,oneStart:${newList}">
                 <th:block th:if="${oneStart.index<=4}">
                     <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
-                        <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"><img th:src="${one.ppicture}" alt=""></a></div>
-                        <div class="pinpai"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"  th:text="${one.pname}" >小米6</a></div>
-                        <div class="youhui"  >5.16早10点开售</div>
+                        <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_self"><img th:src="${one.ppicture}" alt=""></a></div>
+                        <div class="pinpai"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_self"  th:text="${one.pname}" >小米6</a></div>
+                        <div class="youhui" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding: 0 60px;box-sizing: border-box" th:text="${one.pdesc}" >5.16早10点开售</div>
                         <div class="jiage" th:text="${one.rel_price}">2499.00元</div>
                     </div>
                 </th:block>
@@ -124,14 +133,14 @@
 
             <div class="clear"></div>
         </div>
-        <div class="main center mb20">
+        <div class="main center mb20" th:if="${newList.size()>5}">
 
             <th:block   th:each="one,oneStart:${newList}">
                 <th:block th:if="${oneStart.index>=5}">
                     <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
-                        <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"><img th:src="${one.ppicture}" alt=""></a></div>
-                        <div class="pinpai"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"  th:text="${one.pname}" >小米6</a></div>
-                        <div class="youhui"  >5.16早10点开售</div>
+                        <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" ><img th:src="${one.ppicture}" alt=""></a></div>
+                        <div class="pinpai"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}"   th:text="${one.pname}" >小米6</a></div>
+                        <div class="youhui" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding: 0 60px;box-sizing: border-box" th:text="${one.pdesc}"  >5.16早10点开售</div>
                         <div class="jiage" th:text="${one.rel_price}">2499.00元</div>
                     </div>
                 </th:block>
@@ -152,17 +161,18 @@
 </div>
 
 
-<div  class="middle" id="new" style="height: 760px;width: 1190px" >
+<!--height: 760px;-->
+<div  class="middle " id="new" style="width: 1190px" >
     <div class="danpin center">
 
-        <div class="biaoti center">热门产品</div>
-        <div class="main center">
+        <div class="biaoti center" >热门产品</div>
+        <div class="main center animated fadeInLeft">
             <th:block   th:each="one,oneStart:${hotList}">
                 <th:block th:if="${oneStart.index<=4}">
                     <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
-                        <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"><img th:src="${one.ppicture}" alt=""></a></div>
-                        <div class="pinpai"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"  th:text="${one.pname}" >小米6</a></div>
-                        <div class="youhui"  >5.16早10点开售</div>
+                        <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_self"><img th:src="${one.ppicture}" alt=""></a></div>
+                        <div class="pinpai"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_self"  th:text="${one.pname}" >小米6</a></div>
+                        <div class="youhui" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding: 0 60px;box-sizing: border-box" th:text="${one.pdesc}" >5.16早10点开售</div>
                         <div class="jiage" th:text="${one.rel_price}">2499.00元</div>
                     </div>
                 </th:block>
@@ -171,13 +181,14 @@
 
             <div class="clear"></div>
         </div>
-        <div class="main center mb20">
+<!--        th:if="${hotList.size()>=5}"-->
+        <div class="main center mb20" th:if="${hotList.size()>5}" >
             <th:block   th:each="one,oneStart:${hotList}">
                 <th:block th:if="${oneStart.index>=5}">
                     <div class="mingxing fl mb20" style="border:2px solid #fff;width:222px;cursor:pointer;" onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
-                        <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"><img th:src="${one.ppicture}" alt=""></a></div>
-                        <div class="pinpai"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_blank"  th:text="${one.pname}" >小米6</a></div>
-                        <div class="youhui"  >5.16早10点开售</div>
+                        <div class="sub_mingxing"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_self"><img th:src="${one.ppicture}" alt=""></a></div>
+                        <div class="pinpai"><a th:href="'/store/product/getProductByPid?pid='+${one.pid}" target="_self"  th:text="${one.pname}" >小米6</a></div>
+                        <div class="youhui" style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;padding: 0 60px;box-sizing: border-box" th:text="${one.pdesc}" >5.16早10点开售</div>
                         <div class="jiage" th:text="${one.rel_price}">2499.00元</div>
                     </div>
                 </th:block>
@@ -246,7 +257,10 @@
 <script>
     // $(function () {
         load_headpage_and_footerpage();
-        getCategoryTenNumber();
+        setTimeout(function () {
+             //加载标题
+             getCategoryTenNumber();
+         },20)
         // search();
     // })
 </script>
@@ -379,8 +393,23 @@
     });
 </script>
 
+<!--   点击烟花 -->
+<script src="/store/static/mystore/js/myjs/cursor-effects.js" ></script>
 
-
+<script>
+    (function(a,h,g,f,e,d,c,b){b=function(){d=h.createElement(g);c=h.getElementsByTagName(g)[0];d.src=e;d.charset="utf-8";d.async=1;c.parentNode.insertBefore(d,c)};a["SeniverseWeatherWidgetObject"]=f;a[f]||(a[f]=function(){(a[f].q=a[f].q||[]).push(arguments)});a[f].l=+new Date();if(a.attachEvent){a.attachEvent("onload",b)}else{a.addEventListener("load",b,false)}}(window,document,"script","SeniverseWeatherWidget","//cdn.sencdn.com/widget2/static/js/bundle.js?t="+parseInt((new Date().getTime() / 100000000).toString(),10)));
+    window.SeniverseWeatherWidget('show', {
+        flavor: "slim",
+        location: "WT7W3R63DQMH",
+        geolocation: true,
+        language: "zh-Hans",
+        unit: "c",
+        theme: "auto",
+        token: "9e1bbe56-e1e0-4bd6-9e8e-bc21994ab146",
+        hover: "disabled",
+        container: "tp-weather-widget"
+    })
+</script>
 
 
 </body>
